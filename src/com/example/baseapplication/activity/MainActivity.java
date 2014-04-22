@@ -1,4 +1,4 @@
-package com.example.baseapplication;
+package com.example.baseapplication.activity;
 
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
