@@ -1,5 +1,7 @@
 package com.example.baseapplication.common;
 
+import java.util.ArrayList;
+
 /**
  * 便利なものまとめたクラス
  * 
@@ -9,6 +11,30 @@ package com.example.baseapplication.common;
  */
 public class Utils
 {
+    /**
+     * Implode
+     * 
+     * @param ArrayList<String> list 文字列配列
+     * @param String delimiter デリミタ
+     * @return String str 連結文字列
+     * @access public
+     */
+    public static String implode(ArrayList<String> list, String delimiter)
+    {
+        String str = null;
+
+        if (list != null && list.size() != 0) {
+            for (int i = 0; i < list.size(); i++) {
+                if (str != null) {
+                    str = str + delimiter;
+                }
+                str = str + list.get(i);
+            }
+        }
+
+        return str;
+    }
+
     /**
      * オブジェクトをString型に変換する
      * 

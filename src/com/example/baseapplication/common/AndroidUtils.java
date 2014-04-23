@@ -6,6 +6,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
+import android.os.Build;
 import android.widget.Toast;
 
 /**
@@ -85,6 +86,28 @@ public class AndroidUtils
         }
 
         return versionCode;
+    }
+
+    /**
+     * OSバージョンを取得する
+     * 
+     * @return String OSバージョン
+     * @access public
+     */
+    public static String getOsVer()
+    {
+        return Build.VERSION.RELEASE;
+    }
+
+    /**
+     * モデル番号を取得する
+     * 
+     * @return String
+     * @access public
+     */
+    public static String getModel()
+    {
+        return Build.MODEL;
     }
 
     /**

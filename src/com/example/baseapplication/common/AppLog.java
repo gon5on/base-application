@@ -12,7 +12,7 @@ import android.util.Log;
 public class AppLog
 {
     private static final String TAG = "####";
-    private static final Integer DISP_FLG = 1;
+    private static final Integer DISP_FLG = 1;      //このフラグでログを出力するかどうかを決められる、リリース時は0にすること
 
     /**
      * varboseログ
