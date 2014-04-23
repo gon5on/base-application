@@ -29,11 +29,9 @@ public class Config
 
         if (ENV == ENV_PRODUCTION) {
             value = ConfigProduction.SAMPLE4;
-        }
-        else if (ENV == ENV_STAGING) {
+        } else if (ENV == ENV_STAGING) {
             value = ConfigStaging.SAMPLE4;
-        }
-        else if (ENV == SAMPLE3) {
+        } else if (ENV == ENV_DEV) {
             value = ConfigDev.SAMPLE4;
         }
 

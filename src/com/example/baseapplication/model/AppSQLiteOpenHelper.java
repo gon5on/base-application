@@ -11,12 +11,10 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class AppSQLiteOpenHelper extends SQLiteOpenHelper
 {
-    public static final String DB_NAME = "naibo.db";        //データベース名
-    public static final int DB_VERSION = 1;                 //データベースバージョン
+    public static final String DB_NAME = "naibo.db";                //データベース名
+    public static final int DB_VERSION = 1;                         //データベースバージョン
 
-    private static AppSQLiteOpenHelper mSingleton = null;
-
-    private Context mContext;                               //コンテキスト
+    private Context mContext;                                       //コンテキスト
 
     /**
      * コンストラクタ
@@ -29,21 +27,6 @@ public class AppSQLiteOpenHelper extends SQLiteOpenHelper
         super(context, DB_NAME, null, DB_VERSION);
 
         mContext = context;
-    }
-
-    /**
-     * インスタンスを返す
-     * 
-     * @param Context context コンテキスト
-     * @access public
-     */
-    public static synchronized AppSQLiteOpenHelper getInstance(Context context)
-    {
-        if (mSingleton == null) {
-            mSingleton = new AppSQLiteOpenHelper(context);
-        }
-
-        return mSingleton;
     }
 
     /**
