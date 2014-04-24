@@ -11,6 +11,15 @@ import com.example.baseapplication.common.AndroidUtils;
 import com.example.baseapplication.common.DateUtils;
 import com.example.baseapplication.common.PrefarenceUtils;
 
+/**
+ * 例外をキャッチしてメールで報告するクラス
+ * 
+ * newしなくても使える
+ * setUncaughtExHandlerメソッドとshowDebugReportDialogメソッドを
+ * アクテビティから呼んであげるだけでOKかと
+ * 
+ * @access public
+ */
 public class Debug
 {
     public static final Integer DEBUG_FLG = 1;                  //このフラグで例外を報告するかどうか決められる、リリース時には0にすること
@@ -20,6 +29,23 @@ public class Debug
     public static final String[] TO = { "xxxx@xxx.com" };       //例外報告メール送信先;
 
     /**
+     * 例外をハンドリングする処理を仕込む
+     * 
+     * @param Context context
+     * @return void
+     * @access private
+     */
+    public static void setUncaughtExHandler(Context context)
+    {
+        if (DEBUG_FLG != 1) {
+            return;
+        }
+
+        AppUncaughtExHandler appUncaughtExHandler = new AppUncaughtExHandler(context);
+        Thread.setDefaultUncaughtExceptionHandler(appUncaughtExHandler);
+    }
+
+    /**
      * 例外が保存してあれば、メールで内容を送信する
      * 
      * @param Context context
@@ -27,7 +53,7 @@ public class Debug
      * @return void
      * @access private
      */
-    public static void createExDebugText(Context context, FragmentManager fragmentManeger)
+    public static void showDebugReportDialog(Context context, FragmentManager fragmentManeger)
     {
         if (DEBUG_FLG != 1) {
             return;
@@ -42,7 +68,7 @@ public class Debug
     }
 
     /**
-     * 例外の内容を文字列にする
+     * 例外の内容を文字列にして、日時などを他情報も付与する
      * 
      * @param Context context
      * @param Exception e 例外
@@ -58,7 +84,7 @@ public class Debug
     }
 
     /**
-     * 例外の内容を文字列にする
+     * 例外の内容を文字列にして、日時などを他情報も付与する
      * 
      * @param Context context
      * @param Throwable e 例外
@@ -74,7 +100,7 @@ public class Debug
     }
 
     /**
-     * 例外の内容を文字列にする
+     * 例外の内容を文字列にして、日時などを他情報も付与する
      * 
      * @param Context context
      * @param Exception e 例外
@@ -90,7 +116,7 @@ public class Debug
     }
 
     /**
-     * 例外の内容を文字列にする
+     * 例外の内容を文字列にして、日時などを他情報も付与する
      * 
      * @param Context context
      * @param Throwable e 例外
@@ -139,6 +165,8 @@ public class Debug
 
     /**
      * デバッグ用の例外文言を生成する
+     * 
+     * 日付、アプリバージョン、アプリバージョンコード、OSバージョン、モデル名は自動で付与
      * 
      * @param Context context
      * @param HashMap<String, String> map
