@@ -14,9 +14,8 @@ import com.example.baseapplication.common.PrefarenceUtils;
 /**
  * 例外をキャッチしてメールで報告するクラス
  * 
- * newしなくても使える
  * setUncaughtExHandlerメソッドとshowDebugReportDialogメソッドを
- * アクテビティから呼んであげるだけでOKかと
+ * アクテビティから呼んであげると、通常キャッチできない例外をハンドリングできる
  * 
  * @access public
  */
@@ -46,7 +45,7 @@ public class Debug
     }
 
     /**
-     * 例外が保存してあれば、メールで内容を送信する
+     * プリファレンスに例外が保存してあれば、メールで内容を送信する
      * 
      * @param Context context
      * @param FragmentManeger fragmentManeger
@@ -65,6 +64,51 @@ public class Debug
             DebugReportDialog debugReportDialog = new DebugReportDialog();
             debugReportDialog.show(fragmentManeger, "dialog");
         }
+    }
+
+    /**
+     * 例外を受け取って、メールで内容を送信する
+     * 
+     * @param Context context
+     * @param FragmentManeger fragmentManeger
+     * @param Exception e
+     * @return void
+     * @access private
+     */
+    public static void showDebugReportDialog(Context context, FragmentManager fragmentManeger, Exception e)
+    {
+        if (DEBUG_FLG != 1) {
+            return;
+        }
+
+        String exStr = createExDebugText(context, e);
+
+        DebugReportDialog debugReportDialog = new DebugReportDialog();
+        debugReportDialog.set(exStr);
+        debugReportDialog.show(fragmentManeger, "dialog");
+    }
+
+    /**
+     * 例外と配列を受け取って、メールで内容を送信する
+     * 
+     * @param Context context
+     * @param FragmentManeger fragmentManeger
+     * @param Exception e
+     * @param HashMap<String, String> map
+     * @return void
+     * @access private
+     */
+    public static void showDebugReportDialog(Context context, FragmentManager fragmentManeger, Exception e, HashMap<String, String> map)
+    {
+        if (DEBUG_FLG != 1) {
+            return;
+        }
+
+        String exStr = createExDebugText(context, e, map);
+
+        DebugReportDialog debugReportDialog = new DebugReportDialog();
+        debugReportDialog.set(exStr);
+        debugReportDialog.show(fragmentManeger, "dialog");
     }
 
     /**
@@ -194,6 +238,8 @@ public class Debug
             text += key + " = " + map.get(key) + "\n";
             text += "---------------------------------------\n";
         }
+
+        text += "\n\n\n";
 
         return text;
     }

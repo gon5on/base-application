@@ -41,8 +41,11 @@ public class AppUncaughtExHandler implements UncaughtExceptionHandler
     @Override
     public void uncaughtException(Thread thread, Throwable e)
     {
-        // デバッグ用の文言を生成
-        String text = Debug.createExDebugText(mContext, e);
+        // プリファレンスから保存済の値を取得
+        String text = PrefarenceUtils.get(mContext, Debug.KEY, "");
+
+        // デバッグ用の文言を生成して追加
+        text += Debug.createExDebugText(mContext, e);
 
         // プリファレンスに保存
         PrefarenceUtils.save(mContext, Debug.KEY, text);

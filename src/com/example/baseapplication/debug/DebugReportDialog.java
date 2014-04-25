@@ -16,6 +16,8 @@ import com.example.baseapplication.common.PrefarenceUtils;
  */
 public class DebugReportDialog extends DialogFragment
 {
+    private String mExStr = null;                     //例外内容
+
     /**
      * onCreateDialog
      * 
@@ -56,17 +58,30 @@ public class DebugReportDialog extends DialogFragment
      */
     private void sendMail()
     {
-        String exStr = PrefarenceUtils.get(getActivity().getApplicationContext(), Debug.KEY, "");
+        //例外内容が空の場合は、プリファレンスから取得して、プリファレンスの中身を空にしておく
+        if (mExStr == null) {
+            mExStr = PrefarenceUtils.get(getActivity().getApplicationContext(), Debug.KEY, "");
+            PrefarenceUtils.delete(getActivity().getApplicationContext(), Debug.KEY);
+        }
 
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.putExtra(Intent.EXTRA_EMAIL, Debug.TO);
         intent.putExtra(Intent.EXTRA_SUBJECT, Debug.SUBJECT);
-        intent.putExtra(Intent.EXTRA_TEXT, exStr);
+        intent.putExtra(Intent.EXTRA_TEXT, mExStr);
         intent.setType("message/rfc822");
 
         startActivity(intent);
+    }
 
-        //プリファレンスの例外内容を空にする
-        PrefarenceUtils.delete(getActivity().getApplicationContext(), Debug.KEY);
+    /**
+     * 例外内容をセットする
+     * 
+     * @param String exStr
+     * @return void
+     * @access private
+     */
+    public void set(String exStr)
+    {
+        mExStr = exStr;
     }
 }

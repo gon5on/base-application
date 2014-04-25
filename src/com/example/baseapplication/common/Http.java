@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.SocketTimeoutException;
 import java.net.URLEncoder;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -19,6 +21,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.conn.ConnectTimeoutException;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
@@ -50,8 +53,16 @@ public class Http
     public static final Integer STATUS_ERROR_NO_NETWORK1 = 301;         // 通信可能環境下にない1
     public static final Integer STATUS_ERROR_NO_NETWORK2 = 302;         // 通信可能環境下にない2
     public static final Integer STATUS_ERROR_NO_NETWORK3 = 303;         // 通信可能環境下にない3
-    public static final Integer STATUS_ERROR_CONNECTION = 300;          // 通信中になんらかのエラー
-    public static final Integer STATUS_ERROR_UNKNOWN = 900;             // 不明なエラー
+    public static final Integer STATUS_UNSUPPORTED_ENC_EX = 304;        // UnsupportedEncodingException
+    public static final Integer STATUS_CLIENT_PROTOCOL_EX = 305;        // ClientProtocolException
+    public static final Integer STATUS_ILLIGAL_STATE_EX = 306;          // IllegalStateException
+    public static final Integer STATUS_IO_EX = 307;                     // IOException
+    public static final Integer STATUS_HTTP_EX = 308;                   // HttpException
+    public static final Integer STATUS_SOCKET_TIMEOUT_EX = 309;         // SocketTimeoutException
+    public static final Integer STATUS_CONN_TIMEOUT_EX = 310;           // ConnectTimeoutException
+    public static final Integer STATUS_UNKNOWN_HOST_EX = 311;           // UnknownHostException
+    public static final Integer STATUS_OTHER_EX = 399;                  // その他例外の場合
+    public static final Integer STATUS_BLANC = 900;                     // ステータスが最後まで空だった場合
 
     //SSLのプロトコル
     public static final String PROTOCOL_SSL = "https";
@@ -145,14 +156,38 @@ public class Http
             // レスポンス解析
             analyzeResponce(response);
 
-        } catch (Exception e) {
-            if (mStatus == null) {
-                mStatus = STATUS_ERROR_CONNECTION;
-            }
-
+        } catch (SocketTimeoutException e) {
+            mStatus = STATUS_SOCKET_TIMEOUT_EX;
             e.printStackTrace();
             return;
-
+        } catch (ConnectTimeoutException e) {
+            mStatus = STATUS_CONN_TIMEOUT_EX;
+            e.printStackTrace();
+            return;
+        } catch (UnsupportedEncodingException e) {
+            mStatus = STATUS_UNSUPPORTED_ENC_EX;
+            e.printStackTrace();
+            return;
+        } catch (ClientProtocolException e) {
+            mStatus = STATUS_CLIENT_PROTOCOL_EX;
+            e.printStackTrace();
+            return;
+        } catch (IllegalStateException e) {
+            mStatus = STATUS_ILLIGAL_STATE_EX;
+            e.printStackTrace();
+            return;
+        } catch (UnknownHostException e) {
+            mStatus = STATUS_UNKNOWN_HOST_EX;
+            e.printStackTrace();
+            return;
+        } catch (IOException e) {
+            mStatus = STATUS_IO_EX;
+            e.printStackTrace();
+            return;
+        } catch (Exception e) {
+            mStatus = STATUS_OTHER_EX;
+            e.printStackTrace();
+            return;
         } finally {
             client.getConnectionManager().shutdown();
         }
@@ -541,7 +576,7 @@ public class Http
     {
         //仮にステータスが入ってなかった場合、不明なエラーステータスを入れる
         if (mStatus == 0) {
-            mStatus = STATUS_ERROR_UNKNOWN;
+            mStatus = STATUS_ILLIGAL_STATE_EX;
         }
 
         return mStatus;
