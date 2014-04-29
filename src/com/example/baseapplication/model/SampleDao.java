@@ -1,5 +1,7 @@
 package com.example.baseapplication.model;
 
+import java.util.ArrayList;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -25,7 +27,7 @@ public class SampleDao extends AppDao
     public static final String COLUMN_CREATED = "created";
     public static final String COLUMN_MODIFIED = "modified";
 
-    private Context mContext;                                   //コンテキスト
+    private Context mContext;                                           //コンテキスト
 
     /**
      * コンストラクタ
@@ -97,7 +99,7 @@ public class SampleDao extends AppDao
      */
     public Sample findById(SQLiteDatabase db, Integer id)
     {
-        Sample values = new Sample();
+        Sample data = new Sample();
 
         StringBuilder sb = new StringBuilder();
         sb.append(String.format("SELECT * FROM %s ", TABLE_NAME));
@@ -109,17 +111,52 @@ public class SampleDao extends AppDao
 
         if (cursor.moveToFirst()) {
             do {
+                data.setId(getInteger(cursor, COLUMN_ID));
+                data.setSample1(getString(cursor, COLUMN_SAMPLE1));
+                data.setSample2(getString(cursor, COLUMN_SAMPLE2));
+                data.setSample3(getString(cursor, COLUMN_SAMPLE3));
+                data.setCreated(getString(cursor, COLUMN_CREATED));
+                data.setModified(getString(cursor, COLUMN_MODIFIED));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+
+        return data;
+    }
+
+    /**
+     * 全件データを取得する
+     * 
+     * @param SQLiteDatabase db
+     * @return ArrayList<Sample> data
+     * @access public
+     */
+    public ArrayList<Sample> findAll(SQLiteDatabase db)
+    {
+        ArrayList<Sample> data = new ArrayList<Sample>();
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(String.format("SELECT * FROM %s ", TABLE_NAME));
+
+        Cursor cursor = db.rawQuery(sb.toString(), null);
+
+        if (cursor.moveToFirst()) {
+            Sample values = new Sample();
+
+            do {
                 values.setId(getInteger(cursor, COLUMN_ID));
                 values.setSample1(getString(cursor, COLUMN_SAMPLE1));
                 values.setSample2(getString(cursor, COLUMN_SAMPLE2));
                 values.setSample3(getString(cursor, COLUMN_SAMPLE3));
                 values.setCreated(getString(cursor, COLUMN_CREATED));
                 values.setModified(getString(cursor, COLUMN_MODIFIED));
+                data.add(values);
+
             } while (cursor.moveToNext());
         }
         cursor.close();
 
-        return values;
+        return data;
     }
 
     /**

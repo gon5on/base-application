@@ -15,7 +15,11 @@ import com.example.baseapplication.common.PrefarenceUtils;
  * 例外をキャッチしてメールで報告するクラス
  * 
  * setUncaughtExHandlerメソッドとshowDebugReportDialogメソッドを
- * アクテビティから呼んであげると、通常キャッチできない例外をハンドリングできる
+ * アクテビティから呼んであげると、通常キャッチできない例外をハンドリングして、メールで送信することができる
+ * 
+ * 意図的にキャッチした例外をメールで送信したい場合は、
+ * showDebugReportDialogだけ呼んであげればOK（引数注意）
+ * すべてのcatchに入れておくと便利？
  * 
  * @access public
  */
@@ -32,7 +36,7 @@ public class Debug
      * 
      * @param Context context
      * @return void
-     * @access private
+     * @access public
      */
     public static void setUncaughtExHandler(Context context)
     {
@@ -50,7 +54,7 @@ public class Debug
      * @param Context context
      * @param FragmentManeger fragmentManeger
      * @return void
-     * @access private
+     * @access public
      */
     public static void showDebugReportDialog(Context context, FragmentManager fragmentManeger)
     {
@@ -73,7 +77,7 @@ public class Debug
      * @param FragmentManeger fragmentManeger
      * @param Exception e
      * @return void
-     * @access private
+     * @access public
      */
     public static void showDebugReportDialog(Context context, FragmentManager fragmentManeger, Exception e)
     {
@@ -96,7 +100,7 @@ public class Debug
      * @param Exception e
      * @param HashMap<String, String> map
      * @return void
-     * @access private
+     * @access public
      */
     public static void showDebugReportDialog(Context context, FragmentManager fragmentManeger, Exception e, HashMap<String, String> map)
     {
@@ -116,8 +120,8 @@ public class Debug
      * 
      * @param Context context
      * @param Exception e 例外
-     * @return void
-     * @access private
+     * @return String
+     * @access public
      */
     public static String createExDebugText(Context context, Exception e)
     {
@@ -132,8 +136,8 @@ public class Debug
      * 
      * @param Context context
      * @param Throwable e 例外
-     * @return void
-     * @access private
+     * @return String
+     * @access public
      */
     public static String createExDebugText(Context context, Throwable e)
     {
@@ -149,8 +153,8 @@ public class Debug
      * @param Context context
      * @param Exception e 例外
      * @param HashMap<String, String> map 出力追加したい項目の配列
-     * @return void
-     * @access private
+     * @return String
+     * @access public
      */
     public static String createExDebugText(Context context, Exception e, HashMap<String, String> map)
     {
@@ -165,8 +169,8 @@ public class Debug
      * @param Context context
      * @param Throwable e 例外
      * @param HashMap<String, String> map 出力追加したい項目の配列
-     * @return void
-     * @access private
+     * @return String
+     * @access public
      */
     public static String createExDebugText(Context context, Throwable e, HashMap<String, String> map)
     {
@@ -179,8 +183,8 @@ public class Debug
      * 例外の内容を文字列にする
      * 
      * @param Exception e 例外
-     * @return void
-     * @access private
+     * @return String
+     * @access public
      */
     public static String exToString(Exception e)
     {
@@ -196,8 +200,8 @@ public class Debug
      * 例外の内容を文字列にする
      * 
      * @param Throwable e 例外
-     * @return void
-     * @access private
+     * @return String
+     * @access public
      */
     public static String exToString(Throwable e)
     {
@@ -217,7 +221,7 @@ public class Debug
      * @return String
      * @access public
      */
-    private static String createExDebugText(Context context, HashMap<String, String> map)
+    public static String createExDebugText(Context context, HashMap<String, String> map)
     {
         String date = new DateUtils().format(DateUtils.FMT_DATETIME);
 

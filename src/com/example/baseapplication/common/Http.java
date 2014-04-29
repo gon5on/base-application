@@ -21,6 +21,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.conn.ConnectTimeoutException;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -32,6 +33,8 @@ import org.apache.http.protocol.HTTP;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+
+import com.example.baseapplication.debug.Debug;
 
 /**
  * HTTP通信クラス
@@ -80,7 +83,8 @@ public class Http
 
     // 変数
     private Context mContext;                                           // コンテキスト
-    private String mUrl;                                                // 接続URLフルパス
+    private String mUrl;                                                // 接続URL
+    private String mMethod;                                             // メソッド
     private String mBody;                                               // レスポンスボディ
     private Integer mStatus = 0;                                        // レスポンスステータス
     private Integer mHttpStatus = 0;                                    // HTTPレスポンス
@@ -91,6 +95,8 @@ public class Http
 
     private String mBasicAuthId;                                        // ベーシック認証のID
     private String mBasicAuthPass;                                      // ベーシック認証のPASS
+
+    private String mDebugData;                                          // 例外内容とその他デバッグ用の通信情報
 
     /**
      * コンストラクタ
@@ -109,7 +115,7 @@ public class Http
     /**
      * 通信を行う
      * 
-     * @param String method メソッド（POST/GET…）
+     * @param String method メソッド（POST/GET/PUT/DELETE）
      * @param String action ベースURLの後ろにつくもの
      * @return void
      * @access public
@@ -122,6 +128,7 @@ public class Http
         }
 
         mUrl = url;
+        mMethod = method;
         AppLog.v("Http", "URL : " + url);
 
         DefaultHttpClient client = new DefaultHttpClient();
@@ -138,15 +145,19 @@ public class Http
             client = doBasicAuth(client);
 
             // GETの場合
-            if (method.equals(GET)) {
+            if (mMethod.equals(GET)) {
                 response = doConnectGet(client);
             }
             // POSTの場合
-            else if (method.equals(POST)) {
+            else if (mMethod.equals(POST)) {
                 response = doConnectPost(client);
             }
+            // PUTの場合
+            else if (mMethod.equals(PUT)) {
+                response = doConnectPut(client);
+            }
             // DELETEの場合
-            else if (method.equals(DELETE)) {
+            else if (mMethod.equals(DELETE)) {
                 response = doConnectDelete(client);
             }
 
@@ -158,34 +169,42 @@ public class Http
 
         } catch (SocketTimeoutException e) {
             mStatus = STATUS_SOCKET_TIMEOUT_EX;
+            createDebugData(e);
             e.printStackTrace();
             return;
         } catch (ConnectTimeoutException e) {
             mStatus = STATUS_CONN_TIMEOUT_EX;
+            createDebugData(e);
             e.printStackTrace();
             return;
         } catch (UnsupportedEncodingException e) {
             mStatus = STATUS_UNSUPPORTED_ENC_EX;
+            createDebugData(e);
             e.printStackTrace();
             return;
         } catch (ClientProtocolException e) {
             mStatus = STATUS_CLIENT_PROTOCOL_EX;
+            createDebugData(e);
             e.printStackTrace();
             return;
         } catch (IllegalStateException e) {
             mStatus = STATUS_ILLIGAL_STATE_EX;
+            createDebugData(e);
             e.printStackTrace();
             return;
         } catch (UnknownHostException e) {
             mStatus = STATUS_UNKNOWN_HOST_EX;
+            createDebugData(e);
             e.printStackTrace();
             return;
         } catch (IOException e) {
             mStatus = STATUS_IO_EX;
+            createDebugData(e);
             e.printStackTrace();
             return;
         } catch (Exception e) {
             mStatus = STATUS_OTHER_EX;
+            createDebugData(e);
             e.printStackTrace();
             return;
         } finally {
@@ -228,6 +247,31 @@ public class Http
     private HttpResponse doConnectPost(DefaultHttpClient client) throws ClientProtocolException, IOException
     {
         HttpPost http = new HttpPost(mUrl);
+
+        if (mParamsMap != null) {
+            ArrayList<NameValuePair> postParams = createPostParams(mParamsMap);
+            http.setEntity(new UrlEncodedFormEntity(postParams, HTTP.UTF_8));
+        }
+        else if (mParamsString != null) {
+            http.setEntity(new StringEntity(mParamsString, HTTP.UTF_8));
+        }
+        http = addHeader(http);
+
+        return client.execute(http);
+    }
+
+    /**
+     * PUT通信を行う
+     * 
+     * @param DefaultHttpClient client
+     * @return HttpResponse
+     * @throws IOException
+     * @throws ClientProtocolException
+     * @access private
+     */
+    private HttpResponse doConnectPut(DefaultHttpClient client) throws ClientProtocolException, IOException
+    {
+        HttpPut http = new HttpPut(mUrl);
 
         if (mParamsMap != null) {
             ArrayList<NameValuePair> postParams = createPostParams(mParamsMap);
@@ -349,6 +393,25 @@ public class Http
     }
 
     /**
+     * PUTにヘッダを付与する
+     * 
+     * @param HttpPut http
+     * @return HttpPut http
+     * @access private
+     */
+    public HttpPut addHeader(HttpPut http)
+    {
+        if (mHeadersMap != null && mHeadersMap.size() != 0) {
+            for (String key : mHeadersMap.keySet()) {
+                AppLog.v("Http", "header : " + key + " - " + mHeadersMap.get(key));
+                http.addHeader(key, mHeadersMap.get(key));
+            }
+        }
+
+        return http;
+    }
+
+    /**
      * DELETEにヘッダを付与する
      * 
      * @param HttpDelete http
@@ -458,6 +521,61 @@ public class Http
     }
 
     /**
+     * 例外内容とその他デバッグ用の通信情報を作成
+     * 
+     * @param Exception e
+     * @return void
+     * @access private
+     */
+    private void createDebugData(Exception e)
+    {
+        HashMap<String, String> map = new HashMap<String, String>();
+
+        map.put("url", mUrl);
+        map.put("method", mMethod);
+        map.put("status", String.valueOf(mStatus));
+        map.put("http status", String.valueOf(mHttpStatus));
+
+        if (mBasicAuthId != null || mBasicAuthPass != null) {
+            map.put("basic auth", String.valueOf(mBasicAuthId) + " / " + String.valueOf(mBasicAuthPass));
+        }
+
+        if (mHeadersMap != null) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("\n");
+
+            for (String key : mHeadersMap.keySet()) {
+                sb.append(key + " ： " + mHeadersMap.get(key) + "\n");
+            }
+            map.put("header params", sb.toString());
+        }
+
+        if (mParamsMap != null) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("\n");
+
+            for (String key : mParamsMap.keySet()) {
+                sb.append(key + " ： " + mParamsMap.get(key) + "\n");
+            }
+            map.put("request params", sb.toString());
+        }
+
+        if (mParamsString != null) {
+            map.put("request params", mParamsString);
+        }
+
+        if (mBody != null) {
+            map.put("responce body", mBody);
+        } else {
+            map.put("responce body", "null");
+        }
+
+        map.put("exception", Debug.exToString(e));
+
+        mDebugData = Debug.createExDebugText(mContext, map);
+    }
+
+    /**
      * 初期化を行う
      * 
      * @return void
@@ -477,6 +595,8 @@ public class Http
 
         mBasicAuthId = null;
         mBasicAuthPass = null;
+
+        mDebugData = null;
     }
 
     /**
@@ -512,7 +632,7 @@ public class Http
      */
     public void setHeaders(HashMap<String, String> heddersMap)
     {
-        this.mHeadersMap = heddersMap;
+        mHeadersMap = heddersMap;
     }
 
     /**
@@ -524,7 +644,7 @@ public class Http
      */
     public void setParams(HashMap<String, String> paramsMap)
     {
-        this.mParamsMap = paramsMap;
+        mParamsMap = paramsMap;
     }
 
     /**
@@ -536,7 +656,7 @@ public class Http
      */
     public void setSingleStringParams(String paramsString)
     {
-        this.mParamsString = paramsString;
+        mParamsString = paramsString;
         AppLog.v("Http", "params string : " + paramsString);
     }
 
@@ -549,7 +669,7 @@ public class Http
      */
     public void setBasicAuthId(String basicAuthId)
     {
-        this.mBasicAuthId = basicAuthId;
+        mBasicAuthId = basicAuthId;
         AppLog.v("Http", "basic auth id : " + basicAuthId);
     }
 
@@ -562,7 +682,7 @@ public class Http
      */
     public void setBasicAuthPass(String basicAuthPass)
     {
-        this.mBasicAuthPass = basicAuthPass;
+        mBasicAuthPass = basicAuthPass;
         AppLog.v("Http", "basic auth pass : " + basicAuthPass);
     }
 
@@ -576,7 +696,7 @@ public class Http
     {
         //仮にステータスが入ってなかった場合、不明なエラーステータスを入れる
         if (mStatus == 0) {
-            mStatus = STATUS_ILLIGAL_STATE_EX;
+            mStatus = STATUS_BLANC;
         }
 
         return mStatus;
@@ -602,5 +722,16 @@ public class Http
     public String getBody()
     {
         return mBody;
+    }
+
+    /**
+     * 例外内容とその他通信情報をまとめて返す
+     * 
+     * @return String 例外内容とその他通信情報
+     * @access public
+     */
+    public String getDebugData()
+    {
+        return mDebugData;
     }
 }

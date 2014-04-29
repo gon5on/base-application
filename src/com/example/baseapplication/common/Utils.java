@@ -16,23 +16,24 @@ public class Utils
      * 
      * @param ArrayList<String> list 文字列配列
      * @param String delimiter デリミタ
-     * @return String str 連結文字列
+     * @return String 連結文字列
      * @access public
      */
     public static String implode(ArrayList<String> list, String delimiter)
     {
-        String str = null;
+        StringBuilder sb = new StringBuilder();
 
         if (list != null && list.size() != 0) {
             for (int i = 0; i < list.size(); i++) {
-                if (str != null) {
-                    str = str + delimiter;
+                sb.append(list.get(i));
+
+                if (i != 0) {
+                    sb.append(delimiter);
                 }
-                str = str + list.get(i);
             }
         }
 
-        return str;
+        return sb.toString();
     }
 
     /**

@@ -1,7 +1,6 @@
 package com.example.baseapplication.activity;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 
 import com.example.baseapplication.R;
 
@@ -16,7 +15,7 @@ public class MainActivity extends AppActivity
      * onCreate
      * 
      * @param Bundle savedInstanceState
-     * @reurn void
+     * @return void
      * @access protected
      */
     @Override
