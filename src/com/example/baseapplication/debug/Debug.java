@@ -14,12 +14,10 @@ import com.example.baseapplication.common.PrefarenceUtils;
 /**
  * 例外をキャッチしてメールで報告するクラス
  * 
- * setUncaughtExHandlerメソッドとshowDebugReportDialogメソッドを
+ * setUncaughtExHandlerメソッドとshowReportDialogメソッドを
  * アクテビティから呼んであげると、通常キャッチできない例外をハンドリングして、メールで送信することができる
  * 
- * 意図的にキャッチした例外をメールで送信したい場合は、
- * showDebugReportDialogだけ呼んであげればOK（引数注意）
- * すべてのcatchに入れておくと便利？
+ * 意図的にキャッチした例外もメールで送信したい場合は、すべてのcatch節でsaveメソッドを呼んでおけばOK
  * 
  * @access public
  */
@@ -56,7 +54,7 @@ public class Debug
      * @return void
      * @access public
      */
-    public static void showDebugReportDialog(Context context, FragmentManager fragmentManeger)
+    public static void showReportDialog(Context context, FragmentManager fragmentManeger)
     {
         if (DEBUG_FLG != 1) {
             return;
@@ -71,48 +69,77 @@ public class Debug
     }
 
     /**
-     * 例外を受け取って、メールで内容を送信する
+     * 例外を受け取って、プリファレンスに保存する
      * 
      * @param Context context
-     * @param FragmentManeger fragmentManeger
      * @param Exception e
      * @return void
      * @access public
      */
-    public static void showDebugReportDialog(Context context, FragmentManager fragmentManeger, Exception e)
+    public static void save(Context context, Throwable e)
     {
         if (DEBUG_FLG != 1) {
             return;
         }
 
-        String exStr = createExDebugText(context, e);
+        String text = Debug.createExDebugText(context, e);
 
-        DebugReportDialog debugReportDialog = new DebugReportDialog();
-        debugReportDialog.set(exStr);
-        debugReportDialog.show(fragmentManeger, "dialog");
+        savePrefarence(context, text);
     }
 
     /**
-     * 例外と配列を受け取って、メールで内容を送信する
+     * 例外を受け取って、プリファレンスに保存する
      * 
      * @param Context context
-     * @param FragmentManeger fragmentManeger
+     * @param Exception e
+     * @return void
+     * @access public
+     */
+    public static void save(Context context, Exception e)
+    {
+        if (DEBUG_FLG != 1) {
+            return;
+        }
+
+        String text = Debug.createExDebugText(context, e);
+
+        savePrefarence(context, text);
+    }
+
+    /**
+     * 例外と配列を受け取って、プリファレンスに保存する
+     * 
+     * @param Context context
      * @param Exception e
      * @param HashMap<String, String> map
      * @return void
      * @access public
      */
-    public static void showDebugReportDialog(Context context, FragmentManager fragmentManeger, Exception e, HashMap<String, String> map)
+    public static void save(Context context, Exception e, HashMap<String, String> map)
     {
         if (DEBUG_FLG != 1) {
             return;
         }
 
-        String exStr = createExDebugText(context, e, map);
+        String text = Debug.createExDebugText(context, e, map);
 
-        DebugReportDialog debugReportDialog = new DebugReportDialog();
-        debugReportDialog.set(exStr);
-        debugReportDialog.show(fragmentManeger, "dialog");
+        savePrefarence(context, text);
+    }
+
+    ////////////////////////////////////////////////////////////////////以下、private
+
+    /**
+     * 文字列をプリファレンスに保存する
+     * 
+     * @param Context context
+     * @param String text
+     * @return void
+     * @access private
+     */
+    private static void savePrefarence(Context context, String text)
+    {
+        String savedText = PrefarenceUtils.get(context, Debug.KEY, "");
+        PrefarenceUtils.save(context, KEY, (savedText + text));
     }
 
     /**
@@ -121,9 +148,9 @@ public class Debug
      * @param Context context
      * @param Exception e 例外
      * @return String
-     * @access public
+     * @access private
      */
-    public static String createExDebugText(Context context, Exception e)
+    private static String createExDebugText(Context context, Exception e)
     {
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("exception", exToString(e));
@@ -137,9 +164,9 @@ public class Debug
      * @param Context context
      * @param Throwable e 例外
      * @return String
-     * @access public
+     * @access private
      */
-    public static String createExDebugText(Context context, Throwable e)
+    private static String createExDebugText(Context context, Throwable e)
     {
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("exception", exToString(e));
@@ -152,27 +179,11 @@ public class Debug
      * 
      * @param Context context
      * @param Exception e 例外
-     * @param HashMap<String, String> map 出力追加したい項目の配列
+     * @param HashMap<String, String> map 追加したい項目の配列
      * @return String
-     * @access public
+     * @access private
      */
-    public static String createExDebugText(Context context, Exception e, HashMap<String, String> map)
-    {
-        map.put("exception", exToString(e));
-
-        return createExDebugText(context, map);
-    }
-
-    /**
-     * 例外の内容を文字列にして、日時などを他情報も付与する
-     * 
-     * @param Context context
-     * @param Throwable e 例外
-     * @param HashMap<String, String> map 出力追加したい項目の配列
-     * @return String
-     * @access public
-     */
-    public static String createExDebugText(Context context, Throwable e, HashMap<String, String> map)
+    private static String createExDebugText(Context context, Exception e, HashMap<String, String> map)
     {
         map.put("exception", exToString(e));
 
@@ -184,9 +195,9 @@ public class Debug
      * 
      * @param Exception e 例外
      * @return String
-     * @access public
+     * @access private
      */
-    public static String exToString(Exception e)
+    private static String exToString(Exception e)
     {
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
@@ -201,9 +212,9 @@ public class Debug
      * 
      * @param Throwable e 例外
      * @return String
-     * @access public
+     * @access private
      */
-    public static String exToString(Throwable e)
+    private static String exToString(Throwable e)
     {
         StringWriter stringWriter = new StringWriter();
         e.printStackTrace(new PrintWriter(stringWriter));
@@ -219,32 +230,32 @@ public class Debug
      * @param Context context
      * @param HashMap<String, String> map
      * @return String
-     * @access public
+     * @access private
      */
-    public static String createExDebugText(Context context, HashMap<String, String> map)
+    private static String createExDebugText(Context context, HashMap<String, String> map)
     {
         String date = new DateUtils().format(DateUtils.FMT_DATETIME);
 
-        String text = "";
-        text += "---------------------------------------\n";
-        text += "date = " + date + "\n";
-        text += "---------------------------------------\n";
-        text += "app ver = " + AndroidUtils.getVerName(context) + "\n";
-        text += "---------------------------------------\n";
-        text += "app code = " + AndroidUtils.getVerCode(context) + "\n";
-        text += "---------------------------------------\n";
-        text += "os ver = " + AndroidUtils.getOsVer() + "\n";
-        text += "---------------------------------------\n";
-        text += "model = " + AndroidUtils.getModel() + "\n";
-        text += "---------------------------------------\n";
+        StringBuilder sb = new StringBuilder();
+        sb.append("---------------------------------------\n");
+        sb.append("date = " + date + "\n");
+        sb.append("---------------------------------------\n");
+        sb.append("app ver = " + AndroidUtils.getVerName(context) + "\n");
+        sb.append("---------------------------------------\n");
+        sb.append("app code = " + AndroidUtils.getVerCode(context) + "\n");
+        sb.append("---------------------------------------\n");
+        sb.append("os ver = " + AndroidUtils.getOsVer() + "\n");
+        sb.append("---------------------------------------\n");
+        sb.append("model = " + AndroidUtils.getModel() + "\n");
+        sb.append("---------------------------------------\n");
 
         for (String key : map.keySet()) {
-            text += key + " = " + map.get(key) + "\n";
-            text += "---------------------------------------\n";
+            sb.append(key + " = " + map.get(key) + "\n");
+            sb.append("---------------------------------------\n");
         }
 
-        text += "\n\n\n";
+        sb.append("\n\n\n");
 
-        return text;
+        return sb.toString();
     }
 }

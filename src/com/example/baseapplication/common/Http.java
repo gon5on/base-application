@@ -96,8 +96,6 @@ public class Http
     private String mBasicAuthId;                                        // ベーシック認証のID
     private String mBasicAuthPass;                                      // ベーシック認証のPASS
 
-    private String mDebugData;                                          // 例外内容とその他デバッグ用の通信情報
-
     /**
      * コンストラクタ
      * 
@@ -169,42 +167,42 @@ public class Http
 
         } catch (SocketTimeoutException e) {
             mStatus = STATUS_SOCKET_TIMEOUT_EX;
-            createDebugData(e);
+            saveException(e);
             e.printStackTrace();
             return;
         } catch (ConnectTimeoutException e) {
             mStatus = STATUS_CONN_TIMEOUT_EX;
-            createDebugData(e);
+            saveException(e);
             e.printStackTrace();
             return;
         } catch (UnsupportedEncodingException e) {
             mStatus = STATUS_UNSUPPORTED_ENC_EX;
-            createDebugData(e);
+            saveException(e);
             e.printStackTrace();
             return;
         } catch (ClientProtocolException e) {
             mStatus = STATUS_CLIENT_PROTOCOL_EX;
-            createDebugData(e);
+            saveException(e);
             e.printStackTrace();
             return;
         } catch (IllegalStateException e) {
             mStatus = STATUS_ILLIGAL_STATE_EX;
-            createDebugData(e);
+            saveException(e);
             e.printStackTrace();
             return;
         } catch (UnknownHostException e) {
             mStatus = STATUS_UNKNOWN_HOST_EX;
-            createDebugData(e);
+            saveException(e);
             e.printStackTrace();
             return;
         } catch (IOException e) {
             mStatus = STATUS_IO_EX;
-            createDebugData(e);
+            saveException(e);
             e.printStackTrace();
             return;
         } catch (Exception e) {
             mStatus = STATUS_OTHER_EX;
-            createDebugData(e);
+            saveException(e);
             e.printStackTrace();
             return;
         } finally {
@@ -527,7 +525,7 @@ public class Http
      * @return void
      * @access private
      */
-    private void createDebugData(Exception e)
+    private void saveException(Exception e)
     {
         HashMap<String, String> map = new HashMap<String, String>();
 
@@ -570,9 +568,7 @@ public class Http
             map.put("responce body", "null");
         }
 
-        map.put("exception", Debug.exToString(e));
-
-        mDebugData = Debug.createExDebugText(mContext, map);
+        Debug.save(mContext, e, map);
     }
 
     /**
@@ -595,8 +591,6 @@ public class Http
 
         mBasicAuthId = null;
         mBasicAuthPass = null;
-
-        mDebugData = null;
     }
 
     /**
@@ -722,16 +716,5 @@ public class Http
     public String getBody()
     {
         return mBody;
-    }
-
-    /**
-     * 例外内容とその他通信情報をまとめて返す
-     * 
-     * @return String 例外内容とその他通信情報
-     * @access public
-     */
-    public String getDebugData()
-    {
-        return mDebugData;
     }
 }

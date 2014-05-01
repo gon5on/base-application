@@ -4,8 +4,6 @@ import java.lang.Thread.UncaughtExceptionHandler;
 
 import android.content.Context;
 
-import com.example.baseapplication.common.PrefarenceUtils;
-
 /**
  * UncaughtExceptionハンドリングクラス
  * 
@@ -41,14 +39,8 @@ public class AppUncaughtExHandler implements UncaughtExceptionHandler
     @Override
     public void uncaughtException(Thread thread, Throwable e)
     {
-        // プリファレンスから保存済の値を取得
-        String text = PrefarenceUtils.get(mContext, Debug.KEY, "");
-
-        // デバッグ用の文言を生成して追加
-        text += Debug.createExDebugText(mContext, e);
-
-        // プリファレンスに保存
-        PrefarenceUtils.save(mContext, Debug.KEY, text);
+        // 例外内容をプリファレンスに保存
+        Debug.save(mContext, e);
 
         // デフォルト例外ハンドラを戻す
         mDefaultUncaughtExceptionHandler.uncaughtException(thread, e);

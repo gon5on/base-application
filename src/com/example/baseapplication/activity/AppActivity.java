@@ -26,6 +26,6 @@ public class AppActivity extends FragmentActivity
 
         //デバッグ
         Debug.setUncaughtExHandler(getApplicationContext());
-        Debug.showDebugReportDialog(getApplicationContext(), getFragmentManager());
+        Debug.showReportDialog(getApplicationContext(), getFragmentManager());
     }
 }
