@@ -16,7 +16,7 @@ public class AppActivity extends FragmentActivity
      * onCreate
      * 
      * @param Bundle savedInstanceState
-     * @reurn void
+     * @return void
      * @access protected
      */
     @Override
