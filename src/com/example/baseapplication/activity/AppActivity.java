@@ -1,7 +1,7 @@
 package com.example.baseapplication.activity;
 
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 
 import com.example.baseapplication.debug.Debug;
 
@@ -10,7 +10,7 @@ import com.example.baseapplication.debug.Debug;
  * 
  * @access public
  */
-public class AppActivity extends FragmentActivity
+public class AppActivity extends Activity
 {
     /**
      * onCreate
@@ -24,8 +24,10 @@ public class AppActivity extends FragmentActivity
     {
         super.onCreate(savedInstanceState);
 
-        //デバッグ
-        Debug.setUncaughtExHandler(getApplicationContext());
-        Debug.showReportDialog(getApplicationContext(), getFragmentManager());
+        if (savedInstanceState == null) {
+            //デバッグ
+            Debug.setUncaughtExHandler(getApplicationContext());
+            Debug.showReportDialog(getApplicationContext(), getFragmentManager());
+        }
     }
 }

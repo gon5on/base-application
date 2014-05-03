@@ -6,9 +6,12 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
 import com.example.baseapplication.R;
+import com.example.baseapplication.common.AndroidUtils;
+import com.example.baseapplication.common.AppLog;
 import com.example.baseapplication.dialog.AppProgressDialog;
 import com.example.baseapplication.dialog.SampleDialog;
 import com.example.baseapplication.module.SampleAsyncTask;
@@ -34,11 +37,8 @@ public class MainActivity extends AppActivity
         setContentView(R.layout.activity_main);
 
         if (savedInstanceState == null) {
-            getFragmentManager().beginTransaction().add(R.id.container, new PlaceholderFragment()).commit();
+            getFragmentManager().beginTransaction().add(R.id.container, new MainFragment()).commit();
         }
-
-        //サーバに接続
-        connectServer();
     }
 
     /**
@@ -79,83 +79,143 @@ public class MainActivity extends AppActivity
     }
 
     /**
-     * PlaceholderFragment
+     * MainFragment
      * 
      * @access public
      */
-    public static class PlaceholderFragment extends Fragment
+    public static class MainFragment extends Fragment implements SampleDialog.CallbackListener, AppProgressDialog.CallbackListener
     {
-        public PlaceholderFragment() {
+        private SampleAsyncTask sampleAsyncTask = null;
+
+        /**
+         * コンストラクタ
+         * 
+         * @access public
+         */
+        public MainFragment() {
         }
 
+        /**
+         * onCreateView
+         * 
+         * @param LayoutInflater inflater
+         * @param ViewGroup container
+         * @param Bundle savedInstanceState
+         * @access public
+         * @return View
+         */
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            return rootView;
+            View view = inflater.inflate(R.layout.fragment_main, container, false);
+
+            //ボタンを押したらサーバに接続
+            view.findViewById(R.id.button).setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    connectServer();
+                }
+            });
+
+            return view;
         }
-    }
 
-    /**
-     * サーバに接続
-     * 
-     * @return void
-     * @access private
-     */
-    private void connectServer()
-    {
-        final AppProgressDialog progressDialog = new AppProgressDialog();
+        /**
+         * サーバに接続
+         * 
+         * @return void
+         * @access private
+         */
+        private void connectServer()
+        {
+            //プログレスダイアログ
+            final AppProgressDialog progressDialog = new AppProgressDialog();
+            //progressDialog.setCallbackListener(this);
 
-        SampleAsyncTask sampleAsyncTask = new SampleAsyncTask(getApplicationContext());
-        sampleAsyncTask.setCallback(new SampleAsyncTask.AsyncTaskCallback() {
-            @Override
-            public void preExecute() {
-                progressDialog.show(getFragmentManager(), "progress");
+            //非同期処理
+            sampleAsyncTask = new SampleAsyncTask(getActivity());
+            sampleAsyncTask.setCallbackListener(new SampleAsyncTask.CallbackListener() {
+                @Override
+                public void preExecute() {
+                    progressDialog.show(getFragmentManager(), "progress");
+                }
+
+                @Override
+                public void progressUpdate(Integer progress) {
+                }
+
+                @Override
+                public void cancel() {
+                    progressDialog.dismiss();
+                    AndroidUtils.showToastS(getActivity(), "cancel!");
+                }
+
+                @Override
+                public void postExecuteSuccess() {
+                    progressDialog.dismiss();
+                    AndroidUtils.showToastS(getActivity(), "finish and success!");
+                }
+
+                @Override
+                public void postExecuteFaild(Integer status) {
+                    progressDialog.dismiss();
+                    showErrorDialog(status);
+                }
+            });
+            sampleAsyncTask.execute();
+        }
+
+        /**
+         * エラーダイアログ表示
+         * 
+         * @param Integer status
+         * @return void
+         * @access private
+         */
+        private void showErrorDialog(Integer status)
+        {
+            SampleDialog sampleDialog = SampleDialog.getInstance("エラー", "エラーが発生しました（" + status + "）");
+            sampleDialog.setCallbackListener(this);
+            sampleDialog.show(getFragmentManager(), "dialog");
+        }
+
+        /**
+         * サンプルダイアログでOKボタンが押された
+         * 
+         * @access public
+         * @return void
+         */
+        @Override
+        public void onClickSampleDialogOk()
+        {
+            connectServer();        //リトライ
+        }
+
+        /**
+         * サンプルダイアログでキャンセルボタンが押された
+         * 
+         * @access public
+         * @return void
+         */
+        @Override
+        public void onClickSampleDialogCancel()
+        {
+        }
+
+        /**
+         * プログレスダイアログでキャンセルされた
+         * 
+         * @access public
+         * @return void
+         */
+        @Override
+        public void onProgressDialogCancel()
+        {
+            AppLog.v("!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+
+            if (sampleAsyncTask != null) {
+                sampleAsyncTask.cancel(true);
             }
-
-            @Override
-            public void progressUpdate(Integer progress) {
-            }
-
-            @Override
-            public void cancel() {
-                progressDialog.dismiss();
-            }
-
-            @Override
-            public void postExecuteSuccess() {
-                progressDialog.dismiss();
-            }
-
-            @Override
-            public void postExecuteFaild(Integer status) {
-                progressDialog.dismiss();
-                showErroeDialog();
-            }
-        });
-        sampleAsyncTask.execute();
-    }
-
-    /**
-     * エラーダイアログ表示
-     * 
-     * @return void
-     * @access private
-     */
-    private void showErroeDialog()
-    {
-        SampleDialog sampleDialog = new SampleDialog();
-        sampleDialog.show(getFragmentManager(), "dialog");
-
-        sampleDialog.setListener(new SampleDialog.EventListener() {
-            @Override
-            public void onClickOk() {
-                connectServer();        //リトライ
-            }
-
-            @Override
-            public void onClickCancel() {
-            }
-        });
+        }
     }
 }

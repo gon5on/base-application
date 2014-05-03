@@ -1,12 +1,16 @@
 package com.example.baseapplication.model;
 
+import java.io.Serializable;
+
 /**
  * サンプルエンティティクラス
  * 
  * @access public
  */
-public class SampleEntity
+public class SampleEntity implements Serializable
 {
+    private static final long serialVersionUID = 1L;
+
     private Integer mId;                                        //ID
     private String mSample1;                                    //サンプル1
     private String mSample2;                                    //サンプル2

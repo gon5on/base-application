@@ -1,16 +1,11 @@
 package com.example.baseapplication.dialog;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
+import android.app.Fragment;
+import android.content.DialogInterface;
 import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.Window;
-import android.view.WindowManager;
-
-import com.example.baseapplication.R;
 
 /**
  * サンプルダイアログ
@@ -19,7 +14,27 @@ import com.example.baseapplication.R;
  */
 public class SampleDialog extends DialogFragment
 {
-    private EventListener mListener = null;
+    private CallbackListener mCallbackListener = null;
+
+    /**
+     * インスタンスを返す
+     * 
+     * @String String title
+     * @String String msg
+     * @return SampleDialog
+     * @access public
+     */
+    public static SampleDialog getInstance(String title, String msg)
+    {
+        SampleDialog sampleDialog = new SampleDialog();
+
+        Bundle bundle = new Bundle();
+        bundle.putString("title", title);
+        bundle.putString("msg", msg);
+        sampleDialog.setArguments(bundle);
+
+        return sampleDialog;
+    }
 
     /**
      * onCreateDialog
@@ -31,66 +46,73 @@ public class SampleDialog extends DialogFragment
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState)
     {
-        Dialog dialog = new Dialog(getActivity());
+        mCallbackListener = (CallbackListener) getTargetFragment();                 //コールバックリスナーを取り出してセット
 
-        dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        dialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.setContentView(R.layout.dialog_sample);
+        //bundleから値を取り出す
+        String title = getArguments().getString("title");
+        String msg = getArguments().getString("msg");
 
-        // OK ボタン
-        dialog.findViewById(R.id.buttonOk).setOnClickListener(new OnClickListener() {
+        //ダイアログ生成
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle(title);
+        builder.setMessage(msg);
+
+        //ボタンにイベントをセット
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                mListener.onClickOk();
+            public void onClick(DialogInterface dialog, int which) {
+                if (mCallbackListener != null) {
+                    mCallbackListener.onClickSampleDialogOk();
+                }
                 dismiss();
             }
         });
 
-        // Cancelボタン
-        dialog.findViewById(R.id.buttonCancel).setOnClickListener(new OnClickListener() {
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                mListener.onClickCancel();
+            public void onClick(DialogInterface dialog, int which) {
+                if (mCallbackListener != null) {
+                    mCallbackListener.onClickSampleDialogCancel();
+                }
                 dismiss();
             }
         });
 
-        return dialog;
+        return builder.create();
     }
 
     /**
-     * イベントリスナーを追加
+     * コールバックリスナーを追加
      * 
-     * @param SampleDialogListener listener
+     * @param CallbackListener callbackListener
      * @return void
      * @access public
      */
-    public void setListener(EventListener listener)
+    public void setCallbackListener(CallbackListener callbackListener)
     {
-        mListener = listener;
+        setTargetFragment((Fragment) callbackListener, 0);      //コールバックリスナーを一時保存、第2引数は適当
     }
 
     /**
-     * イベントリスナーを削除
+     * コールバックリスナーを削除
      * 
      * @return void
      * @access public
      */
-    public void removeListener()
+    public void removeCallbackListener()
     {
-        mListener = null;
+        mCallbackListener = null;
     }
 
     /**
-     * イベントリスナー
+     * コールバックリスナー
      * 
      * @access public
      */
-    public interface EventListener
+    public interface CallbackListener
     {
-        public void onClickOk();
+        public void onClickSampleDialogOk();
 
-        public void onClickCancel();
+        public void onClickSampleDialogCancel();
     }
 }

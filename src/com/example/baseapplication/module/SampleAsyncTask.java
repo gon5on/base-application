@@ -12,7 +12,7 @@ import com.example.baseapplication.common.Http;
  */
 public class SampleAsyncTask extends AsyncTask<Void, Integer, Http>
 {
-    private AsyncTaskCallback mCallback = null;
+    private CallbackListener mCallbackListener = null;
     private Context mContext = null;
 
     /**
@@ -23,6 +23,8 @@ public class SampleAsyncTask extends AsyncTask<Void, Integer, Http>
      */
     public SampleAsyncTask(Context context)
     {
+        super();
+
         mContext = context;
     }
 
@@ -37,7 +39,9 @@ public class SampleAsyncTask extends AsyncTask<Void, Integer, Http>
     {
         super.onPreExecute();
 
-        mCallback.preExecute();
+        if (mCallbackListener != null) {
+            mCallbackListener.preExecute();
+        }
     }
 
     /**
@@ -50,6 +54,16 @@ public class SampleAsyncTask extends AsyncTask<Void, Integer, Http>
     @Override
     protected Http doInBackground(Void... params)
     {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        if (isCancelled()) {
+            return null;
+        }
+
         Http http = new Http(mContext);
         http.connect(Http.GET, "http://google.com");
 
@@ -70,11 +84,13 @@ public class SampleAsyncTask extends AsyncTask<Void, Integer, Http>
 
         //エラー
         if (http.getStatus() != Http.STATUS_OK) {
-            mCallback.postExecuteFaild(http.getStatus());
+            mCallbackListener.postExecuteFaild(http.getStatus());
             return;
         }
 
-        mCallback.postExecuteSuccess();
+        if (mCallbackListener != null) {
+            mCallbackListener.postExecuteSuccess();
+        }
     }
 
     /**
@@ -88,38 +104,40 @@ public class SampleAsyncTask extends AsyncTask<Void, Integer, Http>
     {
         super.onCancelled();
 
-        mCallback.cancel();
+        if (mCallbackListener != null) {
+            mCallbackListener.cancel();
+        }
     }
 
     /**
-     * コールバックを追加
+     * コールバックリスナーを追加
      * 
-     * @param AsyncTaskCallback callback
+     * @param CallbackListener callback
      * @return void
      * @access public
      */
-    public void setCallback(AsyncTaskCallback callback)
+    public void setCallbackListener(CallbackListener callback)
     {
-        mCallback = callback;
+        mCallbackListener = callback;
     }
 
     /**
-     * コールバックを削除
+     * コールバックリスナーを削除
      * 
      * @return void
      * @access public
      */
-    public void removeCallback()
+    public void removeCallbackListener()
     {
-        mCallback = null;
+        mCallbackListener = null;
     }
 
     /**
-     * コールバック
+     * コールバックリスナー
      * 
      * @access public
      */
-    public interface AsyncTaskCallback
+    public interface CallbackListener
     {
         void preExecute();
 
