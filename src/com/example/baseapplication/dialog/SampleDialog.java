@@ -1,7 +1,5 @@
 package com.example.baseapplication.dialog;
 
-import java.util.EventListener;
-
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.graphics.Color;
@@ -21,7 +19,7 @@ import com.example.baseapplication.R;
  */
 public class SampleDialog extends DialogFragment
 {
-    private SampleDialogListener mListener = null;
+    private EventListener mListener = null;
 
     /**
      * onCreateDialog
@@ -68,7 +66,7 @@ public class SampleDialog extends DialogFragment
      * @return void
      * @access public
      */
-    public void setSampleDialogListener(SampleDialogListener listener)
+    public void setListener(EventListener listener)
     {
         mListener = listener;
     }
@@ -79,7 +77,7 @@ public class SampleDialog extends DialogFragment
      * @return void
      * @access public
      */
-    public void removeDialogListener()
+    public void removeListener()
     {
         mListener = null;
     }
@@ -87,19 +85,12 @@ public class SampleDialog extends DialogFragment
     /**
      * イベントリスナー
      * 
-     * @return void
      * @access public
      */
-    public interface SampleDialogListener extends EventListener
+    public interface EventListener
     {
-        /**
-         * OKボタンが押されたイベントを通知
-         */
         public void onClickOk();
 
-        /**
-         * Cancelボタンが押されたイベントを通知
-         */
         public void onClickCancel();
     }
 }

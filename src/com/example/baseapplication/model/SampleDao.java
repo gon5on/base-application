@@ -10,7 +10,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.example.baseapplication.common.DateUtils;
 
 /**
- * ナイボ値テーブルのデータアクセスオブジェクト
+ * サンプルテーブルへのデータアクセスオブジェクト
  * 
  * @access public
  */
@@ -27,6 +27,17 @@ public class SampleDao extends AppDao
     public static final String COLUMN_CREATED = "created";
     public static final String COLUMN_MODIFIED = "modified";
 
+    //CREATE TABLE文
+    public static final String CREATE_TABLE_SQL =
+            "CREATE TABLE " + TABLE_NAME + " (" +
+                    COLUMN_ID + "               INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    COLUMN_SAMPLE1 + "          TEXT," +
+                    COLUMN_SAMPLE2 + "          TEXT," +
+                    COLUMN_SAMPLE3 + "          TEXT," +
+                    COLUMN_CREATED + "          TEXT                NOT NULL," +
+                    COLUMN_MODIFIED + "         TEXT                NOT NULL" +
+                    ")";
+
     private Context mContext;                                           //コンテキスト
 
     /**
@@ -41,34 +52,14 @@ public class SampleDao extends AppDao
     }
 
     /**
-     * テーブル作成
-     * 
-     * @param SQLiteDatabase db
-     * @return void
-     * @access public
-     */
-    public void createTable(SQLiteDatabase db)
-    {
-        String sql = "CREATE TABLE " + TABLE_NAME + " (" +
-                COLUMN_ID + "               INTEGER PRIMARY KEY AUTOINCREMENT," +
-                COLUMN_SAMPLE1 + "          TEXT," +
-                COLUMN_SAMPLE2 + "          TEXT," +
-                COLUMN_SAMPLE3 + "          TEXT," +
-                COLUMN_CREATED + "          TEXT                NOT NULL," +
-                COLUMN_MODIFIED + "         TEXT                NOT NULL" +
-                ")";
-        db.execSQL(sql);
-    }
-
-    /**
      * インサート・アップデート
      * 
      * @param SQLiteDatabase db
-     * @param Sample data
+     * @param SampleEntity data
      * @return void
      * @access public
      */
-    public boolean save(SQLiteDatabase db, Sample data) throws Exception
+    public boolean save(SQLiteDatabase db, SampleEntity data) throws Exception
     {
         long ret;
 
@@ -94,12 +85,12 @@ public class SampleDao extends AppDao
      * 
      * @param SQLiteDatabase db
      * @param Integer id
-     * @return Sample values
+     * @return SampleEntity values
      * @access public
      */
-    public Sample findById(SQLiteDatabase db, Integer id)
+    public SampleEntity findById(SQLiteDatabase db, Integer id)
     {
-        Sample data = new Sample();
+        SampleEntity data = new SampleEntity();
 
         StringBuilder sb = new StringBuilder();
         sb.append(String.format("SELECT * FROM %s ", TABLE_NAME));
@@ -128,12 +119,12 @@ public class SampleDao extends AppDao
      * 全件データを取得する
      * 
      * @param SQLiteDatabase db
-     * @return ArrayList<Sample> data
+     * @return ArrayList<SampleEntity> data
      * @access public
      */
-    public ArrayList<Sample> findAll(SQLiteDatabase db)
+    public ArrayList<SampleEntity> findAll(SQLiteDatabase db)
     {
-        ArrayList<Sample> data = new ArrayList<Sample>();
+        ArrayList<SampleEntity> data = new ArrayList<SampleEntity>();
 
         StringBuilder sb = new StringBuilder();
         sb.append(String.format("SELECT * FROM %s ", TABLE_NAME));
@@ -141,7 +132,7 @@ public class SampleDao extends AppDao
         Cursor cursor = db.rawQuery(sb.toString(), null);
 
         if (cursor.moveToFirst()) {
-            Sample values = new Sample();
+            SampleEntity values = new SampleEntity();
 
             do {
                 values.setId(getInteger(cursor, COLUMN_ID));

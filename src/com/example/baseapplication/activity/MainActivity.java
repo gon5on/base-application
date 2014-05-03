@@ -9,6 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.baseapplication.R;
+import com.example.baseapplication.dialog.AppProgressDialog;
+import com.example.baseapplication.dialog.SampleDialog;
+import com.example.baseapplication.module.SampleAsyncTask;
 
 /**
  * メインアクテビティ
@@ -33,6 +36,9 @@ public class MainActivity extends AppActivity
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction().add(R.id.container, new PlaceholderFragment()).commit();
         }
+
+        //サーバに接続
+        connectServer();
     }
 
     /**
@@ -88,5 +94,68 @@ public class MainActivity extends AppActivity
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
             return rootView;
         }
+    }
+
+    /**
+     * サーバに接続
+     * 
+     * @return void
+     * @access private
+     */
+    private void connectServer()
+    {
+        final AppProgressDialog progressDialog = new AppProgressDialog();
+
+        SampleAsyncTask sampleAsyncTask = new SampleAsyncTask(getApplicationContext());
+        sampleAsyncTask.setCallback(new SampleAsyncTask.AsyncTaskCallback() {
+            @Override
+            public void preExecute() {
+                progressDialog.show(getFragmentManager(), "progress");
+            }
+
+            @Override
+            public void progressUpdate(Integer progress) {
+            }
+
+            @Override
+            public void cancel() {
+                progressDialog.dismiss();
+            }
+
+            @Override
+            public void postExecuteSuccess() {
+                progressDialog.dismiss();
+            }
+
+            @Override
+            public void postExecuteFaild(Integer status) {
+                progressDialog.dismiss();
+                showErroeDialog();
+            }
+        });
+        sampleAsyncTask.execute();
+    }
+
+    /**
+     * エラーダイアログ表示
+     * 
+     * @return void
+     * @access private
+     */
+    private void showErroeDialog()
+    {
+        SampleDialog sampleDialog = new SampleDialog();
+        sampleDialog.show(getFragmentManager(), "dialog");
+
+        sampleDialog.setListener(new SampleDialog.EventListener() {
+            @Override
+            public void onClickOk() {
+                connectServer();        //リトライ
+            }
+
+            @Override
+            public void onClickCancel() {
+            }
+        });
     }
 }

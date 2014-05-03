@@ -43,8 +43,7 @@ public class AppSQLiteOpenHelper extends SQLiteOpenHelper
             db.beginTransaction();
 
             //テーブル作成
-            SampleDao sampleDao = new SampleDao(mContext);
-            sampleDao.createTable(db);
+            db.execSQL(SampleDao.CREATE_TABLE_SQL);
 
             db.setTransactionSuccessful();
 

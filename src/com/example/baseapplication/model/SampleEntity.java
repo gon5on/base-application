@@ -1,11 +1,11 @@
 package com.example.baseapplication.model;
 
 /**
- * ナイボ値結果クラス
+ * サンプルエンティティクラス
  * 
  * @access public
  */
-public class Sample
+public class SampleEntity
 {
     private Integer mId;                                        //ID
     private String mSample1;                                    //サンプル1
