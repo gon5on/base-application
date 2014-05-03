@@ -41,7 +41,7 @@ public class SampleDialog extends DialogFragment
         dialog.setContentView(R.layout.dialog_sample);
 
         // OK ボタン
-        dialog.findViewById(R.id.btnOk).setOnClickListener(new OnClickListener() {
+        dialog.findViewById(R.id.buttonOk).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 mListener.onClickOk();
@@ -50,7 +50,7 @@ public class SampleDialog extends DialogFragment
         });
 
         // Cancelボタン
-        dialog.findViewById(R.id.btnCancel).setOnClickListener(new OnClickListener() {
+        dialog.findViewById(R.id.buttonCancel).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 mListener.onClickCancel();
