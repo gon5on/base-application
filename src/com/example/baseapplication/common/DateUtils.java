@@ -203,8 +203,8 @@ public class DateUtils
     /**
      * フォーマットした日時を返す
      * 
-     * @param Srting fotmat
-     * @return Srting
+     * @param Srting format
+     * @return String
      * @access public
      */
     public String format(String format)
