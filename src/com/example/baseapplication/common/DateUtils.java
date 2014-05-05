@@ -50,6 +50,19 @@ public class DateUtils
     /**
      * コンストラクタ
      * 
+     * @param Long time
+     * @access public
+     */
+    public DateUtils(Long time)
+    {
+        mCal = Calendar.getInstance();
+        mCal.clear();
+        mCal.setTimeInMillis(time);
+    }
+
+    /**
+     * コンストラクタ
+     * 
      * @param String strDate
      * @param String format
      * @access public

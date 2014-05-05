@@ -1,6 +1,9 @@
 package com.example.baseapplication.activity;
 
+import java.util.ArrayList;
+
 import android.app.Fragment;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -11,9 +14,11 @@ import android.view.ViewGroup;
 
 import com.example.baseapplication.R;
 import com.example.baseapplication.common.AndroidUtils;
-import com.example.baseapplication.common.AppLog;
 import com.example.baseapplication.dialog.AppProgressDialog;
 import com.example.baseapplication.dialog.SampleDialog;
+import com.example.baseapplication.model.AppSQLiteOpenHelper;
+import com.example.baseapplication.model.SampleDao;
+import com.example.baseapplication.model.SampleEntity;
 import com.example.baseapplication.module.SampleAsyncTask;
 
 /**
@@ -92,7 +97,8 @@ public class MainActivity extends AppActivity
          * 
          * @access public
          */
-        public MainFragment() {
+        public MainFragment()
+        {
         }
 
         /**
@@ -109,6 +115,9 @@ public class MainActivity extends AppActivity
         {
             View view = inflater.inflate(R.layout.fragment_main, container, false);
 
+            //サンプルデータ一覧を取得
+            getPetList();
+
             //ボタンを押したらサーバに接続
             view.findViewById(R.id.button).setOnClickListener(new OnClickListener() {
                 @Override
@@ -118,6 +127,33 @@ public class MainActivity extends AppActivity
             });
 
             return view;
+        }
+
+        /**
+         * サンプルデータ一覧を取得
+         * 
+         * @return ArrayList<SampleEntity>
+         * @access private
+         */
+        private ArrayList<SampleEntity> getPetList()
+        {
+            ArrayList<SampleEntity> data = null;
+            SQLiteDatabase db = null;
+
+            try {
+                AppSQLiteOpenHelper helper = new AppSQLiteOpenHelper(getActivity());
+                db = helper.getWritableDatabase();
+
+                SampleDao petDao = new SampleDao(getActivity());
+                data = petDao.findAll(db);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                db.close();
+            }
+
+            return data;
         }
 
         /**
@@ -211,8 +247,6 @@ public class MainActivity extends AppActivity
         @Override
         public void onProgressDialogCancel()
         {
-            AppLog.v("!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-
             if (sampleAsyncTask != null) {
                 sampleAsyncTask.cancel(true);
             }

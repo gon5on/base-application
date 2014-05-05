@@ -160,4 +160,18 @@ public class SampleDao extends AppDao
     {
         db.delete(TABLE_NAME, null, null);
     }
+
+    /**
+     * レコード削除
+     * 
+     * @return void
+     * @access public
+     */
+    public void deleteById(SQLiteDatabase db, Integer id)
+    {
+        String[] param = new String[] { String.valueOf(id) };
+
+        db.delete(TABLE_NAME, COLUMN_ID + " = ?", param);
+    }
+
 }
