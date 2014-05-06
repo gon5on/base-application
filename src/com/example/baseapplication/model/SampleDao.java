@@ -132,9 +132,8 @@ public class SampleDao extends AppDao
         Cursor cursor = db.rawQuery(sb.toString(), null);
 
         if (cursor.moveToFirst()) {
-            SampleEntity values = new SampleEntity();
-
             do {
+                SampleEntity values = new SampleEntity();
                 values.setId(getInteger(cursor, COLUMN_ID));
                 values.setSample1(getString(cursor, COLUMN_SAMPLE1));
                 values.setSample2(getString(cursor, COLUMN_SAMPLE2));

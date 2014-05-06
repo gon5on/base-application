@@ -103,6 +103,7 @@ public class DateUtils
         mCal.set(Calendar.HOUR_OF_DAY, 0);
         mCal.set(Calendar.MINUTE, 0);
         mCal.set(Calendar.SECOND, 0);
+        mCal.set(Calendar.MILLISECOND, 0);
     }
 
     /**

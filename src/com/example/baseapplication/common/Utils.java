@@ -25,11 +25,11 @@ public class Utils
 
         if (list != null && list.size() != 0) {
             for (int i = 0; i < list.size(); i++) {
-                sb.append(list.get(i));
-
-                if (i != 0) {
+                if (sb.length() != 0) {
                     sb.append(delimiter);
                 }
+
+                sb.append(list.get(i));
             }
         }
 

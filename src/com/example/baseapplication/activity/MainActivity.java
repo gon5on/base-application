@@ -166,7 +166,7 @@ public class MainActivity extends AppActivity
         {
             //プログレスダイアログ
             final AppProgressDialog progressDialog = new AppProgressDialog();
-            //progressDialog.setCallbackListener(this);
+            progressDialog.setCallbackListener(this);
 
             //非同期処理
             sampleAsyncTask = new SampleAsyncTask(getActivity());

@@ -31,6 +31,7 @@ public class Validate
     public ValidateDouble isDouble;                         //double系バリデーションクラス
     public ValidateSize size;                               //最大値・最小値系バリデーションクラス
     public ValidateLength length;                           //文字長系バリデーションクラス
+    public ValidateDate date;                               //日付系バリデーションクラス
 
     /**
      * コンストラクタ
@@ -48,6 +49,7 @@ public class Validate
         isDouble = new ValidateDouble(this);
         size = new ValidateSize(this);
         length = new ValidateLength(this);
+        date = new ValidateDate(this);
     }
 
     /**
