@@ -11,7 +11,6 @@ import com.example.baseapplication.common.DateUtils;
  * value … バリデート対象の値
  * name … 値の名前（誕生日、性別とか）
  * msgFull … デフォルトではないエラーメッセージを使用したい場合に指定
- * limit … MAX・MIN値
  */
 public class ValidateDate
 {

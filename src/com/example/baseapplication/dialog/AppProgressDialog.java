@@ -28,12 +28,12 @@ public class AppProgressDialog extends DialogFragment
     {
         mCallbackListener = (CallbackListener) getTargetFragment();                 //コールバックリスナーを取り出してセット
 
-        ProgressDialog progressDialog = new ProgressDialog(getActivity());
-        progressDialog.setMessage("処理中");
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progressDialog.setCancelable(true);
+        ProgressDialog dialog = new ProgressDialog(getActivity());
+        dialog.setMessage("処理中");
+        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        dialog.setCancelable(true);
 
-        return progressDialog;
+        return dialog;
     }
 
     /**

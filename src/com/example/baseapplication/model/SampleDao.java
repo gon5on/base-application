@@ -56,10 +56,10 @@ public class SampleDao extends AppDao
      * 
      * @param SQLiteDatabase db
      * @param SampleEntity data
-     * @return void
+     * @return Boolean
      * @access public
      */
-    public boolean save(SQLiteDatabase db, SampleEntity data) throws Exception
+    public Boolean save(SQLiteDatabase db, SampleEntity data) throws Exception
     {
         long ret;
 
@@ -153,24 +153,27 @@ public class SampleDao extends AppDao
      * レコード全削除
      * 
      * @return void
-     * @access public
+     * @access Boolean
      */
-    public void deleteAll(SQLiteDatabase db)
+    public Boolean deleteAll(SQLiteDatabase db)
     {
-        db.delete(TABLE_NAME, null, null);
+        Integer ret = db.delete(TABLE_NAME, null, null);
+
+        return (ret != -1) ? true : false;
     }
 
     /**
      * レコード削除
      * 
      * @return void
-     * @access public
+     * @access Boolean
      */
-    public void deleteById(SQLiteDatabase db, Integer id)
+    public Boolean deleteById(SQLiteDatabase db, Integer id)
     {
         String[] param = new String[] { String.valueOf(id) };
 
-        db.delete(TABLE_NAME, COLUMN_ID + " = ?", param);
-    }
+        Integer ret = db.delete(TABLE_NAME, COLUMN_ID + " = ?", param);
 
+        return (ret != -1) ? true : false;
+    }
 }

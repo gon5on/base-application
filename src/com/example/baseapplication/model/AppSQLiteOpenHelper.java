@@ -11,7 +11,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class AppSQLiteOpenHelper extends SQLiteOpenHelper
 {
-    public static final String DB_NAME = "naibo.db";                //データベース名
+    public static final String DB_NAME = "database.db";             //データベース名
     public static final int DB_VERSION = 1;                         //データベースバージョン
 
     private Context mContext;                                       //コンテキスト

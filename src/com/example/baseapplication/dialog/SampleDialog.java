@@ -26,14 +26,14 @@ public class SampleDialog extends DialogFragment
      */
     public static SampleDialog getInstance(String title, String msg)
     {
-        SampleDialog sampleDialog = new SampleDialog();
+        SampleDialog dialog = new SampleDialog();
 
         Bundle bundle = new Bundle();
         bundle.putString("title", title);
         bundle.putString("msg", msg);
-        sampleDialog.setArguments(bundle);
+        dialog.setArguments(bundle);
 
-        return sampleDialog;
+        return dialog;
     }
 
     /**
