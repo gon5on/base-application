@@ -458,7 +458,7 @@ public class Http
     /**
      * レスポンスを解析する
      * 
-     * @param HttpResponse respons
+     * @param HttpResponse response
      * @return void
      * @throws IOException
      * @throws IllegalStateException

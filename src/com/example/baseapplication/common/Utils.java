@@ -1,6 +1,12 @@
 package com.example.baseapplication.common;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+
+import android.content.res.Resources;
 
 /**
  * 便利なものまとめたクラス
@@ -109,5 +115,38 @@ public class Utils
             return null;
         }
         return Long.parseLong(String.valueOf(value));
+    }
+
+    /**
+     * ファイルからテキストを読みだす
+     * 
+     * @param Resources res リソース
+     * @param Integer resId ファイルのリソースID
+     * @return Integer
+     * @throws IOException
+     * @access public
+     */
+    public static String readTextFile(Resources res, Integer resId) throws IOException
+    {
+        InputStream is = null;
+        BufferedReader br = null;
+
+        StringBuilder sb = new StringBuilder();
+
+        try {
+            is = res.openRawResource(resId);
+            br = new BufferedReader(new InputStreamReader(is));
+
+            String str;
+            while ((str = br.readLine()) != null) {
+                sb.append(str + "\n");
+            }
+        } finally {
+            if (br != null) {
+                br.close();
+            }
+        }
+
+        return sb.toString();
     }
 }

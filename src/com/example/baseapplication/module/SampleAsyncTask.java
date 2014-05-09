@@ -54,6 +54,7 @@ public class SampleAsyncTask extends AsyncTask<Void, Integer, Http>
     @Override
     protected Http doInBackground(Void... params)
     {
+        //バックキーでキャンセル可能なように、適当にスリープ
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
