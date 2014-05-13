@@ -1,7 +1,7 @@
 package com.example.baseapplication.dialog;
 
+import android.app.Activity;
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -12,9 +12,33 @@ import android.os.Bundle;
  * 
  * @access public
  */
-public class AppProgressDialog extends DialogFragment
+public class AppProgressDialog extends AppDialog
 {
+    private static AppProgressDialog mDialog = null;
+
     private CallbackListener mCallbackListener = null;
+
+    /**
+     * インスタンスを返す
+     * 
+     * @String Integer listenerType
+     * @String String title
+     * @return SampleDialog
+     * @access public
+     */
+    public static AppProgressDialog getInstance(Integer listenerType, String title)
+    {
+        if (mDialog == null) {
+            mDialog = new AppProgressDialog();
+
+            Bundle bundle = new Bundle();
+            bundle.putInt("listenerType", listenerType);
+            bundle.putString("title", title);
+            mDialog.setArguments(bundle);
+        }
+
+        return mDialog;
+    }
 
     /**
      * onCreateDialog
@@ -26,14 +50,36 @@ public class AppProgressDialog extends DialogFragment
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState)
     {
-        mCallbackListener = (CallbackListener) getTargetFragment();                 //コールバックリスナーを取り出してセット
+        //bundleから値を取り出す
+        String title = getArguments().getString("title");
 
         ProgressDialog dialog = new ProgressDialog(getActivity());
-        dialog.setMessage("処理中");
+        dialog.setMessage(title);
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         dialog.setCancelable(true);
 
         return dialog;
+    }
+
+    /**
+     * onAttach
+     * 
+     * @param Activity activity
+     * @return void
+     * @access public
+     */
+    @Override
+    public void onAttach(Activity activity)
+    {
+        super.onAttach(activity);
+
+        Integer listenerType = getArguments().getInt("listenerType");
+
+        if (listenerType == AppDialog.LISTENER_ACTIVITY) {
+            mCallbackListener = (CallbackListener) activity;
+        } else {
+            mCallbackListener = (CallbackListener) getTargetFragment();
+        }
     }
 
     /**

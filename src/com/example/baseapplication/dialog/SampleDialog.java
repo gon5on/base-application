@@ -1,8 +1,8 @@
 package com.example.baseapplication.dialog;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.app.Fragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -12,28 +12,34 @@ import android.os.Bundle;
  * 
  * @access public
  */
-public class SampleDialog extends DialogFragment
+public class SampleDialog extends AppDialog
 {
+    private static SampleDialog mDialog = null;
+
     private CallbackListener mCallbackListener = null;
 
     /**
      * インスタンスを返す
      * 
+     * @String Integer listenerType
      * @String String title
      * @String String msg
      * @return SampleDialog
      * @access public
      */
-    public static SampleDialog getInstance(String title, String msg)
+    public static SampleDialog getInstance(Integer listenerType, String title, String msg)
     {
-        SampleDialog dialog = new SampleDialog();
+        if (mDialog == null) {
+            mDialog = new SampleDialog();
 
-        Bundle bundle = new Bundle();
-        bundle.putString("title", title);
-        bundle.putString("msg", msg);
-        dialog.setArguments(bundle);
+            Bundle bundle = new Bundle();
+            bundle.putInt("listenerType", listenerType);
+            bundle.putString("title", title);
+            bundle.putString("msg", msg);
+            mDialog.setArguments(bundle);
+        }
 
-        return dialog;
+        return mDialog;
     }
 
     /**
@@ -46,8 +52,6 @@ public class SampleDialog extends DialogFragment
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState)
     {
-        mCallbackListener = (CallbackListener) getTargetFragment();                 //コールバックリスナーを取り出してセット
-
         //bundleから値を取り出す
         String title = getArguments().getString("title");
         String msg = getArguments().getString("msg");
@@ -64,7 +68,7 @@ public class SampleDialog extends DialogFragment
                 if (mCallbackListener != null) {
                     mCallbackListener.onClickSampleDialogOk();
                 }
-                dismiss();
+                getDialog().dismiss();
             }
         });
 
@@ -74,11 +78,32 @@ public class SampleDialog extends DialogFragment
                 if (mCallbackListener != null) {
                     mCallbackListener.onClickSampleDialogCancel();
                 }
-                dismiss();
+                getDialog().dismiss();
             }
         });
 
         return builder.create();
+    }
+
+    /**
+     * onAttach
+     * 
+     * @param Activity activity
+     * @return void
+     * @access public
+     */
+    @Override
+    public void onAttach(Activity activity)
+    {
+        super.onAttach(activity);
+
+        Integer listenerType = getArguments().getInt("listenerType");
+
+        if (listenerType == AppDialog.LISTENER_ACTIVITY) {
+            mCallbackListener = (CallbackListener) activity;
+        } else {
+            mCallbackListener = (CallbackListener) getTargetFragment();
+        }
     }
 
     /**
