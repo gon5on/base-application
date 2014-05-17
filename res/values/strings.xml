@@ -2,8 +2,8 @@
 <resources>
 
     <string name="app_name">BaseApplication</string>
-    <string name="action_content1">Content1</string>
-    <string name="action_content2">Content2</string>
-    <string name="action_content3">Content3</string>
+    <string name="action_content1">Con1</string>
+    <string name="action_content2">Con2</string>
+    <string name="action_content3">Con3</string>
 
 </resources>

@@ -14,32 +14,26 @@ import android.os.Bundle;
  */
 public class SampleDialog extends AppDialog
 {
-    private static SampleDialog mDialog = null;
-
     private CallbackListener mCallbackListener = null;
 
     /**
      * インスタンスを返す
      * 
-     * @String Integer listenerType
      * @String String title
      * @String String msg
      * @return SampleDialog
      * @access public
      */
-    public static SampleDialog getInstance(Integer listenerType, String title, String msg)
+    public static SampleDialog getInstance(String title, String msg)
     {
-        if (mDialog == null) {
-            mDialog = new SampleDialog();
+        SampleDialog dialog = new SampleDialog();
 
-            Bundle bundle = new Bundle();
-            bundle.putInt("listenerType", listenerType);
-            bundle.putString("title", title);
-            bundle.putString("msg", msg);
-            mDialog.setArguments(bundle);
-        }
+        Bundle bundle = new Bundle();
+        bundle.putString("title", title);
+        bundle.putString("msg", msg);
+        dialog.setArguments(bundle);
 
-        return mDialog;
+        return dialog;
     }
 
     /**
@@ -68,7 +62,7 @@ public class SampleDialog extends AppDialog
                 if (mCallbackListener != null) {
                     mCallbackListener.onClickSampleDialogOk();
                 }
-                getDialog().dismiss();
+                dismiss();
             }
         });
 
@@ -78,7 +72,7 @@ public class SampleDialog extends AppDialog
                 if (mCallbackListener != null) {
                     mCallbackListener.onClickSampleDialogCancel();
                 }
-                getDialog().dismiss();
+                dismiss();
             }
         });
 
@@ -101,21 +95,40 @@ public class SampleDialog extends AppDialog
 
         if (listenerType == AppDialog.LISTENER_ACTIVITY) {
             mCallbackListener = (CallbackListener) activity;
-        } else {
+        }
+        else if (listenerType == AppDialog.LISTENER_FRAGMENT) {
             mCallbackListener = (CallbackListener) getTargetFragment();
         }
     }
 
     /**
-     * コールバックリスナーを追加
+     * ダイアログのイベントリスナーを登録する
      * 
-     * @param CallbackListener callbackListener
+     * アクテビティから呼ばれているのか、フラグメントから呼ばれているのかを判別して、
+     * 適当な方法でイベントリスナーを登録する
+     * 
+     * @param CallbackListener listener
      * @return void
      * @access public
      */
-    public void setCallbackListener(CallbackListener callbackListener)
+    public void setCallbackListener(CallbackListener listener)
     {
-        setTargetFragment((Fragment) callbackListener, 0);      //コールバックリスナーを一時保存、第2引数は適当
+        Integer listenerType;
+
+        if (listener instanceof Activity) {
+            listenerType = AppDialog.LISTENER_ACTIVITY;
+        }
+        else if (listener instanceof Fragment) {
+            listenerType = AppDialog.LISTENER_FRAGMENT;
+            setTargetFragment((Fragment) listener, 0);
+        }
+        else {
+            throw new IllegalArgumentException(listener.getClass() + " must be either an Activity or a Fragment");
+        }
+
+        Bundle bundle = getArguments();
+        bundle.putInt("listenerType", listenerType);
+        setArguments(bundle);
     }
 
     /**

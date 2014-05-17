@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 
 import com.example.baseapplication.R;
 import com.example.baseapplication.common.AndroidUtils;
-import com.example.baseapplication.dialog.AppDialog;
 import com.example.baseapplication.dialog.AppProgressDialog;
 import com.example.baseapplication.dialog.SampleDialog;
 import com.example.baseapplication.model.AppSQLiteOpenHelper;
@@ -74,7 +73,8 @@ public class MainActivity extends AppActivity implements SampleDialog.CallbackLi
         Integer id = item.getItemId();
 
         if (id == R.id.action_content1) {
-            SampleDialog sampleDialog = SampleDialog.getInstance(AppDialog.LISTENER_ACTIVITY, "サンプル", "サンプルダイアログです");
+            SampleDialog sampleDialog = SampleDialog.getInstance("サンプル", "サンプルダイアログです");
+            sampleDialog.setCallbackListener(this);
             sampleDialog.show(getFragmentManager(), "dialog");
             return true;
         } else if (id == R.id.action_content2) {
@@ -115,8 +115,7 @@ public class MainActivity extends AppActivity implements SampleDialog.CallbackLi
      * 
      * @access public
      */
-    public static class MainFragment extends Fragment
-            implements SampleDialog.CallbackListener, AppProgressDialog.CallbackListener
+    public static class MainFragment extends Fragment implements SampleDialog.CallbackListener, AppProgressDialog.CallbackListener
     {
         private SampleAsyncTask sampleAsyncTask = null;
 
@@ -145,7 +144,7 @@ public class MainActivity extends AppActivity implements SampleDialog.CallbackLi
 
             View view = inflater.inflate(R.layout.fragment_main, container, false);
 
-            // fragment再生成抑止
+            // fragment再生成抑止、必要に応じて
             setRetainInstance(true);
 
             //サンプルデータ一覧を取得
@@ -198,7 +197,7 @@ public class MainActivity extends AppActivity implements SampleDialog.CallbackLi
         private void connectServer()
         {
             //プログレスダイアログ
-            final AppProgressDialog progressDialog = AppProgressDialog.getInstance(AppDialog.LISTENER_FRAGMENT, "処理中");
+            final AppProgressDialog progressDialog = AppProgressDialog.getInstance("処理中");
             progressDialog.setCallbackListener(this);
 
             //非同期処理
@@ -215,19 +214,19 @@ public class MainActivity extends AppActivity implements SampleDialog.CallbackLi
 
                 @Override
                 public void cancel() {
-                    progressDialog.getDialog().dismiss();
+                    progressDialog.dismiss();
                     AndroidUtils.showToastS(getActivity(), "cancel!");
                 }
 
                 @Override
                 public void postExecuteSuccess() {
-                    progressDialog.getDialog().dismiss();
+                    progressDialog.dismiss();
                     AndroidUtils.showToastS(getActivity(), "finish and success!");
                 }
 
                 @Override
                 public void postExecuteFaild(Integer status) {
-                    progressDialog.getDialog().dismiss();
+                    progressDialog.dismiss();
                     showSampleDialog(status);
                 }
             });
@@ -243,7 +242,7 @@ public class MainActivity extends AppActivity implements SampleDialog.CallbackLi
          */
         private void showSampleDialog(Integer status)
         {
-            SampleDialog sampleDialog = SampleDialog.getInstance(AppDialog.LISTENER_FRAGMENT, "エラー", "エラーが発生しました（" + status + "）");
+            SampleDialog sampleDialog = SampleDialog.getInstance("エラー", "エラーが発生しました（" + status + "）");
             sampleDialog.setCallbackListener(this);
             sampleDialog.show(getFragmentManager(), "dialog");
         }
