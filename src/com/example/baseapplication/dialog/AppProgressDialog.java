@@ -1,21 +1,19 @@
 package com.example.baseapplication.dialog;
 
-import android.app.Activity;
 import android.app.Dialog;
-import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+
+import com.example.baseapplication.dialog.AppProgressDialog.CallbackListener;
 
 /**
  * プログレスダイアログ
  * 
  * @access public
  */
-public class AppProgressDialog extends AppDialog
+public class AppProgressDialog extends AppDialog<CallbackListener>
 {
-    private CallbackListener mCallbackListener = null;
-
     /**
      * インスタンスを返す
      * 
@@ -56,27 +54,6 @@ public class AppProgressDialog extends AppDialog
     }
 
     /**
-     * onAttach
-     * 
-     * @param Activity activity
-     * @return void
-     * @access public
-     */
-    @Override
-    public void onAttach(Activity activity)
-    {
-        super.onAttach(activity);
-
-        Integer listenerType = getArguments().getInt("listenerType");
-
-        if (listenerType == AppDialog.LISTENER_ACTIVITY) {
-            mCallbackListener = (CallbackListener) activity;
-        } else {
-            mCallbackListener = (CallbackListener) getTargetFragment();
-        }
-    }
-
-    /**
      * onCancel
      * 
      * @param DialogInterface dialog
@@ -91,47 +68,6 @@ public class AppProgressDialog extends AppDialog
         if (mCallbackListener != null) {
             mCallbackListener.onProgressDialogCancel();
         }
-    }
-
-    /**
-     * ダイアログのイベントリスナーを登録する
-     * 
-     * アクテビティから呼ばれているのか、フラグメントから呼ばれているのかを判別して、
-     * 適当な方法でイベントリスナーを登録する
-     * 
-     * @param CallbackListener listener
-     * @return void
-     * @access public
-     */
-    public void setCallbackListener(CallbackListener listener)
-    {
-        Integer listenerType;
-
-        if (listener instanceof Activity) {
-            listenerType = AppDialog.LISTENER_ACTIVITY;
-        }
-        else if (listener instanceof Fragment) {
-            listenerType = AppDialog.LISTENER_FRAGMENT;
-            setTargetFragment((Fragment) listener, 0);
-        }
-        else {
-            throw new IllegalArgumentException(listener.getClass() + " must be either an Activity or a Fragment");
-        }
-
-        Bundle bundle = getArguments();
-        bundle.putInt("listenerType", listenerType);
-        setArguments(bundle);
-    }
-
-    /**
-     * コールバックリスナーを削除
-     * 
-     * @return void
-     * @access public
-     */
-    public void removeCallbackListener()
-    {
-        mCallbackListener = null;
     }
 
     /**

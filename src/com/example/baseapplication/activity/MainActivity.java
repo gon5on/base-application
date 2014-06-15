@@ -14,11 +14,13 @@ import android.view.ViewGroup;
 
 import com.example.baseapplication.R;
 import com.example.baseapplication.common.AndroidUtils;
+import com.example.baseapplication.common.Http;
 import com.example.baseapplication.dialog.AppProgressDialog;
 import com.example.baseapplication.dialog.SampleDialog;
 import com.example.baseapplication.model.AppSQLiteOpenHelper;
 import com.example.baseapplication.model.SampleDao;
 import com.example.baseapplication.model.SampleEntity;
+import com.example.baseapplication.module.AppAsyncTask.AsyncTaskCallbackListener;
 import com.example.baseapplication.module.SampleAsyncTask;
 
 /**
@@ -28,6 +30,8 @@ import com.example.baseapplication.module.SampleAsyncTask;
  */
 public class MainActivity extends AppActivity implements SampleDialog.CallbackListener
 {
+    private static final Integer SAMPLE_ASYNC_TASK_TAG = 1;
+
     /**
      * onCreate
      * 
@@ -115,9 +119,11 @@ public class MainActivity extends AppActivity implements SampleDialog.CallbackLi
      * 
      * @access public
      */
-    public static class MainFragment extends Fragment implements SampleDialog.CallbackListener, AppProgressDialog.CallbackListener
+    public static class MainFragment extends Fragment implements SampleDialog.CallbackListener, AppProgressDialog.CallbackListener, AsyncTaskCallbackListener<Integer, Http>
     {
-        private SampleAsyncTask sampleAsyncTask = null;
+        private static AppProgressDialog mAppProgressDialog = null;
+
+        private SampleAsyncTask mSampleAsyncTask = null;
 
         /**
          * コンストラクタ
@@ -201,36 +207,9 @@ public class MainActivity extends AppActivity implements SampleDialog.CallbackLi
             progressDialog.setCallbackListener(this);
 
             //非同期処理
-            sampleAsyncTask = new SampleAsyncTask(getActivity());
-            sampleAsyncTask.setCallbackListener(new SampleAsyncTask.CallbackListener() {
-                @Override
-                public void preExecute() {
-                    progressDialog.show(getFragmentManager(), "progress");
-                }
-
-                @Override
-                public void progressUpdate(Integer progress) {
-                }
-
-                @Override
-                public void cancel() {
-                    progressDialog.dismiss();
-                    AndroidUtils.showToastS(getActivity(), "cancel!");
-                }
-
-                @Override
-                public void postExecuteSuccess() {
-                    progressDialog.dismiss();
-                    AndroidUtils.showToastS(getActivity(), "finish and success!");
-                }
-
-                @Override
-                public void postExecuteFaild(Integer status) {
-                    progressDialog.dismiss();
-                    showSampleDialog(status);
-                }
-            });
-            sampleAsyncTask.execute();
+            mSampleAsyncTask = new SampleAsyncTask(SAMPLE_ASYNC_TASK_TAG, getActivity());
+            mSampleAsyncTask.setCallbackListener(this);
+            mSampleAsyncTask.execute();
         }
 
         /**
@@ -245,6 +224,87 @@ public class MainActivity extends AppActivity implements SampleDialog.CallbackLi
             SampleDialog sampleDialog = SampleDialog.getInstance("エラー", "エラーが発生しました（" + status + "）");
             sampleDialog.setCallbackListener(this);
             sampleDialog.show(getFragmentManager(), "dialog");
+        }
+
+        /**
+         * 非同期前処理
+         * 
+         * @param int tag
+         * @return void
+         * @access public
+         */
+        @Override
+        public void onPreExecute(int tag)
+        {
+            mAppProgressDialog = AppProgressDialog.getInstance("通信中");
+            mAppProgressDialog.setCallbackListener(this);
+            mAppProgressDialog.show(getFragmentManager(), "dialog");
+        }
+
+        /**
+         * 非同期中更新処理
+         * 
+         * @param int tag
+         * @param Integer... values
+         * @return void
+         * @access public
+         */
+        @Override
+        public void onProgressUpdate(int tag, Integer... values)
+        {
+        }
+
+        /**
+         * 非同期キャンセル処理
+         * 
+         * @param int tag
+         * @return void
+         * @access public
+         */
+        @Override
+        public void onCancelled(int tag)
+        {
+            if (mAppProgressDialog != null) {
+                mAppProgressDialog.dismiss();
+            }
+
+            AndroidUtils.showToastS(getActivity().getApplicationContext(), "キャンセルしました。");
+        }
+
+        /**
+         * 非同期後処理
+         * 
+         * @param int tag
+         * @param Http http
+         * @return void
+         * @access public
+         */
+        @Override
+        public void onPostExecute(int tag, Http http)
+        {
+            if (mAppProgressDialog != null) {
+                mAppProgressDialog.dismiss();
+            }
+
+            if (http.getStatus() == Http.STATUS_OK) {
+                AndroidUtils.showToastS(getActivity().getApplicationContext(), "通信が終了しました。");
+            } else {
+                showSampleDialog(http.getHttpStatus());
+            }
+        }
+
+        /**
+         * プログレスダイアログでキャンセルされた
+         * 
+         * @access public
+         * @return void
+         */
+        @Override
+        public void onProgressDialogCancel()
+        {
+            if (mSampleAsyncTask != null) {
+                mSampleAsyncTask.cancel(true);
+            }
         }
 
         /**
@@ -268,20 +328,6 @@ public class MainActivity extends AppActivity implements SampleDialog.CallbackLi
         @Override
         public void onClickSampleDialogCancel()
         {
-        }
-
-        /**
-         * プログレスダイアログでキャンセルされた
-         * 
-         * @access public
-         * @return void
-         */
-        @Override
-        public void onProgressDialogCancel()
-        {
-            if (sampleAsyncTask != null) {
-                sampleAsyncTask.cancel(true);
-            }
         }
     }
 }
