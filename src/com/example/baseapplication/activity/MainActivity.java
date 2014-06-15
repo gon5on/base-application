@@ -17,9 +17,9 @@ import com.example.baseapplication.common.AndroidUtils;
 import com.example.baseapplication.common.Http;
 import com.example.baseapplication.dialog.AppProgressDialog;
 import com.example.baseapplication.dialog.SampleDialog;
+import com.example.baseapplication.entity.SampleEntity;
 import com.example.baseapplication.model.AppSQLiteOpenHelper;
 import com.example.baseapplication.model.SampleDao;
-import com.example.baseapplication.model.SampleEntity;
 import com.example.baseapplication.module.AppAsyncTask.AsyncTaskCallbackListener;
 import com.example.baseapplication.module.SampleAsyncTask;
 
@@ -81,9 +81,11 @@ public class MainActivity extends AppActivity implements SampleDialog.CallbackLi
             sampleDialog.setCallbackListener(this);
             sampleDialog.show(getFragmentManager(), "dialog");
             return true;
-        } else if (id == R.id.action_content2) {
+        }
+        else if (id == R.id.action_content2) {
             return true;
-        } else if (id == R.id.action_content3) {
+        }
+        else if (id == R.id.action_content3) {
             return true;
         }
 
@@ -121,8 +123,7 @@ public class MainActivity extends AppActivity implements SampleDialog.CallbackLi
      */
     public static class MainFragment extends Fragment implements SampleDialog.CallbackListener, AppProgressDialog.CallbackListener, AsyncTaskCallbackListener<Integer, Http>
     {
-        private static AppProgressDialog mAppProgressDialog = null;
-
+        private AppProgressDialog mAppProgressDialog = null;
         private SampleAsyncTask mSampleAsyncTask = null;
 
         /**
@@ -202,10 +203,6 @@ public class MainActivity extends AppActivity implements SampleDialog.CallbackLi
          */
         private void connectServer()
         {
-            //プログレスダイアログ
-            final AppProgressDialog progressDialog = AppProgressDialog.getInstance("処理中");
-            progressDialog.setCallbackListener(this);
-
             //非同期処理
             mSampleAsyncTask = new SampleAsyncTask(SAMPLE_ASYNC_TASK_TAG, getActivity());
             mSampleAsyncTask.setCallbackListener(this);

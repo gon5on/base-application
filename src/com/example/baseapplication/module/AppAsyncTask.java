@@ -9,6 +9,7 @@ import android.os.AsyncTask;
  * @param <Params>
  * @param <Progress>
  * @param <Result>
+ * @access public
  */
 public abstract class AppAsyncTask<Params, Progress, Result> extends AsyncTask<Params, Progress, Result>
 {
@@ -65,14 +66,14 @@ public abstract class AppAsyncTask<Params, Progress, Result> extends AsyncTask<P
      * 非同期処理
      * 
      * @param Param... param
-     * @return void
+     * @return Result
      * @access protected
      */
     @Override
     protected abstract Result doInBackground(Params... params);
 
     /**
-     * 非同期処理
+     * 非同期処理更新
      * 
      * @param Progress values
      * @return void
@@ -124,7 +125,9 @@ public abstract class AppAsyncTask<Params, Progress, Result> extends AsyncTask<P
     /**
      * コールバックリスナーをセットする
      * 
-     * @param listener
+     * @param AsyncTaskCallbackListener<Progress, Result> listener
+     * @return void
+     * @access public
      */
     public void setCallbackListener(AsyncTaskCallbackListener<Progress, Result> listener)
     {
@@ -133,6 +136,9 @@ public abstract class AppAsyncTask<Params, Progress, Result> extends AsyncTask<P
 
     /**
      * コールバックリスナーを解除する
+     * 
+     * @return void
+     * @access public
      */
     public void removeCallbackListener()
     {
@@ -144,11 +150,12 @@ public abstract class AppAsyncTask<Params, Progress, Result> extends AsyncTask<P
      * 
      * @param <Progress>
      * @param <Result>
+     * @access public
      */
     public static interface AsyncTaskCallbackListener<Progress, Result>
     {
         /**
-         * AsyncTask#onPreExecute
+         * 非同期処理前処理
          * 
          * @param int tag
          * @return void
@@ -157,7 +164,7 @@ public abstract class AppAsyncTask<Params, Progress, Result> extends AsyncTask<P
         public void onPreExecute(int tag);
 
         /**
-         * AsyncTask#onProgressUpdate
+         * 非同期処理中更新
          * 
          * @param int tag
          * @param Progress... values
@@ -167,7 +174,7 @@ public abstract class AppAsyncTask<Params, Progress, Result> extends AsyncTask<P
         public void onProgressUpdate(int tag, Progress... values);
 
         /**
-         * AsyncTask#onCancelled
+         * 非同期処理キャンセル
          * 
          * @param int tag
          * @return void
@@ -176,7 +183,7 @@ public abstract class AppAsyncTask<Params, Progress, Result> extends AsyncTask<P
         public void onCancelled(int tag);
 
         /**
-         * AsyncTask#onPostExecute
+         * 非同期処理後
          * 
          * @param int tag
          * @param Result result

@@ -14,6 +14,8 @@ import com.example.baseapplication.dialog.AppProgressDialog.CallbackListener;
  */
 public class AppProgressDialog extends AppDialog<CallbackListener>
 {
+    private static ProgressDialog mDialog;
+
     /**
      * インスタンスを返す
      * 
@@ -45,12 +47,14 @@ public class AppProgressDialog extends AppDialog<CallbackListener>
         //bundleから値を取り出す
         String title = getArguments().getString("title");
 
-        ProgressDialog dialog = new ProgressDialog(getActivity());
-        dialog.setMessage(title);
-        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        dialog.setCancelable(true);
+        if (mDialog == null) {
+            mDialog = new ProgressDialog(getActivity());
+            mDialog.setMessage(title);
+            mDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            mDialog.setCancelable(true);
+        }
 
-        return dialog;
+        return mDialog;
     }
 
     /**
@@ -68,6 +72,44 @@ public class AppProgressDialog extends AppDialog<CallbackListener>
         if (mCallbackListener != null) {
             mCallbackListener.onProgressDialogCancel();
         }
+    }
+
+    /**
+     * onDestroyView
+     * 
+     * @return void
+     * @access public
+     */
+    @Override
+    public void onDestroyView()
+    {
+        super.onDestroyView();
+
+        mDialog = null;
+    }
+
+    /**
+     * getDialog
+     * 
+     * @return void
+     * @access public
+     */
+    @Override
+    public Dialog getDialog()
+    {
+        return mDialog;
+    }
+
+    /**
+     * dismiss
+     * 
+     * @return void
+     * @access public
+     */
+    @Override
+    public void dismiss()
+    {
+        getDialog().dismiss();
     }
 
     /**

@@ -1,4 +1,4 @@
-package com.example.baseapplication.model;
+package com.example.baseapplication.entity;
 
 import java.io.Serializable;
 

@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.baseapplication.common.DateUtils;
+import com.example.baseapplication.entity.SampleEntity;
 
 /**
  * サンプルテーブルへのデータアクセスオブジェクト
