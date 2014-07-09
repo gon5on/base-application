@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
  * msgFull … デフォルトではないエラーメッセージを使用したい場合に指定
  * point … 小数点第何位を指定したい場合に指定、指定しない場合はnull
  */
-public class ValidateDouble
+public class ValidateDecimal
 {
     public static final String ERROR_MSG_DOUBLE = "%sは少数で入力してください。";
     public static final String ERROR_MSG_DOUBLE_POINT = "%sは小数点第%s位までで入力してください。";
@@ -152,7 +152,7 @@ public class ValidateDouble
      */
     private Boolean check(Validate validate, String value, String patternStr)
     {
-        if (mValidate.getValueResult() == false) {
+        if (validate.getValueResult() == false) {
             return true;
         }
         if (value == null || value.length() == 0) {

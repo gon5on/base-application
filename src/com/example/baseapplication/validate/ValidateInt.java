@@ -1,7 +1,5 @@
 package com.example.baseapplication.validate;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * 整数チェッククラス
@@ -13,6 +11,8 @@ import java.util.regex.Pattern;
 public class ValidateInt
 {
     public static final String ERROR_MSG_INT = "%sは整数で入力してください。";
+
+    public static final String MATCH_INT = "^[+-]?[0-9]+$";
 
     /**
      * 整数チェック（String）
@@ -33,10 +33,7 @@ public class ValidateInt
             return;
         }
 
-        Pattern pattern = java.util.regex.Pattern.compile("^[+-]?[0-9]+$");
-        Matcher matcher = pattern.matcher(value);
-
-        if (matcher.matches() == false) {
+        if (value.matches(MATCH_INT) == false) {
             if (msgFull != null) {
                 validate.error(name, msgFull);
             } else {
