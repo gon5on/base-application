@@ -58,7 +58,7 @@ public class ValidateDate
             if (msgFull != null) {
                 mValidate.error(msgFull);
             } else {
-                mValidate.error(String.format(ERROR_MSG_PAST, name));
+                mValidate.error(String.format(ERROR_MSG_FORMAT, name));
             }
             e.printStackTrace();
         }
