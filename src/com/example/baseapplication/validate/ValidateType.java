@@ -16,14 +16,14 @@ public class ValidateType
     public static final String ERROR_MSG_HIRAGANA = "%sは全角ひらがなで入力してください。";
     public static final String ERROR_MSG_KATAKANA = "%sは全角カタカナで入力してください。";
 
-    public static final String ERROR_MSG_EMAIL = "%sは正しいメールアドレスの形式ではありません。";
-    public static final String ERROR_MSG_URL = "%sは正しいURLの形式ではありません。";
+    public static final String ERROR_MSG_EMAIL = "%sを正しい形式で入力してください。";
+    public static final String ERROR_MSG_URL = "%s正しい形式で入力してください。";
 
     public static final String MATCH_NUMBER = "^[0-9]+$";
     public static final String MATCH_ALPHABET = "^[a-zA-Z]+$";
-    public static final String MATCH_ASCII = "^[\\u0020-\\u007E]+$";
-    public static final String MATCH_HIRAGANA = "^[\\u3040-\\u309F]+$";
-    public static final String MATCH_KATAKANA = "^[\\u30A0-\\u30FF]+$";
+    public static final String MATCH_ALPHANUMERIC = "^[a-zA-Z0-9]+$";
+    public static final String MATCH_HIRAGANA = "^[ぁ-ゞー～]+$";
+    public static final String MATCH_KATAKANA = "^[ァ-ヶー～]+$";
 
     public static final String MATCH_EMAIL = "([a-zA-Z0-9][a-zA-Z0-9_.+\\-]*)@(([a-zA-Z0-9][a-zA-Z0-9_\\-]+\\.)+[a-zA-Z]{2,6})";
     public static final String MATCH_URL = "^(https?|ftp)(:\\/\\/[-_.!~*\\'()a-zA-Z0-9;\\/?:\\@&=+\\$,%#]+)$";
@@ -98,7 +98,7 @@ public class ValidateType
      */
     public void isHalfWeightAlphanumeric(Validate validate, String value, String name, String msgFull)
     {
-        match(validate, value, name, msgFull, MATCH_ASCII, ERROR_MSG_HALF_WEIGHT_ALPHANUMERIC);
+        match(validate, value, name, msgFull, MATCH_ALPHANUMERIC, ERROR_MSG_HALF_WEIGHT_ALPHANUMERIC);
     }
 
     /**
@@ -112,7 +112,7 @@ public class ValidateType
      */
     public void isHalfWeightAlphanumeric(Validate validate, String value, String name)
     {
-        match(validate, value, name, null, MATCH_ASCII, ERROR_MSG_HALF_WEIGHT_ALPHANUMERIC);
+        match(validate, value, name, null, MATCH_ALPHANUMERIC, ERROR_MSG_HALF_WEIGHT_ALPHANUMERIC);
     }
 
     /**

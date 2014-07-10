@@ -106,7 +106,7 @@ public abstract class AppAsyncTask<Params, Progress, Result> extends AsyncTask<P
     }
 
     /**
-     * 非同期処理
+     * 非同期後処理
      * 
      * @param Result result
      * @return void
