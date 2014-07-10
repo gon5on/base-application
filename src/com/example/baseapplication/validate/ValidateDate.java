@@ -12,6 +12,7 @@ import com.example.baseapplication.common.DateUtils;
  * validate … バリデートクラス
  * value … バリデート対象の値
  * name … 値の名前（誕生日、性別とか）
+ * format … フォーマット
  * msgFull … デフォルトではないエラーメッセージを使用したい場合に指定
  */
 public class ValidateDate
@@ -68,6 +69,7 @@ public class ValidateDate
                 }
             }
         } catch (ParseException e) {
+            //日付形式に変換失敗
             if (msgFull != null) {
                 validate.error(name, msgFull);
             } else {
@@ -83,7 +85,6 @@ public class ValidateDate
      * @param String value 値
      * @param String name 変数名
      * @param String format フォーマット
-     * @param String msgFull エラーメッセージ全文
      * @return void
      * @access public
      */
@@ -100,12 +101,12 @@ public class ValidateDate
      * @param Validate validate バリデートクラス
      * @param String value 値
      * @param String name 変数名
+     * @param String format フォーマット
      * @param String msgFull エラーメッセージ全文
      * @return void
-     * @throws ParseException
      * @access private
      */
-    public static void isFuture(Validate validate, String value, String name, String msgFull)
+    public static void isFuture(Validate validate, String value, String name, String format, String msgFull)
     {
         if (validate.getResult(name) == false) {
             return;
@@ -114,7 +115,7 @@ public class ValidateDate
             return;
         }
 
-        if (compareTo(value) >= 0) {
+        if (compareTo(value, format) >= 0) {
             if (msgFull != null) {
                 validate.error(name, msgFull);
             } else {
@@ -132,12 +133,11 @@ public class ValidateDate
      * @param String value 値
      * @param String name 変数名
      * @return void
-     * @throws ParseException
      * @access private
      */
     public static void isFuture(Validate validate, String value, String name)
     {
-        isFuture(validate, value, name, null);
+        isFuture(validate, value, name, DateUtils.FMT_DATE, null);
     }
 
     /**
@@ -148,12 +148,12 @@ public class ValidateDate
      * @param Validate validate バリデートクラス
      * @param String value 値
      * @param String name 変数名
+     * @param String format フォーマット
      * @param String msgFull エラーメッセージ全文
      * @return void
-     * @throws ParseException
      * @access public
      */
-    public static void isFutureAllowToday(Validate validate, String value, String name, String msgFull)
+    public static void isFutureAllowToday(Validate validate, String value, String name, String format, String msgFull)
     {
         if (validate.getResult(name) == false) {
             return;
@@ -162,7 +162,7 @@ public class ValidateDate
             return;
         }
 
-        if (compareTo(value) > 0) {
+        if (compareTo(value, format) > 0) {
             if (msgFull != null) {
                 validate.error(name, msgFull);
             } else {
@@ -180,12 +180,11 @@ public class ValidateDate
      * @param String value 値
      * @param String name 変数名
      * @return void
-     * @throws ParseException
      * @access public
      */
     public static void isFutureAllowToday(Validate validate, String value, String name)
     {
-        isFutureAllowToday(validate, value, name, null);
+        isFutureAllowToday(validate, value, name, DateUtils.FMT_DATE, null);
     }
 
     /**
@@ -196,12 +195,12 @@ public class ValidateDate
      * @param Validate validate バリデートクラス
      * @param String value 値
      * @param String name 変数名
+     * @param String format フォーマット
      * @param String msgFull エラーメッセージ全文
      * @return void
-     * @throws ParseException
      * @access public
      */
-    public static void isPast(Validate validate, String value, String name, String msgFull)
+    public static void isPast(Validate validate, String value, String name, String format, String msgFull)
     {
         if (validate.getResult(name) == false) {
             return;
@@ -210,7 +209,7 @@ public class ValidateDate
             return;
         }
 
-        if (compareTo(value) <= 0) {
+        if (compareTo(value, format) <= 0) {
             if (msgFull != null) {
                 validate.error(name, msgFull);
             } else {
@@ -228,12 +227,11 @@ public class ValidateDate
      * @param String value 値
      * @param String name 変数名
      * @return void
-     * @throws ParseException
      * @access public
      */
     public static void isPast(Validate validate, String value, String name)
     {
-        isPast(validate, value, name, null);
+        isPast(validate, value, name, DateUtils.FMT_DATE, null);
     }
 
     /**
@@ -244,12 +242,12 @@ public class ValidateDate
      * @param Validate validate バリデートクラス
      * @param String value 値
      * @param String name 変数名
+     * @param String format フォーマット
      * @param String msgFull エラーメッセージ全文
      * @return void
-     * @throws ParseException
      * @access public
      */
-    public static void isPastAllowToday(Validate validate, String value, String name, String msgFull)
+    public static void isPastAllowToday(Validate validate, String value, String name, String format, String msgFull)
     {
         if (validate.getResult(name) == false) {
             return;
@@ -258,7 +256,7 @@ public class ValidateDate
             return;
         }
 
-        if (compareTo(value) < 0) {
+        if (compareTo(value, format) < 0) {
             if (msgFull != null) {
                 validate.error(name, msgFull);
             } else {
@@ -276,12 +274,11 @@ public class ValidateDate
      * @param String value 値
      * @param String name 変数名
      * @return void
-     * @throws ParseException
      * @access public
      */
     public static void isPastAllowToday(Validate validate, String value, String name)
     {
-        isPastAllowToday(validate, value, name, null);
+        isPastAllowToday(validate, value, name, DateUtils.FMT_DATE, null);
     }
 
     /**
@@ -290,10 +287,9 @@ public class ValidateDate
      * @param Validate validate バリデートクラス
      * @param String value 値
      * @return Integer compareTo()の結果
-     * @throws ParseException
      * @access private
      */
-    private static Integer compareTo(String value)
+    private static Integer compareTo(String value, String format)
     {
         Integer ret = null;
 
@@ -304,7 +300,7 @@ public class ValidateDate
             Long boader = dateUtils.get().getTimeInMillis();
 
             //指定日のミリ秒を取得
-            Long date = new DateUtils(value, DateUtils.FMT_DATE).get().getTimeInMillis();
+            Long date = new DateUtils(value, format).get().getTimeInMillis();
 
             //比較
             ret = boader.compareTo(date);
