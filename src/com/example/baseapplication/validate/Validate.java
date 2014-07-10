@@ -1,5 +1,6 @@
 package com.example.baseapplication.validate;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -84,5 +85,16 @@ public class Validate
     public HashMap<String, String> getErrorMsgMap()
     {
         return mErrorMsg;
+    }
+
+    /**
+     * エラ―文言を返す（リスト）
+     * 
+     * @return ArrayList<String>
+     * @access public
+     */
+    public ArrayList<String> getErrorMsgList()
+    {
+        return new ArrayList<String>(mErrorMsg.values());
     }
 }
