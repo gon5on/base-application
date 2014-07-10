@@ -25,7 +25,7 @@ public class ValidateSize
      * @return void
      * @access public
      */
-    public void maxCheck(Validate validate, String value, String name, Integer limit, String msgFull)
+    public static void maxCheck(Validate validate, String value, String name, Integer limit, String msgFull)
     {
         maxCheck(validate, Double.valueOf(value), name, Double.valueOf(limit), msgFull);
     }
@@ -40,7 +40,7 @@ public class ValidateSize
      * @return void
      * @access public
      */
-    public void maxCheck(Validate validate, String value, String name, Integer limit)
+    public static void maxCheck(Validate validate, String value, String name, Integer limit)
     {
         maxCheck(validate, Double.valueOf(value), name, Double.valueOf(limit), null);
     }
@@ -56,7 +56,7 @@ public class ValidateSize
      * @return void
      * @access public
      */
-    public void maxCheck(Validate validate, String value, String name, Float limit, String msgFull)
+    public static void maxCheck(Validate validate, String value, String name, Float limit, String msgFull)
     {
         maxCheck(validate, Double.valueOf(value), name, Double.valueOf(limit), msgFull);
     }
@@ -71,7 +71,7 @@ public class ValidateSize
      * @return void
      * @access public
      */
-    public void maxCheck(Validate validate, String value, String name, Float limit)
+    public static void maxCheck(Validate validate, String value, String name, Float limit)
     {
         maxCheck(validate, Double.valueOf(value), name, Double.valueOf(limit), null);
     }
@@ -87,7 +87,7 @@ public class ValidateSize
      * @return void
      * @access public
      */
-    public void maxCheck(Validate validate, String value, String name, Double limit, String msgFull)
+    public static void maxCheck(Validate validate, String value, String name, Double limit, String msgFull)
     {
         maxCheck(validate, Double.valueOf(value), name, Double.valueOf(limit), msgFull);
     }
@@ -102,7 +102,7 @@ public class ValidateSize
      * @return void
      * @access public
      */
-    public void maxCheck(Validate validate, String value, String name, Double limit)
+    public static void maxCheck(Validate validate, String value, String name, Double limit)
     {
         maxCheck(validate, Double.valueOf(value), name, Double.valueOf(limit), null);
     }
@@ -116,7 +116,7 @@ public class ValidateSize
      * @return boolen バリデート結果
      * @access private
      */
-    private void maxCheck(Validate validate, Double value, String name, Double limit, String msgFull)
+    private static void maxCheck(Validate validate, Double value, String name, Double limit, String msgFull)
     {
         if (validate.getResult() == false) {
             return;
@@ -141,7 +141,7 @@ public class ValidateSize
      * @return void
      * @access public
      */
-    public void minCheck(Validate validate, String value, String name, Integer limit, String msgFull)
+    public static void minCheck(Validate validate, String value, String name, Integer limit, String msgFull)
     {
         minCheck(validate, Double.valueOf(value), name, Double.valueOf(limit), msgFull);
     }
@@ -156,7 +156,7 @@ public class ValidateSize
      * @return void
      * @access public
      */
-    public void minCheck(Validate validate, String value, String name, Integer limit)
+    public static void minCheck(Validate validate, String value, String name, Integer limit)
     {
         minCheck(validate, Double.valueOf(value), name, Double.valueOf(limit), null);
     }
@@ -172,7 +172,7 @@ public class ValidateSize
      * @return void
      * @access public
      */
-    public void minCheck(Validate validate, String value, String name, Float limit, String msgFull)
+    public static void minCheck(Validate validate, String value, String name, Float limit, String msgFull)
     {
         minCheck(validate, Double.valueOf(value), name, Double.valueOf(limit), msgFull);
     }
@@ -187,7 +187,7 @@ public class ValidateSize
      * @return void
      * @access public
      */
-    public void minCheck(Validate validate, String value, String name, Float limit)
+    public static void minCheck(Validate validate, String value, String name, Float limit)
     {
         minCheck(validate, Double.valueOf(value), name, Double.valueOf(limit), null);
     }
@@ -203,7 +203,7 @@ public class ValidateSize
      * @return void
      * @access public
      */
-    public void minCheck(Validate validate, String value, String name, Double limit, String msgFull)
+    public static void minCheck(Validate validate, String value, String name, Double limit, String msgFull)
     {
         minCheck(validate, Double.valueOf(value), name, Double.valueOf(limit), msgFull);
     }
@@ -218,7 +218,7 @@ public class ValidateSize
      * @return void
      * @access public
      */
-    public void minCheck(Validate validate, String value, String name, Double limit)
+    public static void minCheck(Validate validate, String value, String name, Double limit)
     {
         minCheck(validate, Double.valueOf(value), name, Double.valueOf(limit), null);
     }
@@ -232,7 +232,7 @@ public class ValidateSize
      * @return boolen バリデート結果
      * @access private
      */
-    private void minCheck(Validate validate, Double value, String name, Double limit, String msgFull)
+    private static void minCheck(Validate validate, Double value, String name, Double limit, String msgFull)
     {
         if (validate.getResult() == false) {
             return;
@@ -256,7 +256,7 @@ public class ValidateSize
      * @return void
      * @access private
      */
-    private void setErrorMsgMax(Validate validate, String name, String msgFull, String limit)
+    private static void setErrorMsgMax(Validate validate, String name, String msgFull, String limit)
     {
         if (msgFull != null) {
             validate.error(name, msgFull);
@@ -275,7 +275,7 @@ public class ValidateSize
      * @return void
      * @access private
      */
-    private void setErrorMsgMin(Validate validate, String name, String msgFull, String limit)
+    private static void setErrorMsgMin(Validate validate, String name, String msgFull, String limit)
     {
         if (msgFull != null) {
             validate.error(name, msgFull);

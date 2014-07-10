@@ -12,8 +12,8 @@ import java.util.HashMap;
  * 
  * Validate v = new Validate();
  * 
- * ValidateRequire.check(v, "山田太郎", "名前");
- * ValidateLength.max(v, "山田太郎", "名前", 30);
+ * ValidateRequire.check(v, value, "名前");
+ * ValidateLength.max(v, value, "名前", 30);
  * 
  * if(v.getResult() == false){
  * .....

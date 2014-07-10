@@ -1,9 +1,9 @@
 package com.example.baseapplication.validate;
 
-
 /**
- * 整数チェッククラス
+ * 整数バリデーションクラス
  * 
+ * validate … バリデートクラス
  * value … バリデート対象の値
  * name … 値の名前（誕生日、性別とか）
  * msgFull … デフォルトではないエラーメッセージを使用したい場合に指定
@@ -24,7 +24,7 @@ public class ValidateInt
      * @return void
      * @access public
      */
-    public void check(Validate validate, String value, String name, String msgFull)
+    public static void check(Validate validate, String value, String name, String msgFull)
     {
         if (validate.getResult() == false) {
             return;
@@ -51,7 +51,7 @@ public class ValidateInt
      * @return void
      * @access public
      */
-    public void check(Validate validate, String value, String name)
+    public static void check(Validate validate, String value, String name)
     {
         check(validate, value, name, null);
     }
@@ -66,7 +66,7 @@ public class ValidateInt
      * @return void
      * @access public
      */
-    public void check(Validate validate, Integer value, String name, String msgFull)
+    public static void check(Validate validate, Integer value, String name, String msgFull)
     {
         check(validate, String.valueOf(value), name, msgFull);
     }
@@ -80,7 +80,7 @@ public class ValidateInt
      * @return void
      * @access public
      */
-    public void check(Validate validate, Integer value, String name)
+    public static void check(Validate validate, Integer value, String name)
     {
         check(validate, String.valueOf(value), name, null);
     }

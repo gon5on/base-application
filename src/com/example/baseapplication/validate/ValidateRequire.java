@@ -1,7 +1,7 @@
 package com.example.baseapplication.validate;
 
 /**
- * 必須チェッククラス
+ * 必須バリデーションクラス
  * 
  * validate … バリデートクラス
  * value … バリデート対象の値
@@ -23,7 +23,7 @@ public class ValidateRequire
      * @return void
      * @access public
      */
-    public void check(Validate validate, String value, String name, String msgFull)
+    public static void check(Validate validate, String value, String name, String msgFull)
     {
         if (validate.getResult(value) == false) {
             return;
@@ -42,7 +42,7 @@ public class ValidateRequire
      * @return void
      * @access public
      */
-    public void check(Validate validate, String value, String name)
+    public static void check(Validate validate, String value, String name)
     {
         check(validate, value, name, null);
     }
@@ -57,7 +57,7 @@ public class ValidateRequire
      * @return void
      * @access public
      */
-    public void check(Validate validate, Integer value, String name, String msgFull)
+    public static void check(Validate validate, Integer value, String name, String msgFull)
     {
         if (validate.getResult(name) == false) {
             return;
@@ -76,7 +76,7 @@ public class ValidateRequire
      * @return void
      * @access public
      */
-    public void check(Validate validate, Integer value, String name)
+    public static void check(Validate validate, Integer value, String name)
     {
         check(validate, value, name, null);
     }
@@ -91,7 +91,7 @@ public class ValidateRequire
      * @return void
      * @access public
      */
-    public void check(Validate validate, Double value, String name, String msgFull)
+    public static void check(Validate validate, Double value, String name, String msgFull)
     {
         if (validate.getResult(name) == false) {
             return;
@@ -110,7 +110,7 @@ public class ValidateRequire
      * @return void
      * @access public
      */
-    public void check(Validate validate, Double value, String name)
+    public static void check(Validate validate, Double value, String name)
     {
         check(validate, value, name, null);
     }
@@ -125,7 +125,7 @@ public class ValidateRequire
      * @return void
      * @access public
      */
-    public void check(Validate validate, Float value, String name, String msgFull)
+    public static void check(Validate validate, Float value, String name, String msgFull)
     {
         if (validate.getResult(name) == false) {
             return;
@@ -144,7 +144,7 @@ public class ValidateRequire
      * @return void
      * @access public
      */
-    public void check(Validate validate, Float value, String name)
+    public static void check(Validate validate, Float value, String name)
     {
         check(validate, value, name, null);
     }
@@ -159,41 +159,12 @@ public class ValidateRequire
      * @return void
      * @access public
      */
-    public void check(Validate validate, boolean[] value, String name, String msgFull)
+    public static void check(Validate validate, boolean[] value, String name, String msgFull)
     {
         if (validate.getResult(name) == false) {
             return;
         }
 
-        selectboxCheck(validate, value, name, msgFull);
-    }
-
-    /**
-     * セレクトボックス必須チェック
-     * 
-     * @param Validate validate バリデートクラス
-     * @param boolean[] value 値
-     * @param String name 変数名
-     * @return void
-     * @access public
-     */
-    public void check(Validate validate, boolean[] value, String name)
-    {
-        selectboxCheck(validate, value, name, null);
-    }
-
-    /**
-     * セレクトボックス必須チェック
-     * 
-     * @param Validate validate バリデートクラス
-     * @param boolean[] value 値
-     * @param String name 変数名
-     * @param String msgFull エラーメッセージ全文
-     * @return void
-     * @access private
-     */
-    private void selectboxCheck(Validate validate, boolean[] value, String name, String msgFull)
-    {
         Boolean flg = false;
 
         for (int i = 0; i < value.length; i++) {
@@ -213,6 +184,20 @@ public class ValidateRequire
     }
 
     /**
+     * セレクトボックス必須チェック
+     * 
+     * @param Validate validate バリデートクラス
+     * @param boolean[] value 値
+     * @param String name 変数名
+     * @return void
+     * @access public
+     */
+    public static void check(Validate validate, boolean[] value, String name)
+    {
+        check(validate, value, name, null);
+    }
+
+    /**
      * エラーメッセージセット
      * 
      * @param Validate validate バリデートクラス
@@ -221,7 +206,7 @@ public class ValidateRequire
      * @return void
      * @access private
      */
-    private void setErrorMsg(Validate validate, String name, String msgFull)
+    private static void setErrorMsg(Validate validate, String name, String msgFull)
     {
         if (msgFull != null) {
             validate.error(name, msgFull);

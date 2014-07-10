@@ -1,7 +1,7 @@
 package com.example.baseapplication.validate;
 
 /**
- * 文字長チェッククラス
+ * 文字長バリデーションクラス
  * 
  * validate … バリデートクラス
  * value … バリデート対象の値
@@ -25,7 +25,7 @@ public class ValidateLength
      * @return void
      * @access public
      */
-    public void maxCheck(Validate validate, String value, String name, Integer length, String msgFull)
+    public static void maxCheck(Validate validate, String value, String name, Integer length, String msgFull)
     {
         if (validate.getResult(name) == false) {
             return;
@@ -53,7 +53,7 @@ public class ValidateLength
      * @return void
      * @access public
      */
-    public void maxCheck(Validate validate, String value, String name, Integer length)
+    public static void maxCheck(Validate validate, String value, String name, Integer length)
     {
         maxCheck(validate, value, name, length, null);
     }
@@ -69,7 +69,7 @@ public class ValidateLength
      * @return void
      * @access public
      */
-    public void maxCheck(Validate validate, Integer value, String name, Integer length, String msgFull)
+    public static void maxCheck(Validate validate, Integer value, String name, Integer length, String msgFull)
     {
         maxCheck(validate, String.valueOf(value), name, length, msgFull);
     }
@@ -84,7 +84,7 @@ public class ValidateLength
      * @return void
      * @access public
      */
-    public void maxCheck(Validate validate, Integer value, String name, Integer length)
+    public static void maxCheck(Validate validate, Integer value, String name, Integer length)
     {
         maxCheck(validate, String.valueOf(value), name, length, null);
     }
@@ -100,7 +100,7 @@ public class ValidateLength
      * @return void
      * @access public
      */
-    public void maxCheck(Validate validate, Double value, String name, Integer length, String msgFull)
+    public static void maxCheck(Validate validate, Double value, String name, Integer length, String msgFull)
     {
         maxCheck(validate, String.valueOf(value), name, length, msgFull);
     }
@@ -115,7 +115,7 @@ public class ValidateLength
      * @return void
      * @access public
      */
-    public void maxCheck(Validate validate, float value, String name, Integer length)
+    public static void maxCheck(Validate validate, float value, String name, Integer length)
     {
         maxCheck(validate, String.valueOf(value), name, length, null);
     }
@@ -131,7 +131,7 @@ public class ValidateLength
      * @return void
      * @access public
      */
-    public void minCheck(Validate validate, String value, String name, Integer length, String msgFull)
+    public static void minCheck(Validate validate, String value, String name, Integer length, String msgFull)
     {
         if (validate.getResult(name) == false) {
             return;
@@ -159,7 +159,7 @@ public class ValidateLength
      * @return void
      * @access public
      */
-    public void minCheck(Validate validate, String value, String name, Integer length)
+    public static void minCheck(Validate validate, String value, String name, Integer length)
     {
         minCheck(validate, String.valueOf(value), name, length, null);
     }
@@ -175,7 +175,7 @@ public class ValidateLength
      * @return void
      * @access public
      */
-    public void minCheck(Validate validate, Integer value, String name, Integer length, String msgFull)
+    public static void minCheck(Validate validate, Integer value, String name, Integer length, String msgFull)
     {
         minCheck(validate, String.valueOf(value), name, length, msgFull);
     }
@@ -191,7 +191,7 @@ public class ValidateLength
      * @return void
      * @access public
      */
-    public void minCheck(Validate validate, Integer value, String name, Integer length)
+    public static void minCheck(Validate validate, Integer value, String name, Integer length)
     {
         minCheck(validate, String.valueOf(value), name, length, null);
     }
@@ -207,7 +207,7 @@ public class ValidateLength
      * @return void
      * @access public
      */
-    public void minCheck(Validate validate, Double value, String name, Integer length, String msgFull)
+    public static void minCheck(Validate validate, Double value, String name, Integer length, String msgFull)
     {
         minCheck(validate, String.valueOf(value), name, length, msgFull);
     }
@@ -222,7 +222,7 @@ public class ValidateLength
      * @return void
      * @access public
      */
-    public void minCheck(Validate validate, Double value, String name, Integer length)
+    public static void minCheck(Validate validate, Double value, String name, Integer length)
     {
         minCheck(validate, String.valueOf(value), name, length, null);
     }
@@ -238,7 +238,7 @@ public class ValidateLength
      * @return void
      * @access public
      */
-    public void minCheck(Validate validate, Float value, String name, Integer length, String msgFull)
+    public static void minCheck(Validate validate, Float value, String name, Integer length, String msgFull)
     {
         minCheck(validate, String.valueOf(value), name, length, msgFull);
     }
@@ -254,7 +254,7 @@ public class ValidateLength
      * @return void
      * @access public
      */
-    public void minCheck(Validate validate, Float value, String name, Integer length)
+    public static void minCheck(Validate validate, Float value, String name, Integer length)
     {
         minCheck(validate, String.valueOf(value), name, length, null);
     }

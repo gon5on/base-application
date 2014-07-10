@@ -1,8 +1,9 @@
 package com.example.baseapplication.validate;
 
 /**
- * 形式計バリデーションクラス
+ * 形式バリデーションクラス
  * 
+ * validate … バリデートクラス
  * value … バリデート対象の値
  * name … 値の名前（誕生日、性別とか）
  * msgFull … デフォルトではないエラーメッセージを使用したい場合に指定
@@ -27,203 +28,235 @@ public class ValidateType
     public static final String MATCH_EMAIL = "([a-zA-Z0-9][a-zA-Z0-9_.+\\-]*)@(([a-zA-Z0-9][a-zA-Z0-9_\\-]+\\.)+[a-zA-Z]{2,6})";
     public static final String MATCH_URL = "^(https?|ftp)(:\\/\\/[-_.!~*\\'()a-zA-Z0-9;\\/?:\\@&=+\\$,%#]+)$";
 
-    private Validate mValidate;              //バリデーションクラス
-
     /**
-     * コンストラクタ
+     * すべて半角数字かどうか
      * 
-     * @param Validate validate バリデーションクラス
+     * @param Validate validate バリデートクラス
+     * @param String value 値
+     * @param String name 変数名
+     * @param String msgFull エラーメッセージ全文
+     * @return void
+     * @access public
      */
-    public ValidateType(Validate validate)
+    public void isHalfWeightNumeric(Validate validate, String value, String name, String msgFull)
     {
-        mValidate = validate;
+        match(validate, value, name, msgFull, MATCH_NUMBER, ERROR_MSG_HALF_WEIGHT_NUMERIC);
     }
 
     /**
      * すべて半角数字かどうか
      * 
+     * @param Validate validate バリデートクラス
      * @param String value 値
      * @param String name 変数名
-     * @param String msgFull エラーメッセージ全文
      * @return void
      * @access public
      */
-    public void isHalfWeightNumeric(String value, String name, String msgFull)
+    public void isHalfWeightNumeric(Validate validate, String value, String name)
     {
-        if (mValidate.getValueResult() == false) {
-            return;
-        }
-        if (value == null || value.length() == 0) {
-            return;
-        }
-
-        if (value.matches(MATCH_NUMBER) == false) {
-            if (msgFull != null) {
-                mValidate.error(msgFull);
-            } else {
-                mValidate.error(String.format(ERROR_MSG_HALF_WEIGHT_NUMERIC, name));
-            }
-        }
+        match(validate, value, name, null, MATCH_NUMBER, ERROR_MSG_HALF_WEIGHT_NUMERIC);
     }
 
     /**
      * すべて半角英字かどうか
      * 
+     * @param Validate validate バリデートクラス
      * @param String value 値
      * @param String name 変数名
      * @param String msgFull エラーメッセージ全文
      * @return void
      * @access public
      */
-    public void isHalfWeightAlphabet(String value, String name, String msgFull)
+    public void isHalfWeightAlphabet(Validate validate, String value, String name, String msgFull)
     {
-        if (mValidate.getValueResult() == false) {
-            return;
-        }
-        if (value == null || value.length() == 0) {
-            return;
-        }
+        match(validate, value, name, msgFull, MATCH_ALPHABET, ERROR_MSG_HALF_WEIGHT_ALPHABET);
+    }
 
-        if (value.matches(MATCH_ALPHABET) == false) {
-            if (msgFull != null) {
-                mValidate.error(msgFull);
-            } else {
-                mValidate.error(String.format(ERROR_MSG_HALF_WEIGHT_ALPHABET, name));
-            }
-        }
+    /**
+     * すべて半角英字かどうか
+     * 
+     * @param Validate validate バリデートクラス
+     * @param String value 値
+     * @param String name 変数名
+     * @return void
+     * @access public
+     */
+    public void isHalfWeightAlphabet(Validate validate, String value, String name)
+    {
+        match(validate, value, name, null, MATCH_ALPHABET, ERROR_MSG_HALF_WEIGHT_ALPHABET);
     }
 
     /**
      * すべて半角英数字かどうか
      * 
+     * @param Validate validate バリデートクラス
      * @param String value 値
      * @param String name 変数名
      * @param String msgFull エラーメッセージ全文
      * @return void
      * @access public
      */
-    public void isHalfWeightAlphanumeric(String value, String name, String msgFull)
+    public void isHalfWeightAlphanumeric(Validate validate, String value, String name, String msgFull)
     {
-        if (mValidate.getValueResult() == false) {
-            return;
-        }
-        if (value == null || value.length() == 0) {
-            return;
-        }
+        match(validate, value, name, msgFull, MATCH_ASCII, ERROR_MSG_HALF_WEIGHT_ALPHANUMERIC);
+    }
 
-        if (value.matches(MATCH_ASCII) == false) {
-            if (msgFull != null) {
-                mValidate.error(msgFull);
-            } else {
-                mValidate.error(String.format(ERROR_MSG_HALF_WEIGHT_ALPHANUMERIC, name));
-            }
-        }
+    /**
+     * すべて半角英数字かどうか
+     * 
+     * @param Validate validate バリデートクラス
+     * @param String value 値
+     * @param String name 変数名
+     * @return void
+     * @access public
+     */
+    public void isHalfWeightAlphanumeric(Validate validate, String value, String name)
+    {
+        match(validate, value, name, null, MATCH_ASCII, ERROR_MSG_HALF_WEIGHT_ALPHANUMERIC);
     }
 
     /**
      * すべてひらがなかどうか
      * 
+     * @param Validate validate バリデートクラス
      * @param String value 値
      * @param String name 変数名
      * @param String msgFull エラーメッセージ全文
      * @return void
      * @access public
      */
-    public void isHiragana(String value, String name, String msgFull)
+    public void isHiragana(Validate validate, String value, String name, String msgFull)
     {
-        if (mValidate.getValueResult() == false) {
-            return;
-        }
-        if (value == null || value.length() == 0) {
-            return;
-        }
+        match(validate, value, name, msgFull, MATCH_HIRAGANA, ERROR_MSG_HIRAGANA);
+    }
 
-        if (value.matches(MATCH_HIRAGANA) == false) {
-            if (msgFull != null) {
-                mValidate.error(msgFull);
-            } else {
-                mValidate.error(String.format(ERROR_MSG_HIRAGANA, name));
-            }
-        }
+    /**
+     * すべてひらがなかどうか
+     * 
+     * @param Validate validate バリデートクラス
+     * @param String value 値
+     * @param String name 変数名
+     * @return void
+     * @access public
+     */
+    public void isHiragana(Validate validate, String value, String name)
+    {
+        match(validate, value, name, null, MATCH_HIRAGANA, ERROR_MSG_HIRAGANA);
     }
 
     /**
      * すべてカタカナかどうか
      * 
+     * @param Validate validate バリデートクラス
      * @param String value 値
      * @param String name 変数名
      * @param String msgFull エラーメッセージ全文
      * @return void
      * @access public
      */
-    public void isKatakana(String value, String name, String msgFull)
+    public void isKatakana(Validate validate, String value, String name, String msgFull)
     {
-        if (mValidate.getValueResult() == false) {
-            return;
-        }
-        if (value == null || value.length() == 0) {
-            return;
-        }
+        match(validate, value, name, msgFull, MATCH_KATAKANA, ERROR_MSG_KATAKANA);
+    }
 
-        if (value.matches(MATCH_KATAKANA) == false) {
-            if (msgFull != null) {
-                mValidate.error(msgFull);
-            } else {
-                mValidate.error(String.format(ERROR_MSG_KATAKANA, name));
-            }
-        }
+    /**
+     * すべてカタカナかどうか
+     * 
+     * @param Validate validate バリデートクラス
+     * @param String value 値
+     * @param String name 変数名
+     * @return void
+     * @access public
+     */
+    public void isKatakana(Validate validate, String value, String name)
+    {
+        match(validate, value, name, null, MATCH_KATAKANA, ERROR_MSG_KATAKANA);
     }
 
     /**
      * メールの形式かどうか
      * 
+     * @param Validate validate バリデートクラス
      * @param String value 値
      * @param String name 変数名
      * @param String msgFull エラーメッセージ全文
      * @return void
      * @access public
      */
-    public void isEmail(String value, String name, String msgFull)
+    public void isEmail(Validate validate, String value, String name, String msgFull)
     {
-        if (mValidate.getValueResult() == false) {
-            return;
-        }
-        if (value == null || value.length() == 0) {
-            return;
-        }
+        match(validate, value, name, msgFull, MATCH_EMAIL, ERROR_MSG_EMAIL);
+    }
 
-        if (value.matches(MATCH_EMAIL) == false) {
-            if (msgFull != null) {
-                mValidate.error(msgFull);
-            } else {
-                mValidate.error(String.format(ERROR_MSG_EMAIL, name));
-            }
-        }
+    /**
+     * メールの形式かどうか
+     * 
+     * @param Validate validate バリデートクラス
+     * @param String value 値
+     * @param String name 変数名
+     * @return void
+     * @access public
+     */
+    public void isEmail(Validate validate, String value, String name)
+    {
+        match(validate, value, name, null, MATCH_EMAIL, ERROR_MSG_EMAIL);
     }
 
     /**
      * URLの形式かどうか
      * 
+     * @param Validate validate バリデートクラス
      * @param String value 値
      * @param String name 変数名
      * @param String msgFull エラーメッセージ全文
      * @return void
      * @access public
      */
-    public void isUrl(String value, String name, String msgFull)
+    public void isUrl(Validate validate, String value, String name, String msgFull)
     {
-        if (mValidate.getValueResult() == false) {
+        match(validate, value, name, msgFull, MATCH_URL, ERROR_MSG_URL);
+    }
+
+    /**
+     * URLの形式かどうか
+     * 
+     * @param Validate validate バリデートクラス
+     * @param String value 値
+     * @param String name 変数名
+     * @return void
+     * @access public
+     */
+    public void isUrl(Validate validate, String value, String name)
+    {
+        match(validate, value, name, null, MATCH_URL, ERROR_MSG_URL);
+    }
+
+    /**
+     * マッチするかどうか
+     * 
+     * @param Validate validate バリデートクラス
+     * @param String value 値
+     * @param String name 変数名
+     * @param String msgFull エラーメッセージ全文
+     * @param String pattern 正規表現パターン
+     * @param String msg デフォルトエラーメッセージ
+     * @return void
+     * @access private
+     */
+    private void match(Validate validate, String value, String name, String msgFull, String pattern, String msg)
+    {
+        if (validate.getResult() == false) {
             return;
         }
         if (value == null || value.length() == 0) {
             return;
         }
 
-        if (value.matches(MATCH_URL) == false) {
+        if (value.matches(pattern) == false) {
             if (msgFull != null) {
-                mValidate.error(msgFull);
+                validate.error(name, msgFull);
             } else {
-                mValidate.error(String.format(ERROR_MSG_URL, name));
+                validate.error(name, String.format(msg, name));
             }
         }
     }
