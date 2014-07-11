@@ -121,7 +121,8 @@ public class MainActivity extends AppActivity implements SampleDialog.CallbackLi
      * 
      * @access public
      */
-    public static class MainFragment extends Fragment implements SampleDialog.CallbackListener, AppProgressDialog.CallbackListener, AsyncTaskCallbackListener<Integer, Http>
+    public static class MainFragment extends Fragment
+            implements SampleDialog.CallbackListener, AppProgressDialog.CallbackListener, AsyncTaskCallbackListener<Integer, Http>
     {
         private AppProgressDialog mAppProgressDialog = null;
         private SampleAsyncTask mSampleAsyncTask = null;
