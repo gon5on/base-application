@@ -6,7 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-import android.content.res.Resources;
+import android.content.Context;
 
 /**
  * 便利なものまとめたクラス
@@ -36,6 +36,56 @@ public class Utils
                 }
 
                 sb.append(list.get(i));
+            }
+        }
+
+        return sb.toString();
+    }
+
+    /**
+     * Implode
+     * 
+     * @param String[] list 文字列配列
+     * @param String delimiter デリミタ
+     * @return String 連結文字列
+     * @access public
+     */
+    public static String implode(String[] list, String delimiter)
+    {
+        StringBuilder sb = new StringBuilder();
+
+        if (list != null && list.length != 0) {
+            for (int i = 0; i < list.length; i++) {
+                if (sb.length() != 0) {
+                    sb.append(delimiter);
+                }
+
+                sb.append(list[i]);
+            }
+        }
+
+        return sb.toString();
+    }
+
+    /**
+     * Implode
+     * 
+     * @param Integer[] list 文字列配列
+     * @param String delimiter デリミタ
+     * @return String 連結文字列
+     * @access public
+     */
+    public static String implode(Integer[] list, String delimiter)
+    {
+        StringBuilder sb = new StringBuilder();
+
+        if (list != null && list.length != 0) {
+            for (int i = 0; i < list.length; i++) {
+                if (sb.length() != 0) {
+                    sb.append(delimiter);
+                }
+
+                sb.append(list[i]);
             }
         }
 
@@ -120,13 +170,13 @@ public class Utils
     /**
      * ファイルからテキストを読みだす
      * 
-     * @param Resources res リソース
+     * @param Context context
      * @param Integer resId ファイルのリソースID
      * @return Integer
      * @throws IOException
      * @access public
      */
-    public static String readTextFile(Resources res, Integer resId) throws IOException
+    public static String readTextFile(Context context, Integer resId) throws IOException
     {
         InputStream is = null;
         BufferedReader br = null;
@@ -134,7 +184,7 @@ public class Utils
         StringBuilder sb = new StringBuilder();
 
         try {
-            is = res.openRawResource(resId);
+            is = context.getResources().openRawResource(resId);
             br = new BufferedReader(new InputStreamReader(is));
 
             String str;
