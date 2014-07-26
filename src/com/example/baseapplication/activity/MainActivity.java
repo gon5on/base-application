@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 
 import com.example.baseapplication.R;
 import com.example.baseapplication.common.AndroidUtils;
-import com.example.baseapplication.common.Http;
+import com.example.baseapplication.common.HttpHelper;
 import com.example.baseapplication.dialog.AppProgressDialog;
 import com.example.baseapplication.dialog.SampleDialog;
 import com.example.baseapplication.entity.SampleEntity;
@@ -122,7 +122,7 @@ public class MainActivity extends AppActivity implements SampleDialog.CallbackLi
      * @access public
      */
     public static class MainFragment extends Fragment
-            implements SampleDialog.CallbackListener, AppProgressDialog.CallbackListener, AsyncTaskCallbackListener<Integer, Http>
+            implements SampleDialog.CallbackListener, AppProgressDialog.CallbackListener, AsyncTaskCallbackListener<Integer, HttpHelper>
     {
         private AppProgressDialog mAppProgressDialog = null;
         private SampleAsyncTask mSampleAsyncTask = null;
@@ -273,18 +273,18 @@ public class MainActivity extends AppActivity implements SampleDialog.CallbackLi
          * 非同期後処理
          * 
          * @param int tag
-         * @param Http http
+         * @param HttpHelper http
          * @return void
          * @access public
          */
         @Override
-        public void onPostExecute(int tag, Http http)
+        public void onPostExecute(int tag, HttpHelper http)
         {
             if (mAppProgressDialog != null) {
                 mAppProgressDialog.dismiss();
             }
 
-            if (http.getStatus() == Http.STATUS_OK) {
+            if (http.getStatus() == HttpHelper.STATUS_OK) {
                 AndroidUtils.showToastS(getActivity().getApplicationContext(), "通信が終了しました。");
             } else {
                 showSampleDialog(http.getHttpStatus());

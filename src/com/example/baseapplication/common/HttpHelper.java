@@ -43,7 +43,7 @@ import com.example.baseapplication.debug.Debug;
  * 
  * @access public
  */
-public class Http
+public class HttpHelper
 {
     // メソッド
     public static final String GET = "get";
@@ -103,7 +103,7 @@ public class Http
      * @param String baseUrl
      * @access public
      */
-    public Http(Context applicationContext)
+    public HttpHelper(Context applicationContext)
     {
         setNull();
 
@@ -127,7 +127,7 @@ public class Http
 
         mUrl = url;
         mMethod = method;
-        AppLog.v("Http", "URL : " + url);
+        LogUtils.v("Http", "URL : " + url);
 
         DefaultHttpClient client = new DefaultHttpClient();
 
@@ -326,7 +326,7 @@ public class Http
                 paramsStr += (key + "=" + URLEncoder.encode(paramsMap.get(key), ENCODE));
             }
         }
-        AppLog.v("Http", "get params : " + paramsStr);
+        LogUtils.v("Http", "get params : " + paramsStr);
 
         return paramsStr;
     }
@@ -344,7 +344,7 @@ public class Http
 
         if (paramsMap != null && paramsMap.size() != 0) {
             for (String key : paramsMap.keySet()) {
-                AppLog.v("Http", "post body : " + key + " - " + paramsMap.get(key));
+                LogUtils.v("Http", "post body : " + key + " - " + paramsMap.get(key));
                 postParams.add(new BasicNameValuePair(key, paramsMap.get(key)));
             }
         }
@@ -363,7 +363,7 @@ public class Http
     {
         if (mHeadersMap != null && mHeadersMap.size() != 0) {
             for (String key : mHeadersMap.keySet()) {
-                AppLog.v("Http", "header : " + key + " - " + mHeadersMap.get(key));
+                LogUtils.v("Http", "header : " + key + " - " + mHeadersMap.get(key));
                 http.addHeader(key, mHeadersMap.get(key));
             }
         }
@@ -382,7 +382,7 @@ public class Http
     {
         if (mHeadersMap != null && mHeadersMap.size() != 0) {
             for (String key : mHeadersMap.keySet()) {
-                AppLog.v("Http", "header : " + key + " - " + mHeadersMap.get(key));
+                LogUtils.v("Http", "header : " + key + " - " + mHeadersMap.get(key));
                 http.addHeader(key, mHeadersMap.get(key));
             }
         }
@@ -401,7 +401,7 @@ public class Http
     {
         if (mHeadersMap != null && mHeadersMap.size() != 0) {
             for (String key : mHeadersMap.keySet()) {
-                AppLog.v("Http", "header : " + key + " - " + mHeadersMap.get(key));
+                LogUtils.v("Http", "header : " + key + " - " + mHeadersMap.get(key));
                 http.addHeader(key, mHeadersMap.get(key));
             }
         }
@@ -420,7 +420,7 @@ public class Http
     {
         if (mHeadersMap != null && mHeadersMap.size() != 0) {
             for (String key : mHeadersMap.keySet()) {
-                AppLog.v("Http", "header : " + key + " - " + mHeadersMap.get(key));
+                LogUtils.v("Http", "header : " + key + " - " + mHeadersMap.get(key));
                 http.addHeader(key, mHeadersMap.get(key));
             }
         }
@@ -468,7 +468,7 @@ public class Http
     {
         // HTTPステータス取得解析
         mHttpStatus = response.getStatusLine().getStatusCode();
-        AppLog.v("Http", "http status : " + mHttpStatus);
+        LogUtils.v("Http", "http status : " + mHttpStatus);
 
         // ボディ取得
         if (response.getEntity() != null) {
@@ -651,7 +651,7 @@ public class Http
     public void setSingleStringParams(String paramsString)
     {
         mParamsString = paramsString;
-        AppLog.v("Http", "params string : " + paramsString);
+        LogUtils.v("Http", "params string : " + paramsString);
     }
 
     /**
@@ -664,7 +664,7 @@ public class Http
     public void setBasicAuthId(String basicAuthId)
     {
         mBasicAuthId = basicAuthId;
-        AppLog.v("Http", "basic auth id : " + basicAuthId);
+        LogUtils.v("Http", "basic auth id : " + basicAuthId);
     }
 
     /**
@@ -677,7 +677,7 @@ public class Http
     public void setBasicAuthPass(String basicAuthPass)
     {
         mBasicAuthPass = basicAuthPass;
-        AppLog.v("Http", "basic auth pass : " + basicAuthPass);
+        LogUtils.v("Http", "basic auth pass : " + basicAuthPass);
     }
 
     /**

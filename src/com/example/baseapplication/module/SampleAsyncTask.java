@@ -2,14 +2,14 @@ package com.example.baseapplication.module;
 
 import android.content.Context;
 
-import com.example.baseapplication.common.Http;
+import com.example.baseapplication.common.HttpHelper;
 
 /**
  * サンプル非同期処理
  * 
  * @access public
  */
-public class SampleAsyncTask extends AppAsyncTask<Void, Integer, Http>
+public class SampleAsyncTask extends AppAsyncTask<Void, Integer, HttpHelper>
 {
     /**
      * コンストラクタ
@@ -30,7 +30,7 @@ public class SampleAsyncTask extends AppAsyncTask<Void, Integer, Http>
      * @access protected
      */
     @Override
-    protected Http doInBackground(Void... params)
+    protected HttpHelper doInBackground(Void... params)
     {
         //バックキーでキャンセル可能なように、適当にスリープ
         try {
@@ -44,8 +44,8 @@ public class SampleAsyncTask extends AppAsyncTask<Void, Integer, Http>
             return null;
         }
 
-        Http http = new Http(mContext);
-        http.connect(Http.GET, "http://google.com");
+        HttpHelper http = new HttpHelper(mContext);
+        http.connect(HttpHelper.GET, "http://google.com");
 
         return http;
     }
