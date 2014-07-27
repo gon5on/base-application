@@ -12,7 +12,7 @@ import com.example.baseapplication.dialog.AppProgressDialog.CallbackListener;
  * 
  * @access public
  */
-public class AppProgressDialog extends AppDialog<CallbackListener>
+public class AppProgressDialog extends BaseDialog<CallbackListener>
 {
     private static ProgressDialog mDialog;
 

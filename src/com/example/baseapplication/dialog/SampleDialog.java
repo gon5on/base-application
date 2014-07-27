@@ -12,7 +12,7 @@ import com.example.baseapplication.dialog.SampleDialog.CallbackListener;
  * 
  * @access public
  */
-public class SampleDialog extends AppDialog<CallbackListener>
+public class SampleDialog extends BaseDialog<CallbackListener>
 {
     /**
      * インスタンスを返す

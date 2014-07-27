@@ -18,9 +18,9 @@ import com.example.baseapplication.common.HttpHelper;
 import com.example.baseapplication.dialog.AppProgressDialog;
 import com.example.baseapplication.dialog.SampleDialog;
 import com.example.baseapplication.entity.SampleEntity;
-import com.example.baseapplication.model.AppSQLiteOpenHelper;
+import com.example.baseapplication.model.BaseSQLiteOpenHelper;
 import com.example.baseapplication.model.SampleDao;
-import com.example.baseapplication.module.AppAsyncTask.AsyncTaskCallbackListener;
+import com.example.baseapplication.module.BaseAsyncTask.AsyncTaskCallbackListener;
 import com.example.baseapplication.module.SampleAsyncTask;
 
 /**
@@ -28,7 +28,7 @@ import com.example.baseapplication.module.SampleAsyncTask;
  * 
  * @access public
  */
-public class MainActivity extends AppActivity implements SampleDialog.CallbackListener
+public class MainActivity extends BaseActivity implements SampleDialog.CallbackListener
 {
     private static final Integer SAMPLE_ASYNC_TASK_TAG = 1;
 
@@ -181,7 +181,7 @@ public class MainActivity extends AppActivity implements SampleDialog.CallbackLi
             SQLiteDatabase db = null;
 
             try {
-                AppSQLiteOpenHelper helper = new AppSQLiteOpenHelper(getActivity());
+                BaseSQLiteOpenHelper helper = new BaseSQLiteOpenHelper(getActivity());
                 db = helper.getWritableDatabase();
 
                 SampleDao petDao = new SampleDao(getActivity());

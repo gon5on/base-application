@@ -9,7 +9,7 @@ import com.example.baseapplication.common.HttpHelper;
  * 
  * @access public
  */
-public class SampleAsyncTask extends AppAsyncTask<Void, Integer, HttpHelper>
+public class SampleAsyncTask extends BaseAsyncTask<Void, Integer, HttpHelper>
 {
     /**
      * コンストラクタ

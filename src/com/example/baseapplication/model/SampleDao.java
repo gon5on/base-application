@@ -15,7 +15,7 @@ import com.example.baseapplication.entity.SampleEntity;
  * 
  * @access public
  */
-public class SampleDao extends AppDao
+public class SampleDao extends BaseDao
 {
     // テーブル名
     public static final String TABLE_NAME = "samples";

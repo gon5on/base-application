@@ -10,7 +10,7 @@ import com.example.baseapplication.debug.Debug;
  * 
  * @access public
  */
-public abstract class AppActivity extends Activity
+public abstract class BaseActivity extends Activity
 {
     /**
      * onCreate
