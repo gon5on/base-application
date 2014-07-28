@@ -63,11 +63,10 @@ public class DateUtils
     /**
      * コンストラクタ
      * 
-     * @param String strDate
-     * @param String format
+     * @param Date date
      * @access public
      */
-    public DateUtils(Date date, String format)
+    public DateUtils(Date date)
     {
         mCal = Calendar.getInstance();
         mCal.clear();
