@@ -3,7 +3,7 @@ package com.example.baseapplication.activity;
 import android.app.Activity;
 import android.os.Bundle;
 
-import com.example.baseapplication.debug.Debug;
+import com.example.baseapplication.debug.DebugHelper;
 
 /**
  * 基底アクテビティ
@@ -26,8 +26,8 @@ public abstract class BaseActivity extends Activity
 
         if (savedInstanceState == null) {
             //デバッグ
-            Debug.setUncaughtExHandler(getApplicationContext());
-            Debug.showReportDialog(getApplicationContext(), getFragmentManager());
+            DebugHelper.setUncaughtExHandler(getApplicationContext());
+            DebugHelper.showReportDialog(getApplicationContext(), getFragmentManager());
         }
     }
 }

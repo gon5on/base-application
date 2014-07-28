@@ -34,7 +34,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-import com.example.baseapplication.debug.Debug;
+import com.example.baseapplication.debug.DebugHelper;
 
 /**
  * HTTP通信クラス
@@ -568,7 +568,7 @@ public class HttpHelper
             map.put("responce body", "null");
         }
 
-        Debug.save(mContext, e, map);
+        DebugHelper.save(mContext, e, map);
     }
 
     /**

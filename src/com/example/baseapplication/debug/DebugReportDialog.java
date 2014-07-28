@@ -57,13 +57,13 @@ public class DebugReportDialog extends DialogFragment
     private void sendMail()
     {
         //例外内容をプリファレンスから取得して、プリファレンスの中身を空にしておく
-        String text = PrefarenceUtils.get(getActivity().getApplicationContext(), Debug.KEY, "");
-        PrefarenceUtils.delete(getActivity().getApplicationContext(), Debug.KEY);
+        String text = PrefarenceUtils.get(getActivity().getApplicationContext(), DebugHelper.KEY, "");
+        PrefarenceUtils.delete(getActivity().getApplicationContext(), DebugHelper.KEY);
 
         //メーラーに投げる
         Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.putExtra(Intent.EXTRA_EMAIL, Debug.TO);
-        intent.putExtra(Intent.EXTRA_SUBJECT, Debug.SUBJECT);
+        intent.putExtra(Intent.EXTRA_EMAIL, DebugHelper.TO);
+        intent.putExtra(Intent.EXTRA_SUBJECT, DebugHelper.SUBJECT);
         intent.putExtra(Intent.EXTRA_TEXT, text);
         intent.setType("message/rfc822");
 

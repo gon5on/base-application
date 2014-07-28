@@ -21,7 +21,7 @@ import com.example.baseapplication.common.PrefarenceUtils;
  * 
  * @access public
  */
-public class Debug
+public class DebugHelper
 {
     public static final Integer DEBUG_FLG = 0;                  //このフラグで例外を報告するかどうか決められる、リリース時には0にすること
 
@@ -60,7 +60,7 @@ public class Debug
             return;
         }
 
-        String exStr = PrefarenceUtils.get(context, Debug.KEY, "");
+        String exStr = PrefarenceUtils.get(context, DebugHelper.KEY, "");
 
         if (exStr.equals("") == false) {
             DebugReportDialog debugReportDialog = new DebugReportDialog();
@@ -82,7 +82,7 @@ public class Debug
             return;
         }
 
-        String text = Debug.createExDebugText(context, e);
+        String text = DebugHelper.createExDebugText(context, e);
 
         savePrefarence(context, text);
     }
@@ -101,7 +101,7 @@ public class Debug
             return;
         }
 
-        String text = Debug.createExDebugText(context, e);
+        String text = DebugHelper.createExDebugText(context, e);
 
         savePrefarence(context, text);
     }
@@ -121,7 +121,7 @@ public class Debug
             return;
         }
 
-        String text = Debug.createExDebugText(context, e, map);
+        String text = DebugHelper.createExDebugText(context, e, map);
 
         savePrefarence(context, text);
     }
@@ -138,7 +138,7 @@ public class Debug
      */
     private static void savePrefarence(Context context, String text)
     {
-        String savedText = PrefarenceUtils.get(context, Debug.KEY, "");
+        String savedText = PrefarenceUtils.get(context, DebugHelper.KEY, "");
         PrefarenceUtils.save(context, KEY, (savedText + text));
     }
 

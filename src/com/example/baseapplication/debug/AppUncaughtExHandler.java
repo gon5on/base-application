@@ -40,7 +40,7 @@ public class AppUncaughtExHandler implements UncaughtExceptionHandler
     public void uncaughtException(Thread thread, Throwable e)
     {
         // 例外内容をプリファレンスに保存
-        Debug.save(mContext, e);
+        DebugHelper.save(mContext, e);
 
         // デフォルト例外ハンドラを戻す
         mDefaultUncaughtExceptionHandler.uncaughtException(thread, e);
