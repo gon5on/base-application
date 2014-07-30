@@ -14,8 +14,6 @@ public class BaseSQLiteOpenHelper extends SQLiteOpenHelper
     public static final String DB_NAME = "database.db";             //データベース名
     public static final int DB_VERSION = 1;                         //データベースバージョン
 
-    private Context mContext;                                       //コンテキスト
-
     /**
      * コンストラクタ
      * 
@@ -25,8 +23,6 @@ public class BaseSQLiteOpenHelper extends SQLiteOpenHelper
     public BaseSQLiteOpenHelper(Context context)
     {
         super(context, DB_NAME, null, DB_VERSION);
-
-        mContext = context;
     }
 
     /**
