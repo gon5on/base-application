@@ -9,7 +9,7 @@ import android.content.Context;
  * 
  * @access public
  */
-public class AppUncaughtExHandler implements UncaughtExceptionHandler
+public class UncaughtExHandler implements UncaughtExceptionHandler
 {
     private Context mContext;
     private UncaughtExceptionHandler mDefaultUncaughtExceptionHandler;
@@ -20,7 +20,7 @@ public class AppUncaughtExHandler implements UncaughtExceptionHandler
      * @param Context context
      * @access public
      */
-    public AppUncaughtExHandler(Context context)
+    public UncaughtExHandler(Context context)
     {
         mContext = context;
 

@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import android.app.FragmentManager;
 import android.content.Context;
+import android.os.Build;
 
 import com.example.baseapplication.common.AndroidUtils;
 import com.example.baseapplication.common.DateUtils;
@@ -42,8 +43,8 @@ public class DebugHelper
             return;
         }
 
-        AppUncaughtExHandler appUncaughtExHandler = new AppUncaughtExHandler(context);
-        Thread.setDefaultUncaughtExceptionHandler(appUncaughtExHandler);
+        UncaughtExHandler uncaughtExHandler = new UncaughtExHandler(context);
+        Thread.setDefaultUncaughtExceptionHandler(uncaughtExHandler);
     }
 
     /**
@@ -244,9 +245,9 @@ public class DebugHelper
         sb.append("---------------------------------------\n");
         sb.append("app code = " + AndroidUtils.getVerCode(context) + "\n");
         sb.append("---------------------------------------\n");
-        sb.append("os ver = " + AndroidUtils.getOsVer() + "\n");
+        sb.append("os ver = " + Build.VERSION.RELEASE + "\n");
         sb.append("---------------------------------------\n");
-        sb.append("model = " + AndroidUtils.getModel() + "\n");
+        sb.append("model = " + Build.MODEL + "\n");
         sb.append("---------------------------------------\n");
 
         for (String key : map.keySet()) {
