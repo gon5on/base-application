@@ -9,7 +9,7 @@ import android.content.Context;
 import android.os.Build;
 
 import com.example.baseapplication.common.AndroidUtils;
-import com.example.baseapplication.common.DateUtils;
+import com.example.baseapplication.common.DateHelper;
 import com.example.baseapplication.common.PrefarenceUtils;
 
 /**
@@ -235,7 +235,7 @@ public class DebugHelper
      */
     private static String createExDebugText(Context context, HashMap<String, String> map)
     {
-        String date = new DateUtils().format(DateUtils.FMT_DATETIME);
+        String date = new DateHelper().format(DateHelper.FMT_DATETIME);
 
         StringBuilder sb = new StringBuilder();
         sb.append("---------------------------------------\n");

@@ -1028,4 +1028,149 @@ public class LogUtils
             Log.e(TAG, String.valueOf(value));
         }
     }
+
+    /**
+     * varboseログ
+     * 
+     * @param String tag
+     * @param CharSequence value
+     * @return void
+     * @access public
+     */
+    public static void v(String tag, CharSequence value)
+    {
+        if (DISP_FLG == 1) {
+            Log.v(tag, String.valueOf(value));
+        }
+    }
+
+    /**
+     * debugログ
+     * 
+     * @param String tag
+     * @param CharSequence value
+     * @return void
+     * @access public
+     */
+    public static void d(String tag, CharSequence value)
+    {
+        if (DISP_FLG == 1) {
+            Log.d(tag, String.valueOf(value));
+        }
+    }
+
+    /**
+     * infoログ
+     * 
+     * @param String tag
+     * @param CharSequence value
+     * @return void
+     * @access public
+     */
+    public static void i(String tag, CharSequence value)
+    {
+        if (DISP_FLG == 1) {
+            Log.i(tag, String.valueOf(value));
+        }
+    }
+
+    /**
+     * warnログ
+     * 
+     * @param String tag
+     * @param CharSequence value
+     * @return void
+     * @access public
+     */
+    public static void w(String tag, CharSequence value)
+    {
+        if (DISP_FLG == 1) {
+            Log.w(tag, String.valueOf(value));
+        }
+    }
+
+    /**
+     * errorログ
+     * 
+     * @param String tag
+     * @param CharSequence value
+     * @return void
+     * @access public
+     */
+    public static void e(String tag, CharSequence value)
+    {
+        if (DISP_FLG == 1) {
+            Log.e(tag, String.valueOf(value));
+        }
+    }
+
+    /**
+     * varboseログ（タグ固定ver）
+     * 
+     * @param CharSequence value
+     * @return void
+     * @access public
+     */
+    public static void v(CharSequence value)
+    {
+        if (DISP_FLG == 1) {
+            Log.v(TAG, String.valueOf(value));
+        }
+    }
+
+    /**
+     * debugログ（タグ固定ver）
+     * 
+     * @param CharSequence value
+     * @return void
+     * @access public
+     */
+    public static void d(CharSequence value)
+    {
+        if (DISP_FLG == 1) {
+            Log.d(TAG, String.valueOf(value));
+        }
+    }
+
+    /**
+     * infoログ（タグ固定ver）
+     * 
+     * @param CharSequence value
+     * @return void
+     * @access public
+     */
+    public static void i(CharSequence value)
+    {
+        if (DISP_FLG == 1) {
+            Log.i(TAG, String.valueOf(value));
+        }
+    }
+
+    /**
+     * warnログ（タグ固定ver）
+     * 
+     * @param CharSequence value
+     * @return void
+     * @access public
+     */
+    public static void w(CharSequence value)
+    {
+        if (DISP_FLG == 1) {
+            Log.w(TAG, String.valueOf(value));
+        }
+    }
+
+    /**
+     * errorログ（タグ固定ver）
+     * 
+     * @param CharSequence value
+     * @return void
+     * @access public
+     */
+    public static void e(CharSequence value)
+    {
+        if (DISP_FLG == 1) {
+            Log.e(TAG, String.valueOf(value));
+        }
+    }
 }

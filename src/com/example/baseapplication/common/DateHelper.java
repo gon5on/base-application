@@ -10,7 +10,7 @@ import java.util.Date;
  * 
  * @access public
  */
-public class DateUtils
+public class DateHelper
 {
     //フォーマット
     public static final String FMT_DATE = "yyyy-MM-dd";
@@ -31,7 +31,7 @@ public class DateUtils
      * 
      * @access public
      */
-    public DateUtils()
+    public DateHelper()
     {
         mCal = Calendar.getInstance();
     }
@@ -42,7 +42,7 @@ public class DateUtils
      * @param Calendar cal
      * @access public
      */
-    public DateUtils(Calendar cal)
+    public DateHelper(Calendar cal)
     {
         mCal = cal;
     }
@@ -53,7 +53,7 @@ public class DateUtils
      * @param Long time
      * @access public
      */
-    public DateUtils(Long time)
+    public DateHelper(Long time)
     {
         mCal = Calendar.getInstance();
         mCal.clear();
@@ -66,7 +66,7 @@ public class DateUtils
      * @param Date date
      * @access public
      */
-    public DateUtils(Date date)
+    public DateHelper(Date date)
     {
         mCal = Calendar.getInstance();
         mCal.clear();
@@ -81,7 +81,7 @@ public class DateUtils
      * @throws ParseException
      * @access public
      */
-    public DateUtils(String strDate, String format) throws ParseException
+    public DateHelper(String strDate, String format) throws ParseException
     {
         SimpleDateFormat sdf = new SimpleDateFormat(format);
         Date date = sdf.parse(strDate);

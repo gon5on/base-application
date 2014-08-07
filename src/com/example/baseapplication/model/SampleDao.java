@@ -7,7 +7,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.example.baseapplication.common.DateUtils;
+import com.example.baseapplication.common.DateHelper;
 import com.example.baseapplication.entity.SampleEntity;
 
 /**
@@ -68,10 +68,10 @@ public class SampleDao extends BaseDao
         put(cv, COLUMN_SAMPLE1, data.getSample1());
         put(cv, COLUMN_SAMPLE2, data.getSample2());
         put(cv, COLUMN_SAMPLE3, data.getSample3());
-        put(cv, COLUMN_MODIFIED, new DateUtils().format(DateUtils.FMT_DATETIME));
+        put(cv, COLUMN_MODIFIED, new DateHelper().format(DateHelper.FMT_DATETIME));
 
         if (data.getId() == null) {
-            put(cv, COLUMN_CREATED, new DateUtils().format(DateUtils.FMT_DATETIME));
+            put(cv, COLUMN_CREATED, new DateHelper().format(DateHelper.FMT_DATETIME));
             ret = db.insert(TABLE_NAME, "", cv);
         } else {
             String[] param = new String[] { String.valueOf(data.getId()) };
