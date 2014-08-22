@@ -2,20 +2,37 @@ package com.example.baseapplication.debug;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.baseapplication.common.PrefarenceUtils;
+import com.example.baseapplication.debug.DebugReportDialog.CallbackListener;
+import com.example.baseapplication.dialog.BaseDialog;
 
 /**
  * 例外報告ダイアログ
  * 
  * @access public
  */
-public class DebugReportDialog extends DialogFragment
+public class DebugReportDialog extends BaseDialog<CallbackListener>
 {
+    /**
+     * インスタンスを返す
+     * 
+     * @return DebugReportDialog
+     * @access public
+     */
+    public static DebugReportDialog getInstance()
+    {
+        DebugReportDialog dialog = new DebugReportDialog();
+
+        Bundle bundle = new Bundle();
+        dialog.setArguments(bundle);
+
+        return dialog;
+    }
+
     /**
      * onCreateDialog
      * 
@@ -33,6 +50,9 @@ public class DebugReportDialog extends DialogFragment
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                if (mCallbackListener != null) {
+                    mCallbackListener.onClickDebugReportDialogOk();
+                }
                 sendMail();
                 dismiss();
             }
@@ -41,6 +61,9 @@ public class DebugReportDialog extends DialogFragment
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                if (mCallbackListener != null) {
+                    mCallbackListener.onClickDebugReportDialogCancel();
+                }
                 dismiss();
             }
         });
@@ -68,5 +91,17 @@ public class DebugReportDialog extends DialogFragment
         intent.setType("message/rfc822");
 
         startActivity(intent);
+    }
+
+    /**
+     * コールバックリスナー
+     * 
+     * @access public
+     */
+    public interface CallbackListener
+    {
+        public void onClickDebugReportDialogOk();
+
+        public void onClickDebugReportDialogCancel();
     }
 }

@@ -24,7 +24,7 @@ import com.example.baseapplication.common.PrefarenceUtils;
  */
 public class DebugHelper
 {
-    public static final Integer DEBUG_FLG = 0;                  //このフラグで例外を報告するかどうか決められる、リリース時には0にすること
+    public static final Integer DEBUG_FLG = 1;                  //このフラグで例外を報告するかどうか決められる、リリース時には0にすること
 
     public static final String KEY = "exception";               //一時的にプリファレンスに例外を保存しておくための名前
     public static final String SUBJECT = "例外報告";             //例外報告メールタイトル
@@ -64,7 +64,7 @@ public class DebugHelper
         String exStr = PrefarenceUtils.get(context, DebugHelper.KEY, "");
 
         if (exStr.equals("") == false) {
-            DebugReportDialog debugReportDialog = new DebugReportDialog();
+            DebugReportDialog debugReportDialog = DebugReportDialog.getInstance();
             debugReportDialog.show(fragmentManeger, "dialog");
         }
     }
