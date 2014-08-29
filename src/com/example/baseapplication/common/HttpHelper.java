@@ -10,6 +10,7 @@ import java.net.URLEncoder;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -527,7 +528,7 @@ public class HttpHelper
      */
     private void saveException(Exception e)
     {
-        HashMap<String, String> map = new HashMap<String, String>();
+        LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
 
         map.put("url", mUrl);
         map.put("method", mMethod);

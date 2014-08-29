@@ -109,7 +109,9 @@ public class AppProgressDialog extends BaseDialog<CallbackListener>
     @Override
     public void dismiss()
     {
-        getDialog().dismiss();
+        if (getDialog() != null) {
+            getDialog().dismiss();
+        }
     }
 
     /**
