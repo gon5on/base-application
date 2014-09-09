@@ -1,6 +1,5 @@
 package com.example.baseapplication.validate;
 
-
 /**
  * 少数バリデーションクラス
  * 
