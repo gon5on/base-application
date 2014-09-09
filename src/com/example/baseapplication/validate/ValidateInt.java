@@ -68,6 +68,13 @@ public class ValidateInt
      */
     public static void check(ValidateHelper validate, Integer value, String name, String msgFull)
     {
+        if (validate.getResult() == false) {
+            return;
+        }
+        if (value == null || String.valueOf(value).length() == 0) {
+            return;
+        }
+
         check(validate, String.valueOf(value), name, msgFull);
     }
 
@@ -82,6 +89,6 @@ public class ValidateInt
      */
     public static void check(ValidateHelper validate, Integer value, String name)
     {
-        check(validate, String.valueOf(value), name, null);
+        check(validate, value, name, null);
     }
 }

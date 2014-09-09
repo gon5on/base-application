@@ -28,6 +28,7 @@ public class ValidateRequire
         if (validate.getResult(value) == false) {
             return;
         }
+
         if (value == null || value.length() == 0) {
             setErrorMsg(validate, name, msgFull);
         }
@@ -62,7 +63,8 @@ public class ValidateRequire
         if (validate.getResult(name) == false) {
             return;
         }
-        if (value == null) {
+
+        if (value == null || String.valueOf(value).length() == 0) {
             setErrorMsg(validate, name, msgFull);
         }
     }
@@ -96,7 +98,7 @@ public class ValidateRequire
         if (validate.getResult(name) == false) {
             return;
         }
-        if (value == null) {
+        if (value == null || String.valueOf(value).length() == 0) {
             setErrorMsg(validate, name, msgFull);
         }
     }
@@ -130,7 +132,7 @@ public class ValidateRequire
         if (validate.getResult(name) == false) {
             return;
         }
-        if (value == null) {
+        if (value == null || String.valueOf(value).length() == 0) {
             setErrorMsg(validate, name, msgFull);
         }
     }
