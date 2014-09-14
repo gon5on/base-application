@@ -27,9 +27,16 @@ public class ValidateDecimal
      * @return void
      * @access public
      */
-    public void check(ValidateHelper validate, String value, String name, String msgFull)
+    public static void check(ValidateHelper validate, String value, String name, String msgFull)
     {
-        checkDecimal(validate, value, name, msgFull, MATCH_DOUBLE, ERROR_MSG_DOUBLE);
+        if (validate.getResult(name) == false) {
+            return;
+        }
+        if (value == null || value.length() == 0) {
+            return;
+        }
+
+        check(validate, value, name, msgFull, MATCH_DOUBLE, ERROR_MSG_DOUBLE);
     }
 
     /**
@@ -41,9 +48,9 @@ public class ValidateDecimal
      * @return void
      * @access public
      */
-    public void check(ValidateHelper validate, String value, String name)
+    public static void check(ValidateHelper validate, String value, String name)
     {
-        checkDecimal(validate, value, name, null, MATCH_DOUBLE, ERROR_MSG_DOUBLE);
+        check(validate, value, name, null);
     }
 
     /**
@@ -56,9 +63,16 @@ public class ValidateDecimal
      * @return void
      * @access public
      */
-    public void check(ValidateHelper validate, Integer value, String name, String msgFull)
+    public static void check(ValidateHelper validate, Integer value, String name, String msgFull)
     {
-        checkDecimal(validate, String.valueOf(value), name, msgFull, MATCH_DOUBLE, ERROR_MSG_DOUBLE);
+        if (validate.getResult(name) == false) {
+            return;
+        }
+        if (value == null) {
+            return;
+        }
+
+        check(validate, String.valueOf(value), name, msgFull, MATCH_DOUBLE, ERROR_MSG_DOUBLE);
     }
 
     /**
@@ -70,9 +84,9 @@ public class ValidateDecimal
      * @return void
      * @access public
      */
-    public void check(ValidateHelper validate, Integer value, String name)
+    public static void check(ValidateHelper validate, Integer value, String name)
     {
-        checkDecimal(validate, String.valueOf(value), name, null, MATCH_DOUBLE, ERROR_MSG_DOUBLE);
+        check(validate, value, name, null);
     }
 
     /**
@@ -85,9 +99,16 @@ public class ValidateDecimal
      * @return void
      * @access public
      */
-    public void check(ValidateHelper validate, Float value, String name, String msgFull)
+    public static void check(ValidateHelper validate, Float value, String name, String msgFull)
     {
-        checkDecimal(validate, String.valueOf(value), name, msgFull, MATCH_DOUBLE, ERROR_MSG_DOUBLE);
+        if (validate.getResult(name) == false) {
+            return;
+        }
+        if (value == null) {
+            return;
+        }
+
+        check(validate, String.valueOf(value), name, msgFull, MATCH_DOUBLE, ERROR_MSG_DOUBLE);
     }
 
     /**
@@ -99,9 +120,9 @@ public class ValidateDecimal
      * @return void
      * @access public
      */
-    public void check(ValidateHelper validate, Float value, String name)
+    public static void check(ValidateHelper validate, Float value, String name)
     {
-        checkDecimal(validate, String.valueOf(value), name, null, MATCH_DOUBLE, ERROR_MSG_DOUBLE);
+        check(validate, value, name, null);
     }
 
     /**
@@ -114,9 +135,16 @@ public class ValidateDecimal
      * @return void
      * @access public
      */
-    public void check(ValidateHelper validate, Double value, String name, String msgFull)
+    public static void check(ValidateHelper validate, Double value, String name, String msgFull)
     {
-        checkDecimal(validate, String.valueOf(value), name, msgFull, MATCH_DOUBLE, ERROR_MSG_DOUBLE);
+        if (validate.getResult(name) == false) {
+            return;
+        }
+        if (value == null) {
+            return;
+        }
+
+        check(validate, String.valueOf(value), name, msgFull, MATCH_DOUBLE, ERROR_MSG_DOUBLE);
     }
 
     /**
@@ -128,9 +156,9 @@ public class ValidateDecimal
      * @return void
      * @access public
      */
-    public void check(ValidateHelper validate, Double value, String name)
+    public static void check(ValidateHelper validate, Double value, String name)
     {
-        checkDecimal(validate, String.valueOf(value), name, null, MATCH_DOUBLE, ERROR_MSG_DOUBLE);
+        check(validate, value, name, null);
     }
 
     /**
@@ -145,15 +173,8 @@ public class ValidateDecimal
      * @return void
      * @access private
      */
-    private void checkDecimal(ValidateHelper validate, String value, String name, String msgFull, String pattern, String msg)
+    private static void check(ValidateHelper validate, String value, String name, String msgFull, String pattern, String msg)
     {
-        if (validate.getResult(name) == false) {
-            return;
-        }
-        if (value == null || value.length() == 0) {
-            return;
-        }
-
         if (value.matches(pattern) == false) {
             if (msgFull != null) {
                 validate.error(name, msgFull);
@@ -164,7 +185,7 @@ public class ValidateDecimal
     }
 
     /**
-     * 少数形式チェック（String）
+     * 少数形式と桁数チェック（String）
      * 
      * @param ValidateHelper validate バリデートクラス
      * @param String value 値
@@ -174,13 +195,20 @@ public class ValidateDecimal
      * @return void
      * @access public
      */
-    public void check(ValidateHelper validate, String value, String name, Integer point, String msgFull)
+    public static void checkPoint(ValidateHelper validate, String value, String name, Integer point, String msgFull)
     {
-        checkCecimalPoint(validate, value, name, point, msgFull, MATCH_DOUBLE_POINT, ERROR_MSG_DOUBLE_POINT);
+        if (validate.getResult(name) == false) {
+            return;
+        }
+        if (value == null || value.length() == 0) {
+            return;
+        }
+
+        checkPoint(validate, value, name, point, msgFull, MATCH_DOUBLE_POINT, ERROR_MSG_DOUBLE_POINT);
     }
 
     /**
-     * 少数形式チェック（String）
+     * 少数形式と桁数チェック（String）
      * 
      * @param ValidateHelper validate バリデートクラス
      * @param String value 値
@@ -189,13 +217,13 @@ public class ValidateDecimal
      * @return void
      * @access public
      */
-    public void check(ValidateHelper validate, String value, String name, Integer point)
+    public static void checkPoint(ValidateHelper validate, String value, String name, Integer point)
     {
-        checkCecimalPoint(validate, value, name, point, null, MATCH_DOUBLE_POINT, ERROR_MSG_DOUBLE_POINT);
+        checkPoint(validate, value, name, point, null);
     }
 
     /**
-     * 少数形式チェック（Int）
+     * 少数形式と桁数チェック（Int）
      * 
      * @param ValidateHelper validate バリデートクラス
      * @param Int value 値
@@ -205,13 +233,20 @@ public class ValidateDecimal
      * @return void
      * @access public
      */
-    public void check(ValidateHelper validate, Integer value, String name, Integer point, String msgFull)
+    public static void checkPoint(ValidateHelper validate, Integer value, String name, Integer point, String msgFull)
     {
-        checkCecimalPoint(validate, String.valueOf(value), name, point, msgFull, MATCH_DOUBLE_POINT, ERROR_MSG_DOUBLE_POINT);
+        if (validate.getResult(name) == false) {
+            return;
+        }
+        if (value == null) {
+            return;
+        }
+
+        checkPoint(validate, String.valueOf(value), name, point, msgFull, MATCH_DOUBLE_POINT, ERROR_MSG_DOUBLE_POINT);
     }
 
     /**
-     * 少数形式チェック（Int）
+     * 少数形式と桁数チェック（Int）
      * 
      * @param ValidateHelper validate バリデートクラス
      * @param Int value 値
@@ -220,13 +255,13 @@ public class ValidateDecimal
      * @return void
      * @access public
      */
-    public void check(ValidateHelper validate, Integer value, String name, Integer point)
+    public static void checkPoint(ValidateHelper validate, Integer value, String name, Integer point)
     {
-        checkCecimalPoint(validate, String.valueOf(value), name, point, null, MATCH_DOUBLE_POINT, ERROR_MSG_DOUBLE_POINT);
+        checkPoint(validate, value, name, point, null);
     }
 
     /**
-     * 少数形式チェック（Float）
+     * 少数形式と桁数チェック（Float）
      * 
      * @param ValidateHelper validate バリデートクラス
      * @param Float value 値
@@ -236,13 +271,20 @@ public class ValidateDecimal
      * @return void
      * @access public
      */
-    public void check(ValidateHelper validate, Float value, String name, Integer point, String msgFull)
+    public static void checkPoint(ValidateHelper validate, Float value, String name, Integer point, String msgFull)
     {
-        checkCecimalPoint(validate, String.valueOf(value), name, point, msgFull, MATCH_DOUBLE_POINT, ERROR_MSG_DOUBLE_POINT);
+        if (validate.getResult(name) == false) {
+            return;
+        }
+        if (value == null) {
+            return;
+        }
+
+        checkPoint(validate, String.valueOf(value), name, point, msgFull, MATCH_DOUBLE_POINT, ERROR_MSG_DOUBLE_POINT);
     }
 
     /**
-     * 少数形式チェック（Float）
+     * 少数形式と桁数チェック（Float）
      * 
      * @param ValidateHelper validate バリデートクラス
      * @param Float value 値
@@ -251,13 +293,13 @@ public class ValidateDecimal
      * @return void
      * @access public
      */
-    public void check(ValidateHelper validate, Float value, String name, Integer point)
+    public static void checkPoint(ValidateHelper validate, Float value, String name, Integer point)
     {
-        checkCecimalPoint(validate, String.valueOf(value), name, point, null, MATCH_DOUBLE_POINT, ERROR_MSG_DOUBLE_POINT);
+        checkPoint(validate, value, name, point, null);
     }
 
     /**
-     * 少数形式チェック（Double）
+     * 少数形式と桁数チェック（Double）
      * 
      * @param ValidateHelper validate バリデートクラス
      * @param Double value 値
@@ -267,13 +309,20 @@ public class ValidateDecimal
      * @return void
      * @access public
      */
-    public void check(ValidateHelper validate, Double value, String name, Integer point, String msgFull)
+    public static void checkPoint(ValidateHelper validate, Double value, String name, Integer point, String msgFull)
     {
-        checkCecimalPoint(validate, String.valueOf(value), name, point, msgFull, MATCH_DOUBLE_POINT, ERROR_MSG_DOUBLE_POINT);
+        if (validate.getResult(name) == false) {
+            return;
+        }
+        if (value == null) {
+            return;
+        }
+
+        checkPoint(validate, String.valueOf(value), name, point, msgFull, MATCH_DOUBLE_POINT, ERROR_MSG_DOUBLE_POINT);
     }
 
     /**
-     * 少数形式チェック（Double）
+     * 少数形式と桁数チェック（Double）
      * 
      * @param ValidateHelper validate バリデートクラス
      * @param Double value 値
@@ -282,9 +331,9 @@ public class ValidateDecimal
      * @return void
      * @access public
      */
-    public void check(ValidateHelper validate, Double value, String name, Integer point)
+    public static void checkPoint(ValidateHelper validate, Double value, String name, Integer point)
     {
-        checkCecimalPoint(validate, String.valueOf(value), name, point, null, MATCH_DOUBLE_POINT, ERROR_MSG_DOUBLE_POINT);
+        checkPoint(validate, value, name, point, null);
     }
 
     /**
@@ -300,15 +349,8 @@ public class ValidateDecimal
      * @return void
      * @access private
      */
-    private void checkCecimalPoint(ValidateHelper validate, String value, String name, Integer point, String msgFull, String pattern, String msg)
+    private static void checkPoint(ValidateHelper validate, String value, String name, Integer point, String msgFull, String pattern, String msg)
     {
-        if (validate.getResult(name) == false) {
-            return;
-        }
-        if (value == null || value.length() == 0) {
-            return;
-        }
-
         //正規表現の小数点部分を置換しておく
         pattern = pattern.replaceAll("POINT", String.valueOf(point));
 

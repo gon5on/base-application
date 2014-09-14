@@ -2,7 +2,7 @@ package com.example.baseapplication.debug;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import android.app.FragmentManager;
 import android.content.Context;
@@ -116,7 +116,7 @@ public class DebugHelper
      * @return void
      * @access public
      */
-    public static void save(Context context, Exception e, HashMap<String, String> map)
+    public static void save(Context context, Exception e, LinkedHashMap<String, String> map)
     {
         if (DEBUG_FLG != 1) {
             return;
@@ -153,7 +153,7 @@ public class DebugHelper
      */
     private static String createExDebugText(Context context, Exception e)
     {
-        HashMap<String, String> map = new HashMap<String, String>();
+        LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
         map.put("exception", exToString(e));
 
         return createExDebugText(context, map);
@@ -169,7 +169,7 @@ public class DebugHelper
      */
     private static String createExDebugText(Context context, Throwable e)
     {
-        HashMap<String, String> map = new HashMap<String, String>();
+        LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
         map.put("exception", exToString(e));
 
         return createExDebugText(context, map);
@@ -184,7 +184,7 @@ public class DebugHelper
      * @return String
      * @access private
      */
-    private static String createExDebugText(Context context, Exception e, HashMap<String, String> map)
+    private static String createExDebugText(Context context, Exception e, LinkedHashMap<String, String> map)
     {
         map.put("exception", exToString(e));
 
@@ -229,17 +229,19 @@ public class DebugHelper
      * 日付、アプリバージョン、アプリバージョンコード、OSバージョン、モデル名は自動で付与
      * 
      * @param Context context
-     * @param HashMap<String, String> map
+     * @param LinkedHashMap<String, String> map
      * @return String
      * @access private
      */
-    private static String createExDebugText(Context context, HashMap<String, String> map)
+    private static String createExDebugText(Context context, LinkedHashMap<String, String> map)
     {
         String date = new DateHelper().format(DateHelper.FMT_DATETIME);
 
         StringBuilder sb = new StringBuilder();
         sb.append("---------------------------------------\n");
         sb.append("date = " + date + "\n");
+        sb.append("---------------------------------------\n");
+        sb.append("package = " + context.getPackageName() + "\n");
         sb.append("---------------------------------------\n");
         sb.append("app ver = " + AndroidUtils.getVerName(context) + "\n");
         sb.append("---------------------------------------\n");

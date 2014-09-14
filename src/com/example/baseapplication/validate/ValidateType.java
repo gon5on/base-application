@@ -38,7 +38,7 @@ public class ValidateType
      * @return void
      * @access public
      */
-    public void isHalfWeightNumeric(ValidateHelper validate, String value, String name, String msgFull)
+    public static void isHalfWeightNumeric(ValidateHelper validate, String value, String name, String msgFull)
     {
         match(validate, value, name, msgFull, MATCH_NUMBER, ERROR_MSG_HALF_WEIGHT_NUMERIC);
     }
@@ -52,7 +52,7 @@ public class ValidateType
      * @return void
      * @access public
      */
-    public void isHalfWeightNumeric(ValidateHelper validate, String value, String name)
+    public static void isHalfWeightNumeric(ValidateHelper validate, String value, String name)
     {
         match(validate, value, name, null, MATCH_NUMBER, ERROR_MSG_HALF_WEIGHT_NUMERIC);
     }
@@ -67,7 +67,7 @@ public class ValidateType
      * @return void
      * @access public
      */
-    public void isHalfWeightAlphabet(ValidateHelper validate, String value, String name, String msgFull)
+    public static void isHalfWeightAlphabet(ValidateHelper validate, String value, String name, String msgFull)
     {
         match(validate, value, name, msgFull, MATCH_ALPHABET, ERROR_MSG_HALF_WEIGHT_ALPHABET);
     }
@@ -81,7 +81,7 @@ public class ValidateType
      * @return void
      * @access public
      */
-    public void isHalfWeightAlphabet(ValidateHelper validate, String value, String name)
+    public static void isHalfWeightAlphabet(ValidateHelper validate, String value, String name)
     {
         match(validate, value, name, null, MATCH_ALPHABET, ERROR_MSG_HALF_WEIGHT_ALPHABET);
     }
@@ -96,7 +96,7 @@ public class ValidateType
      * @return void
      * @access public
      */
-    public void isHalfWeightAlphanumeric(ValidateHelper validate, String value, String name, String msgFull)
+    public static void isHalfWeightAlphanumeric(ValidateHelper validate, String value, String name, String msgFull)
     {
         match(validate, value, name, msgFull, MATCH_ALPHANUMERIC, ERROR_MSG_HALF_WEIGHT_ALPHANUMERIC);
     }
@@ -110,7 +110,7 @@ public class ValidateType
      * @return void
      * @access public
      */
-    public void isHalfWeightAlphanumeric(ValidateHelper validate, String value, String name)
+    public static void isHalfWeightAlphanumeric(ValidateHelper validate, String value, String name)
     {
         match(validate, value, name, null, MATCH_ALPHANUMERIC, ERROR_MSG_HALF_WEIGHT_ALPHANUMERIC);
     }
@@ -125,7 +125,7 @@ public class ValidateType
      * @return void
      * @access public
      */
-    public void isHiragana(ValidateHelper validate, String value, String name, String msgFull)
+    public static void isHiragana(ValidateHelper validate, String value, String name, String msgFull)
     {
         match(validate, value, name, msgFull, MATCH_HIRAGANA, ERROR_MSG_HIRAGANA);
     }
@@ -139,7 +139,7 @@ public class ValidateType
      * @return void
      * @access public
      */
-    public void isHiragana(ValidateHelper validate, String value, String name)
+    public static void isHiragana(ValidateHelper validate, String value, String name)
     {
         match(validate, value, name, null, MATCH_HIRAGANA, ERROR_MSG_HIRAGANA);
     }
@@ -154,7 +154,7 @@ public class ValidateType
      * @return void
      * @access public
      */
-    public void isKatakana(ValidateHelper validate, String value, String name, String msgFull)
+    public static void isKatakana(ValidateHelper validate, String value, String name, String msgFull)
     {
         match(validate, value, name, msgFull, MATCH_KATAKANA, ERROR_MSG_KATAKANA);
     }
@@ -168,7 +168,7 @@ public class ValidateType
      * @return void
      * @access public
      */
-    public void isKatakana(ValidateHelper validate, String value, String name)
+    public static void isKatakana(ValidateHelper validate, String value, String name)
     {
         match(validate, value, name, null, MATCH_KATAKANA, ERROR_MSG_KATAKANA);
     }
@@ -183,7 +183,7 @@ public class ValidateType
      * @return void
      * @access public
      */
-    public void isEmail(ValidateHelper validate, String value, String name, String msgFull)
+    public static void isEmail(ValidateHelper validate, String value, String name, String msgFull)
     {
         match(validate, value, name, msgFull, MATCH_EMAIL, ERROR_MSG_EMAIL);
     }
@@ -197,7 +197,7 @@ public class ValidateType
      * @return void
      * @access public
      */
-    public void isEmail(ValidateHelper validate, String value, String name)
+    public static void isEmail(ValidateHelper validate, String value, String name)
     {
         match(validate, value, name, null, MATCH_EMAIL, ERROR_MSG_EMAIL);
     }
@@ -212,7 +212,7 @@ public class ValidateType
      * @return void
      * @access public
      */
-    public void isUrl(ValidateHelper validate, String value, String name, String msgFull)
+    public static void isUrl(ValidateHelper validate, String value, String name, String msgFull)
     {
         match(validate, value, name, msgFull, MATCH_URL, ERROR_MSG_URL);
     }
@@ -226,7 +226,7 @@ public class ValidateType
      * @return void
      * @access public
      */
-    public void isUrl(ValidateHelper validate, String value, String name)
+    public static void isUrl(ValidateHelper validate, String value, String name)
     {
         match(validate, value, name, null, MATCH_URL, ERROR_MSG_URL);
     }
@@ -243,7 +243,7 @@ public class ValidateType
      * @return void
      * @access private
      */
-    private void match(ValidateHelper validate, String value, String name, String msgFull, String pattern, String msg)
+    private static void match(ValidateHelper validate, String value, String name, String msgFull, String pattern, String msg)
     {
         if (validate.getResult() == false) {
             return;

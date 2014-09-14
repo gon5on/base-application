@@ -80,5 +80,4 @@ public abstract class BaseDialog<Interface> extends DialogFragment
     {
         mCallbackListener = null;
     }
-
 }
