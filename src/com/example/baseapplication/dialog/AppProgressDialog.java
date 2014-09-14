@@ -19,7 +19,7 @@ public class AppProgressDialog extends BaseDialog<CallbackListener>
     /**
      * インスタンスを返す
      * 
-     * @String String title
+     * @param String title
      * @return SampleDialog
      * @access public
      */
@@ -109,7 +109,9 @@ public class AppProgressDialog extends BaseDialog<CallbackListener>
     @Override
     public void dismiss()
     {
-        getDialog().dismiss();
+        if (getDialog() != null) {
+            getDialog().dismiss();
+        }
     }
 
     /**
