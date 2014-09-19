@@ -18,7 +18,7 @@ public class AppProgressDialog extends BaseDialog<CallbackListener>
     /**
      * インスタンスを返す
      * 
-     * @String String title
+     * @param String title
      * @return SampleDialog
      * @access public
      */
