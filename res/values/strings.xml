@@ -2,8 +2,8 @@
 <resources>
 
     <string name="app_name">BaseApplication</string>
-    <string name="action_content1">Con1</string>
-    <string name="action_content2">Con2</string>
-    <string name="action_content3">Con3</string>
+    <string name="action_content1">ダイアログサンプル</string>
+    <string name="action_content2">非同期処理サンプル</string>
+    <string name="action_content3">課金サンプル</string>
 
 </resources>
