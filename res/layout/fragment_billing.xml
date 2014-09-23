@@ -21,13 +21,6 @@
             android:minHeight="36dp"
             android:text="課金状態確認" />
 
-        <TextView
-            android:id="@+id/textView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="↓developer consoleで実際に追加した課金アイテムのプロダクトIDを使用して購入"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
-
         <Button
             android:id="@+id/buttonBilling1"
             android:layout_width="wrap_content"
@@ -41,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:minHeight="36dp"
-            android:text="管理型アイテム消費(デバッグ用)" />
+            android:text="管理型アイテム消費" />
 
         <Button
             android:id="@+id/buttonBilling2"
@@ -69,8 +62,16 @@
             android:id="@+id/buttonUse3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
             android:minHeight="36dp"
             android:text="定期購入キャンセル" />
+
+        <Button
+            android:id="@+id/buttonSend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="36dp"
+            android:text="ログ送信" />
     </LinearLayout>
 
 </ScrollView>

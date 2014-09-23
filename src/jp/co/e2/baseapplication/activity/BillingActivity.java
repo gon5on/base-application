@@ -6,6 +6,7 @@ import jp.co.e2.baseapplication.billing.IabResult;
 import jp.co.e2.baseapplication.billing.Inventory;
 import jp.co.e2.baseapplication.billing.Purchase;
 import jp.co.e2.baseapplication.common.AndroidUtils;
+import jp.co.e2.baseapplication.common.DateHelper;
 import jp.co.e2.baseapplication.common.LogUtils;
 import jp.co.e2.baseapplication.common.PrefarenceUtils;
 import android.app.Fragment;
@@ -39,11 +40,18 @@ public class BillingActivity extends BaseActivity
     // 識別子文字列（自由に指定してOK）
     private static final String PAYLOAD = "my_payload";
 
-    // サンプルプロダクトコード
+    // プロダクトコード
     private static final String PRODUCT_CODE[] = {
             "jp.co.e2.baseapplication.item1",           // 管理対象アイテムのプロダクトID
             "jp.co.e2.baseapplication.item2",           // 管理対象外アイテムのプロダクトID
             "jp.co.e2.baseapplication.item3",           // 定期購入アイテムのプロダクトID
+    };
+
+    // プロダクト名
+    private static final String PRODUCT_NAME[] = {
+            "管理対象アイテム",
+            "管理対象外アイテム",
+            "定期購入アイテム",
     };
 
     /**
@@ -94,7 +102,8 @@ public class BillingActivity extends BaseActivity
         private View mView = null;
 
         private IabHelper mHelper;                          //課金ヘルパー
-        private Purchase mItem1Purchase;                    //管理型アイテム消費用に管理型アイテムを保持しておく（デバッグ用）
+        private Purchase mItem1Purchase;                    //管理対象アイテム消費用に管理対象アイテムを保持しておく（デバッグ用）
+        private String mLog = "";                           //メール送信ログ
 
         /**
          * コンストラクタ
@@ -172,34 +181,8 @@ public class BillingActivity extends BaseActivity
                 super.onActivityResult(requestCode, resultCode, data);
             }
 
-            LogUtils.d(requestCode);
-            LogUtils.d(resultCode);
-
-            /*// リクエストコードを判別
-            if (resultCode == RESULT_OK && requestCode == REQUEST_CODE_SAMPLE_BILLING1) {
-                Integer responseCode = data.getIntExtra("RESPONSE_CODE", 0);
-
-                LogUtils.d("onActivityResult responseCode:" + responseCode);
-
-                // 注文情報を取得する
-                String purchase_data = data.getStringExtra("INAPP_PURCHASE_DATA");
-
-                try {
-                    // JSONオブジェクトへ変換する
-                    JSONObject object = new JSONObject(purchase_data);
-
-                    // 注文情報をログに出力する
-                    LogUtils.d("result", "orderId = " + object.getString("orderId"));
-                    LogUtils.d("result", "packageName = " + object.getString("packageName"));
-                    LogUtils.d("result", "productId = " + object.getString("productId"));
-                    LogUtils.d("result", "purchaseTime = " + object.getString("purchaseTime"));
-                    LogUtils.d("result", "purchaseState = " + object.getString("purchaseState"));
-                    LogUtils.d("result", "developerPayload = " + object.getString("developerPayload"));
-                    LogUtils.d("result", "purchaseToken = " + object.getString("purchaseToken"));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }*/
+            LogUtils.d("request code " + requestCode);
+            LogUtils.d("result code " + resultCode);
         }
 
         /**
@@ -210,7 +193,7 @@ public class BillingActivity extends BaseActivity
          */
         private void setEvent()
         {
-            //管理型アイテム購入
+            //管理対象アイテム購入
             Button buttonBilling1 = (Button) mView.findViewById(R.id.buttonBilling1);
             buttonBilling1.setOnClickListener(new OnClickListener() {
                 @Override
@@ -219,7 +202,7 @@ public class BillingActivity extends BaseActivity
                 }
             });
 
-            //非管理型アイテム購入
+            //管理対象外アイテム購入
             Button buttonBilling2 = (Button) mView.findViewById(R.id.buttonBilling2);
             buttonBilling2.setOnClickListener(new OnClickListener() {
                 @Override
@@ -239,19 +222,18 @@ public class BillingActivity extends BaseActivity
                 }
             });
 
-            // 管理型アイテム消費（普通は消費されない、デバッグ用）
+            // 管理対象アイテム消費（普通は消費されない、デバッグ用）
             Button buttonUse1 = (Button) mView.findViewById(R.id.buttonUse1);
             buttonUse1.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (mItem1Purchase != null) {
                         mHelper.consumeAsync(mItem1Purchase, mConsumeFinishedListener);
-                        AndroidUtils.showToastS(getActivity(), "消費が完了しました");
                     }
                 }
             });
 
-            // 非管理型アイテム消費
+            // 管理対象外アイテム消費
             Button buttonUse2 = (Button) mView.findViewById(R.id.buttonUse2);
             buttonUse2.setOnClickListener(new OnClickListener() {
                 @Override
@@ -261,7 +243,7 @@ public class BillingActivity extends BaseActivity
                     cnt = (cnt < 0) ? 0 : cnt;
                     PrefarenceUtils.save(getActivity(), "item2_cnt", cnt);
 
-                    AndroidUtils.showToastS(getActivity(), "消費が完了しました\n非管理型アイテム保持数:" + cnt);
+                    AndroidUtils.showToastS(getActivity(), "消費完了\n管理対象外アイテム保持数 " + cnt);
                 }
             });
 
@@ -270,6 +252,7 @@ public class BillingActivity extends BaseActivity
             buttonUse3.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    //キャンセル画面（google play）へ
                     Intent intent = new Intent(Intent.ACTION_VIEW);
                     intent.setData(Uri.parse("market://details?id=cjp.co.e2.baseapplication"));
                     startActivity(intent);
@@ -282,6 +265,19 @@ public class BillingActivity extends BaseActivity
                 @Override
                 public void onClick(View v) {
                     mHelper.queryInventoryAsync(mGotInventoryListener);
+                }
+            });
+
+            // ログ送信ボタン（メーラー起動）
+            Button buttonSend = (Button) mView.findViewById(R.id.buttonSend);
+            buttonSend.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(Intent.ACTION_SEND);
+                    intent.putExtra(Intent.EXTRA_SUBJECT, "課金ログ");
+                    intent.putExtra(Intent.EXTRA_TEXT, mLog);
+                    intent.setType("message/rfc822");
+                    startActivity(intent);
                 }
             });
         }
@@ -336,43 +332,38 @@ public class BillingActivity extends BaseActivity
                     return;
                 }
 
-                String msg = "";
-
-                //管理型アイテムの確認
+                //管理対象アイテムを消費可能なように管理対象アイテムを保持しておく（デバッグ用）
                 Purchase item1 = inventory.getPurchase(PRODUCT_CODE[0]);
                 if (item1 != null && verifyDeveloperPayload(item1)) {
-                    LogUtils.d("管理型アイテム(" + PRODUCT_CODE[0] + ") 購入済!!!");
-                    msg += "管理型アイテム　 購入済!!!\n";
-
-                    mItem1Purchase = inventory.getPurchase(PRODUCT_CODE[0]);    //管理型アイテム消費用に管理型アイテムを保持しておく（デバッグ用）
-                } else {
-                    LogUtils.d("管理型アイテム(" + PRODUCT_CODE[0] + ") 未購入");
-                    msg += "管理型アイテム　未購入\n";
+                    mItem1Purchase = inventory.getPurchase(PRODUCT_CODE[0]);
                 }
 
-                //非管理型アイテムの確認
+                //管理対象外アイテムは消費処理がされていなかったら、複数回購入可能なように消費処理を走らせておく
                 Purchase item2 = inventory.getPurchase(PRODUCT_CODE[1]);
-                if (item2 != null && verifyDeveloperPayload(item1)) {
-                    LogUtils.d("非管理型アイテム(" + PRODUCT_CODE[1] + ") 購入済!!!");
-                    msg += "非管理型アイテム 購入済!!!\n";
-
-                    //複数回購入可能なように、消費処理を走らせておく
+                if (item2 != null && verifyDeveloperPayload(item2)) {
                     mHelper.consumeAsync(inventory.getPurchase(PRODUCT_CODE[1]), mConsumeFinishedListener);
-                } else {
-                    LogUtils.d("非管理型アイテム(" + PRODUCT_CODE[1] + ") 未購入");
-                    msg += "非管理型アイテム　未購入\n";
                 }
 
-                //定期購入アイテムの確認
-                Purchase item3 = inventory.getPurchase(PRODUCT_CODE[2]);
-                if (item3 != null && verifyDeveloperPayload(item3)) {
-                    LogUtils.d("定期購入(" + PRODUCT_CODE[2] + ") 購入済!!!");
-                    msg += "定期購入　購入済!!!";
-                } else {
-                    LogUtils.d("定期購入(" + PRODUCT_CODE[2] + ") 未購入");
-                    msg += "定期購入　未購入";
-                }
+                //ログ関連
+                String msg = "";
+                mLog += "●Purchase item status\n";
+                mLog += new DateHelper().format(DateHelper.FMT_DATETIME) + "\n";
 
+                for (int i = 0; i < PRODUCT_CODE.length; i++) {
+                    Purchase item = inventory.getPurchase(PRODUCT_CODE[i]);
+
+                    if (item != null && verifyDeveloperPayload(item)) {
+                        LogUtils.d(PRODUCT_NAME[i] + " 購入済!!!");
+                        msg += PRODUCT_NAME[i] + " 購入済!!!\n";
+                        mLog += String.valueOf(inventory.getPurchase(PRODUCT_CODE[i])) + "\n";
+                    } else {
+                        LogUtils.d(PRODUCT_NAME[i] + " 未購入");
+                        msg += PRODUCT_NAME[i] + " 未購入\n";
+                        mLog += "No exist " + PRODUCT_CODE[i] + "\n";
+                    }
+                    mLog += "------------------------------------------\n";
+                }
+                mLog += "==========================================\n";
                 AndroidUtils.showToastL(getActivity(), msg);
             }
         };
@@ -392,30 +383,34 @@ public class BillingActivity extends BaseActivity
                     return;
                 }
 
-                //管理型アイテム購入後の処理
-                if (purchase.getSku().equals(PRODUCT_CODE[0])) {
-                    LogUtils.d("管理型アイテム(" + PRODUCT_CODE[0] + ") 購入完了!!!");
-                    AndroidUtils.showToastL(getActivity(), "購入が完了しました\nプロダクトID:" + purchase.getSku());
-                }
-                //非管理型アイテム購入後の処理
-                else if (purchase.getSku().equals(PRODUCT_CODE[1])) {
-                    LogUtils.d("非管理型アイテム(" + PRODUCT_CODE[1] + ") 購入完了!!!");
-
+                //管理対象外アイテム購入後の処理
+                if (purchase.getSku().equals(PRODUCT_CODE[1])) {
                     //保持アイテム数を変更する
                     Integer cnt = PrefarenceUtils.get(getActivity(), "item2_cnt", 0) + 1;
                     PrefarenceUtils.save(getActivity(), "item2_cnt", cnt);
 
                     //複数回購入可能なように、消費処理を走らせる
                     mHelper.consumeAsync(purchase, mConsumeFinishedListener);
-
-                    AndroidUtils.showToastS(getActivity(), "購入が完了しました\n非管理型アイテム保持数:" + cnt);
                 }
-                //定期購入アイテム購入後の処理
-                else if (purchase.getSku().equals(PRODUCT_CODE[2])) {
-                    LogUtils.d("定期購入アイテム(" + PRODUCT_CODE[2] + ") 購入完了!!!");
 
-                    AndroidUtils.showToastL(getActivity(), "購入が完了しました\nプロダクトID:" + purchase.getSku());
+                //ログ関連
+                String msg = "";
+                mLog += "●Item buy!\n";
+                mLog += new DateHelper().format(DateHelper.FMT_DATETIME) + "\n";
+
+                for (int i = 0; i < PRODUCT_CODE.length; i++) {
+                    if (purchase.getSku().equals(PRODUCT_CODE[i])) {
+                        LogUtils.d(PRODUCT_NAME[i] + " 購入完了!!!");
+                        msg += PRODUCT_NAME[i] + " 購入完了!!!\n";
+                        mLog += String.valueOf(purchase) + "\n";
+
+                        if (purchase.getSku().equals(PRODUCT_CODE[1])) {
+                            msg += PRODUCT_NAME[1] + "保持数 " + PrefarenceUtils.get(getActivity(), "item2_cnt", 0) + "\n";
+                        }
+                    }
                 }
+                mLog += "==========================================\n";
+                AndroidUtils.showToastL(getActivity(), msg);
             }
         };
 
@@ -426,21 +421,31 @@ public class BillingActivity extends BaseActivity
             public void onConsumeFinished(Purchase purchase, IabResult result)
             {
                 // オブジェクトが生成されていない
-                if (mHelper == null)
+                if (mHelper == null) {
                     return;
-
-                //成功時の処理
-                if (result.isSuccess()) {
-                    // TODO 課金アイテムによっての各処理
-
-                    AndroidUtils.showToastL(getActivity(), "消費が完了しました　プロダクトID:" + purchase.getSku());
-                    LogUtils.d("消費成功　" + result);
                 }
+
                 // エラー時の処理
-                else {
+                if (result.isFailure()) {
                     AndroidUtils.showToastS(getActivity(), "消費失敗\n結果：" + result);
                     LogUtils.d("消費失敗　" + result);
+                    return;
                 }
+
+                //ログ関連
+                String msg = "";
+                mLog += "●Item use!\n";
+                mLog += new DateHelper().format(DateHelper.FMT_DATETIME) + "\n";
+
+                for (int i = 0; i < PRODUCT_CODE.length; i++) {
+                    if (purchase.getSku().equals(PRODUCT_CODE[i])) {
+                        LogUtils.d(PRODUCT_NAME[i] + " 消費完了!!!");
+                        msg += PRODUCT_NAME[i] + " 消費完了!!!\n";
+                        mLog += String.valueOf(purchase) + "\n";
+                    }
+                }
+                mLog += "==========================================\n";
+                AndroidUtils.showToastL(getActivity(), msg);
             }
         };
 
