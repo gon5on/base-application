@@ -1,0 +1,87 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        // Android StudioのVersionによって、Required Versionが異なるので、
+        // 最後を+で省略して、常に最新のVersionを取得
+        classpath 'com.android.tools.build:gradle:0.12.+'
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+    }
+    tasks.withType(JavaCompile) {
+        options.encoding = 'UTF-8'
+    }
+}
+
+apply plugin: 'com.android.application'
+
+def VERSION_CODE = 1
+def VERSION_NAME = "1.00.00"
+def PACKAGE_NAME = "jp.co.e2.baseapplication"
+
+android {
+    compileSdkVersion 20
+    buildToolsVersion "20.0.0"
+    useOldManifestMerger false
+
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 17
+        versionCode VERSION_CODE
+    }
+
+    buildTypes {
+        debug {
+            //デバッグモードON
+            debuggable true
+            //apk最適化
+            zipAlign true
+            //パッケージ名のサフィックス
+            applicationIdSuffix ".debug"
+            // Version名につけるサフィックス
+            versionNameSuffix '-debug'
+        }
+        release {
+            //デバッグモードOFF
+            debuggable false
+            //apk最適化
+            zipAlign true
+            //難読化
+            runProguard true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+    }
+
+    productFlavors {
+        develop {
+            applicationId "${PACKAGE_NAME}.develop"
+            versionName "${VERSION_NAME}-develop"
+        }
+        staging {
+            applicationId "${PACKAGE_NAME}.staging"
+            versionName "${VERSION_NAME}-staging"
+        }
+        production {
+            applicationId PACKAGE_NAME
+            versionName VERSION_NAME
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: '*.jar')
+    compile 'net.arnx:jsonic:1.2.9'
+    compile 'org.apache.httpcomponents:httpcore:4.3.2'
+    compile 'org.apache.httpcomponents:httpmime:4.3.5'
+}
