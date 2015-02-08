@@ -21,11 +21,7 @@ public class SampleAsyncTask extends BaseAsyncTask<Void, Integer, HttpHelper> {
     }
 
     /**
-     * 非同期処理
-     *
-     * @param params
-     * @return Http http onPostExecuteに渡したい値
-     * @access protected
+     * ${inheritDoc}
      */
     @Override
     protected HttpHelper doInBackground(Void... params) {

@@ -129,11 +129,7 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
     }
 
     /**
-     * surfaceCreated
-     *
-     * @param holder
-     * @return void
-     * @access public
+     * ${inheritDoc}
      */
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
@@ -160,21 +156,13 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
             }
 
             if (mOnTakePictureListener != null) {
-                mOnTakePictureListener.exception();
-                return ;
+                mOnTakePictureListener.unknownException();
             }
         }
     }
 
     /**
-     * surfaceChanged
-     *
-     * @param holder
-     * @param format
-     * @param width
-     * @param height
-     * @return void
-     * @access public
+     * ${inheritDoc}
      */
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
@@ -195,18 +183,13 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
             }
 
             if (mOnTakePictureListener != null) {
-                mOnTakePictureListener.exception();
-                return ;
+                mOnTakePictureListener.unknownException();
             }
         }
     }
 
     /**
-     * surfaceDestroyed
-     *
-     * @param holder
-     * @return void
-     * @access public
+     * ${inheritDoc}
      */
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
@@ -221,11 +204,7 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
     }
 
     /**
-     * onTouchEvent
-     *
-     * @param event
-     * @return boolean
-     * @access public
+     * ${inheritDoc}
      */
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -354,8 +333,7 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
                                 e.printStackTrace();
 
                                 if (mOnTakePictureListener != null) {
-                                    mOnTakePictureListener.exception();
-                                    return;
+                                    mOnTakePictureListener.unknownException();
                                 }
                             }
                         }
@@ -367,8 +345,7 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
             e.printStackTrace();
 
             if (mOnTakePictureListener != null) {
-                mOnTakePictureListener.exception();
-                return ;
+                mOnTakePictureListener.unknownException();
             }
         }
     }
@@ -436,8 +413,7 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
             e.printStackTrace();
 
             if (mOnTakePictureListener != null) {
-                mOnTakePictureListener.exception();
-                return ;
+                mOnTakePictureListener.unknownException();
             }
         }
     }
@@ -487,8 +463,7 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
             mCamera = null;
 
             if (mOnTakePictureListener != null) {
-                mOnTakePictureListener.exception();
-                return ;
+                mOnTakePictureListener.unknownException();
             }
         }
     }
@@ -640,7 +615,6 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
 
                 if (mOnTakePictureListener != null) {
                     mOnTakePictureListener.onTakePictureFailed();
-                    return ;
                 }
             }
             catch (OutOfMemoryError e) {
@@ -648,15 +622,13 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
 
                 if (mOnTakePictureListener != null) {
                     mOnTakePictureListener.outOfMemory();
-                    return ;
                 }
             }
             catch (Exception e) {
                 e.printStackTrace();
 
                 if (mOnTakePictureListener != null) {
-                    mOnTakePictureListener.exception();
-                    return ;
+                    mOnTakePictureListener.unknownException();
                 }
             }
         }
@@ -741,36 +713,55 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
                 }
             }
         }
-
-        //LogUtils.i("orientation : " + mPreOrientation);
     }
 
     /**
-     * onAccuracyChanged
-     *
-     * @param sensor
-     * @param accuracy
-     * @return void
-     * @access public
+     * ${inheritDoc}
      */
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
     }
 
     /**
-     * 写真を撮影したコールバックリスナー
+     * コールバックリスナー
      *
      * @access public
      */
     public static interface OnTakePictureListener {
+        /**
+         * 写真を撮影した
+         *
+         * @param uri 画像保存URI
+         * @access public
+         */
         public void onTakePicture(Uri uri);
 
+        /**
+         * 写真撮影に失敗した
+         *
+         * @access public
+         */
         public void onTakePictureFailed();
 
+        /**
+         * メモリ不足エラーが発生した
+         *
+         * @access public
+         */
         public void outOfMemory();
 
+        /**
+         * オートフォーカスに失敗した
+         *
+         * @access public
+         */
         public void autoFocusFailed();
 
-        public void exception();
+        /**
+         * 不明なエラーが発生した
+         *
+         * @access public
+         */
+        public void unknownException();
     }
 }

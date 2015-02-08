@@ -10,6 +10,7 @@ import jp.co.e2.baseapplication.common.DateHelper;
 import jp.co.e2.baseapplication.common.LogUtils;
 import jp.co.e2.baseapplication.common.PreferenceUtils;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.net.Uri;
@@ -51,11 +52,19 @@ public class BillingActivity extends BaseActivity {
     private static final String PRODUCT_NAME[] = {"管理対象アイテム", "管理対象外アイテム", "定期購入アイテム",};
 
     /**
-     * onCreate
+     * ファクトリーメソッドもどき
      *
-     * @param savedInstanceState
-     * @return void
-     * @access protected
+     * @return Intent intent
+     * @access public
+     */
+    public static Intent newIntent(Activity activity) {
+        Intent intent = new Intent(activity, BillingActivity.class);
+
+        return intent;
+    }
+
+    /**
+     * ${inheritDoc}
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,18 +72,12 @@ public class BillingActivity extends BaseActivity {
         setContentView(R.layout.activity_billing);
 
         if (savedInstanceState == null) {
-            getFragmentManager().beginTransaction().add(R.id.container, new BillingFragment()).commit();
+            getFragmentManager().beginTransaction().add(R.id.container, PlaceholderFragment.newInstance()).commit();
         }
     }
 
     /**
-     * onActivityResult
-     *
-     * @param requestCode
-     * @param resultCode
-     * @param data
-     * @return View
-     * @access public
+     * ${inheritDoc}
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -87,32 +90,33 @@ public class BillingActivity extends BaseActivity {
     }
 
     /**
-     * AsyncTaskFragment
+     * PlaceholderFragment
      *
      * @access public
      */
-    public static class BillingFragment extends Fragment {
+    public static class PlaceholderFragment extends Fragment {
         private View mView = null;
         private IabHelper mHelper;                          //課金ヘルパー
         private Purchase mItem1Purchase;                    //管理対象アイテム消費用に管理対象アイテムを保持しておく（デバッグ用）
         private String mLog = "";                           //メール送信ログ
 
         /**
-         * コンストラクタ
+         * ファクトリーメソッド
          *
+         * @return PlaceholderFragment fragment
          * @access public
          */
-        public BillingFragment() {
+        public static PlaceholderFragment newInstance() {
+            Bundle args = new Bundle();
+
+            PlaceholderFragment fragment = new PlaceholderFragment();
+            fragment.setArguments(args);
+
+            return fragment;
         }
 
         /**
-         * onCreateView
-         *
-         * @param inflater
-         * @param container
-         * @param savedInstanceState
-         * @return View
-         * @access public
+         * ${inheritDoc}
          */
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -133,10 +137,7 @@ public class BillingActivity extends BaseActivity {
         }
 
         /**
-         * onDestroy
-         *
-         * @return void
-         * @access public
+         * ${inheritDoc}
          */
         @Override
         public void onDestroy() {
@@ -149,13 +150,7 @@ public class BillingActivity extends BaseActivity {
         }
 
         /**
-         * onActivityResult
-         *
-         * @param requestCode
-         * @param resultCode
-         * @param data
-         * @return void
-         * @access protected
+         * ${inheritDoc}
          */
         @Override
         public void onActivityResult(int requestCode, int resultCode, Intent data) {

@@ -173,7 +173,7 @@ public class DateHelper {
      * @access public
      */
     public void addSec(Integer add) {
-        add(0, 0, 0, 0, add, 0);
+        add(0, 0, 0, 0, 0, add);
     }
 
     /**

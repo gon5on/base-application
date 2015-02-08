@@ -27,12 +27,7 @@ public class UncaughtExHandler implements UncaughtExceptionHandler {
     }
 
     /**
-     * uncaughtException
-     *
-     * @param thread
-     * @param e
-     * @return void
-     * @access public
+     * ${inheritDoc}
      */
     @Override
     public void uncaughtException(Thread thread, Throwable e) {

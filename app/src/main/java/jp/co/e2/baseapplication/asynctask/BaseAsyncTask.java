@@ -44,10 +44,7 @@ public abstract class BaseAsyncTask<Params, Progress, Result> extends AsyncTask<
     }
 
     /**
-     * 非同期前処理
-     *
-     * @return void
-     * @access protected
+     * ${inheritDoc}
      */
     @Override
     protected void onPreExecute() {
@@ -59,21 +56,13 @@ public abstract class BaseAsyncTask<Params, Progress, Result> extends AsyncTask<
     }
 
     /**
-     * 非同期処理
-     *
-     * @param params
-     * @return Result
-     * @access protected
+     * ${inheritDoc}
      */
     @Override
     protected abstract Result doInBackground(Params... params);
 
     /**
-     * 非同期処理更新
-     *
-     * @param values
-     * @return void
-     * @access protected
+     * ${inheritDoc}
      */
     @Override
     protected void onProgressUpdate(Progress... values) {
@@ -85,10 +74,7 @@ public abstract class BaseAsyncTask<Params, Progress, Result> extends AsyncTask<
     }
 
     /**
-     * 非同期キャンセル処理
-     *
-     * @return void
-     * @access protected
+     * ${inheritDoc}
      */
     @Override
     protected void onCancelled() {
@@ -100,11 +86,7 @@ public abstract class BaseAsyncTask<Params, Progress, Result> extends AsyncTask<
     }
 
     /**
-     * 非同期後処理
-     *
-     * @param result
-     * @return void
-     * @access protected
+     * ${inheritDoc}
      */
     @Override
     protected void onPostExecute(Result result) {

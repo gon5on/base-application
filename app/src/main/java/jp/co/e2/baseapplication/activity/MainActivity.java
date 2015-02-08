@@ -3,15 +3,21 @@ package jp.co.e2.baseapplication.activity;
 import jp.co.e2.baseapplication.R;
 import jp.co.e2.baseapplication.common.AndroidUtils;
 import jp.co.e2.baseapplication.dialog.SampleDialog;
+import jp.co.e2.baseapplication.entity.SampleEntity;
+import jp.co.e2.baseapplication.model.BaseSQLiteOpenHelper;
+import jp.co.e2.baseapplication.model.SampleDao;
 
 import android.app.Fragment;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+
+import java.util.ArrayList;
 
 /**
  * メインアクテビティ
@@ -22,11 +28,7 @@ public class MainActivity extends BaseActivity implements SampleDialog.CallbackL
     private static final int DIALOG_TAG = 1;
 
     /**
-     * onCreate
-     *
-     * @param savedInstanceState
-     * @return void
-     * @access protected
+     * ${inheritDoc}
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,16 +36,12 @@ public class MainActivity extends BaseActivity implements SampleDialog.CallbackL
         setContentView(R.layout.activity_main);
 
         if (savedInstanceState == null) {
-            getFragmentManager().beginTransaction().add(R.id.container, new MainFragment()).commit();
+            getFragmentManager().beginTransaction().add(R.id.container, PlaceholderFragment.newInstance()).commit();
         }
     }
 
     /**
-     * onCreateOptionsMenu
-     *
-     * @param menu
-     * @return Boolean
-     * @access public
+     * ${inheritDoc}
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -52,11 +50,7 @@ public class MainActivity extends BaseActivity implements SampleDialog.CallbackL
     }
 
     /**
-     * onOptionsItemSelected
-     *
-     * @param item
-     * @return Boolean
-     * @access public
+     * ${inheritDoc}
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -68,12 +62,10 @@ public class MainActivity extends BaseActivity implements SampleDialog.CallbackL
             sampleDialog.show(getFragmentManager(), "dialog");
             return true;
         } else if (id == R.id.action_content2) {
-            Intent intent = new Intent(MainActivity.this, AsyncTaskActivity.class);
-            startActivity(intent);
+            startActivity(AsyncTaskActivity.newIntent(MainActivity.this));
             return true;
         } else if (id == R.id.action_content3) {
-            Intent intent = new Intent(MainActivity.this, BillingActivity.class);
-            startActivity(intent);
+            startActivity(BillingActivity.newIntent(MainActivity.this));
             return true;
         }
 
@@ -81,10 +73,7 @@ public class MainActivity extends BaseActivity implements SampleDialog.CallbackL
     }
 
     /**
-     * サンプルダイアログでOKボタンが押された
-     *
-     * @return void
-     * @access public
+     * ${inheritDoc}
      */
     @Override
     public void onClickSampleDialogOk(int tag) {
@@ -92,10 +81,7 @@ public class MainActivity extends BaseActivity implements SampleDialog.CallbackL
     }
 
     /**
-     * サンプルダイアログでキャンセルボタンが押された
-     *
-     * @return void
-     * @access public
+     * ${inheritDoc}
      */
     @Override
     public void onClickSampleDialogCancel(int tag) {
@@ -103,27 +89,28 @@ public class MainActivity extends BaseActivity implements SampleDialog.CallbackL
     }
 
     /**
-     * MainFragment
+     * PlaceholderFragment
      *
      * @access public
      */
-    public static class MainFragment extends Fragment {
+    public static class PlaceholderFragment extends Fragment {
         /**
-         * コンストラクタ
+         * ファクトリーメソッド
          *
+         * @return PlaceholderFragment fragment
          * @access public
          */
-        public MainFragment() {
+        public static PlaceholderFragment newInstance() {
+            Bundle args = new Bundle();
+
+            PlaceholderFragment fragment = new PlaceholderFragment();
+            fragment.setArguments(args);
+
+            return fragment;
         }
 
         /**
-         * onCreateView
-         *
-         * @param inflater
-         * @param container
-         * @param savedInstanceState
-         * @return View
-         * @access public
+         * ${inheritDoc}
          */
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -134,7 +121,38 @@ public class MainActivity extends BaseActivity implements SampleDialog.CallbackL
             // fragment再生成抑止、必要に応じて
             setRetainInstance(true);
 
+            //サンプルデータ一覧を取得
+            getSampleData();
+
             return view;
+        }
+
+        /**
+         * サンプルデータ一覧を取得
+         *
+         * @return ArrayList<SampleEntity>
+         * @access private
+         */
+        private ArrayList<SampleEntity> getSampleData() {
+            ArrayList<SampleEntity> data = null;
+            SQLiteDatabase db = null;
+
+            try {
+                BaseSQLiteOpenHelper helper = new BaseSQLiteOpenHelper(getActivity());
+                db = helper.getWritableDatabase();
+
+                SampleDao petDao = new SampleDao(getActivity());
+                data = petDao.findAll(db);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                if (db != null) {
+                    db.close();
+                }
+            }
+
+            return data;
         }
     }
 }

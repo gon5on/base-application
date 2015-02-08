@@ -56,11 +56,7 @@ public class RoundImageView extends TouchFeedbackImageView implements View.OnTou
     }
 
     /**
-     * onDraw
-     *
-     * @param canvas
-     * @return void
-     * @access protected
+     * ${inheritDoc}
      */
     @Override
     protected void onDraw(Canvas canvas) {
@@ -77,14 +73,7 @@ public class RoundImageView extends TouchFeedbackImageView implements View.OnTou
     }
 
     /**
-     * onSizeChanged
-     *
-     * @param w
-     * @param h
-     * @param oldw
-     * @param oldh
-     * @return void
-     * @access protected
+     * ${inheritDoc}
      */
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {

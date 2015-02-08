@@ -12,11 +12,7 @@ import android.os.Bundle;
  */
 public abstract class BaseActivity extends Activity {
     /**
-     * onCreate
-     *
-     * @param savedInstanceState
-     * @return void
-     * @access protected
+     * ${inheritDoc}
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {

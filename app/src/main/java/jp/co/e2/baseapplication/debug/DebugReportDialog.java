@@ -31,11 +31,7 @@ public class DebugReportDialog extends BaseDialog<DebugReportDialog.CallbackList
     }
 
     /**
-     * onCreateDialog
-     *
-     * @param savedInstanceState
-     * @return Dialog
-     * @access public
+     * ${inheritDoc}
      */
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {

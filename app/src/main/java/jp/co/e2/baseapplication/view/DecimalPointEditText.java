@@ -97,6 +97,9 @@ public class DecimalPointEditText extends EditText {
      * @access private
      */
     private class DecimalPointLengthFilter implements InputFilter {
+        /**
+         * ${inheritDoc}
+         */
         @Override
         public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
             //小数点桁数の指定が無ければ、何もしない

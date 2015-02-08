@@ -33,11 +33,7 @@ public class AppProgressDialog extends BaseDialog<CallbackListener> {
     }
 
     /**
-     * onCreateDialog
-     *
-     * @param savedInstanceState
-     * @return Dialog mProgressDialog
-     * @access public
+     * ${inheritDoc}
      */
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -55,11 +51,7 @@ public class AppProgressDialog extends BaseDialog<CallbackListener> {
     }
 
     /**
-     * onCancel
-     *
-     * @param dialog
-     * @return void
-     * @access public
+     * ${inheritDoc}
      */
     @Override
     public void onCancel(DialogInterface dialog) {
@@ -71,10 +63,7 @@ public class AppProgressDialog extends BaseDialog<CallbackListener> {
     }
 
     /**
-     * onDestroyView
-     *
-     * @return void
-     * @access public
+     * ${inheritDoc}
      */
     @Override
     public void onDestroyView() {
@@ -84,10 +73,7 @@ public class AppProgressDialog extends BaseDialog<CallbackListener> {
     }
 
     /**
-     * getDialog
-     *
-     * @return void
-     * @access public
+     * ${inheritDoc}
      */
     @Override
     public Dialog getDialog() {
@@ -95,12 +81,8 @@ public class AppProgressDialog extends BaseDialog<CallbackListener> {
     }
 
     /**
-     * dismiss
-     *
-     * @return void
-     * @access public
-     */
-    @Override
+     * ${inheritDoc}
+     */    @Override
     public void dismiss() {
         if (getDialog() != null) {
             getDialog().dismiss();
@@ -113,6 +95,11 @@ public class AppProgressDialog extends BaseDialog<CallbackListener> {
      * @access public
      */
     public interface CallbackListener {
+        /**
+         * プログレスダイアログでキャンセルが押された
+         *
+         * @access public
+         */
         public void onProgressDialogCancel();
     }
 }

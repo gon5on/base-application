@@ -55,12 +55,7 @@ public class TouchFeedbackImageView extends ImageView implements OnTouchListener
     }
 
     /**
-     * タッチイベント
-     *
-     * @param v
-     * @param event
-     * @return boolean
-     * @access public
+     * ${inheritDoc}
      */
     @Override
     public boolean onTouch(View v, MotionEvent event) {

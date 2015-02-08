@@ -1,20 +1,16 @@
 package jp.co.e2.baseapplication.activity;
 
-import java.util.ArrayList;
-
 import jp.co.e2.baseapplication.R;
 import jp.co.e2.baseapplication.common.AndroidUtils;
 import jp.co.e2.baseapplication.common.HttpHelper;
 import jp.co.e2.baseapplication.dialog.AppProgressDialog;
 import jp.co.e2.baseapplication.dialog.SampleDialog;
-import jp.co.e2.baseapplication.entity.SampleEntity;
-import jp.co.e2.baseapplication.model.BaseSQLiteOpenHelper;
-import jp.co.e2.baseapplication.model.SampleDao;
 import jp.co.e2.baseapplication.asynctask.BaseAsyncTask.AsyncTaskCallbackListener;
 import jp.co.e2.baseapplication.asynctask.SampleAsyncTask;
 
+import android.app.Activity;
 import android.app.Fragment;
-import android.database.sqlite.SQLiteDatabase;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,11 +27,19 @@ public class AsyncTaskActivity extends BaseActivity {
     private static final int SAMPLE_ASYNC_TASK_TAG = 1;
 
     /**
-     * onCreate
+     * ファクトリーメソッドもどき
      *
-     * @param savedInstanceState
-     * @return void
-     * @access protected
+     * @return Intent intent
+     * @access public
+     */
+    public static Intent newIntent(Activity activity) {
+        Intent intent = new Intent(activity, AsyncTaskActivity.class);
+
+        return intent;
+    }
+
+    /**
+     * ${inheritDoc}
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,35 +47,36 @@ public class AsyncTaskActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
 
         if (savedInstanceState == null) {
-            getFragmentManager().beginTransaction().add(R.id.container, new AsyncTaskFragment()).commit();
+            getFragmentManager().beginTransaction().add(R.id.container, PlaceholderFragment.newInstance()).commit();
         }
     }
 
     /**
-     * AsyncTaskFragment
+     * PlaceholderFragment
      *
      * @access public
      */
-    public static class AsyncTaskFragment extends Fragment implements SampleDialog.CallbackListener, AppProgressDialog.CallbackListener, AsyncTaskCallbackListener<Integer, HttpHelper> {
+    public static class PlaceholderFragment extends Fragment implements SampleDialog.CallbackListener, AppProgressDialog.CallbackListener, AsyncTaskCallbackListener<Integer, HttpHelper> {
         private AppProgressDialog mAppProgressDialog = null;
         private SampleAsyncTask mSampleAsyncTask = null;
 
         /**
-         * コンストラクタ
+         * ファクトリーメソッド
          *
+         * @return PlaceholderFragment fragment
          * @access public
          */
-        public AsyncTaskFragment() {
+        public static PlaceholderFragment newInstance() {
+            Bundle args = new Bundle();
+
+            PlaceholderFragment fragment = new PlaceholderFragment();
+            fragment.setArguments(args);
+
+            return fragment;
         }
 
         /**
-         * onCreateView
-         *
-         * @param inflater
-         * @param container
-         * @param savedInstanceState
-         * @return View
-         * @access public
+         * ${inheritDoc}
          */
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -82,9 +87,6 @@ public class AsyncTaskActivity extends BaseActivity {
             // fragment再生成抑止、必要に応じて
             setRetainInstance(true);
 
-            //サンプルデータ一覧を取得
-            getSampleData();
-
             //ボタンを押したらサーバに接続
             view.findViewById(R.id.button).setOnClickListener(new OnClickListener() {
                 @Override
@@ -94,34 +96,6 @@ public class AsyncTaskActivity extends BaseActivity {
             });
 
             return view;
-        }
-
-        /**
-         * サンプルデータ一覧を取得
-         *
-         * @return ArrayList<SampleEntity>
-         * @access private
-         */
-        private ArrayList<SampleEntity> getSampleData() {
-            ArrayList<SampleEntity> data = null;
-            SQLiteDatabase db = null;
-
-            try {
-                BaseSQLiteOpenHelper helper = new BaseSQLiteOpenHelper(getActivity());
-                db = helper.getWritableDatabase();
-
-                SampleDao petDao = new SampleDao(getActivity());
-                data = petDao.findAll(db);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                if (db != null) {
-                    db.close();
-                }
-            }
-
-            return data;
         }
 
         /**
@@ -151,11 +125,7 @@ public class AsyncTaskActivity extends BaseActivity {
         }
 
         /**
-         * 非同期前処理
-         *
-         * @param tag
-         * @return void
-         * @access public
+         * ${inheritDoc}
          */
         @Override
         public void onPreExecute(int tag) {
@@ -165,23 +135,14 @@ public class AsyncTaskActivity extends BaseActivity {
         }
 
         /**
-         * 非同期中更新処理
-         *
-         * @param tag
-         * @param values
-         * @return void
-         * @access public
+         * ${inheritDoc}
          */
         @Override
         public void onProgressUpdate(int tag, Integer... values) {
         }
 
         /**
-         * 非同期キャンセル処理
-         *
-         * @param tag
-         * @return void
-         * @access public
+         * ${inheritDoc}
          */
         @Override
         public void onCancelled(int tag) {
@@ -193,12 +154,7 @@ public class AsyncTaskActivity extends BaseActivity {
         }
 
         /**
-         * 非同期後処理
-         *
-         * @param tag
-         * @param http
-         * @return void
-         * @access public
+         * ${inheritDoc}
          */
         @Override
         public void onPostExecute(int tag, HttpHelper http) {
@@ -214,10 +170,7 @@ public class AsyncTaskActivity extends BaseActivity {
         }
 
         /**
-         * プログレスダイアログでキャンセルされた
-         *
-         * @return void
-         * @access public
+         * ${inheritDoc}
          */
         @Override
         public void onProgressDialogCancel() {
@@ -227,10 +180,7 @@ public class AsyncTaskActivity extends BaseActivity {
         }
 
         /**
-         * サンプルダイアログでOKボタンが押された
-         *
-         * @return void
-         * @access public
+         * ${inheritDoc}
          */
         @Override
         public void onClickSampleDialogOk(int tag) {
@@ -238,10 +188,7 @@ public class AsyncTaskActivity extends BaseActivity {
         }
 
         /**
-         * サンプルダイアログでキャンセルボタンが押された
-         *
-         * @return void
-         * @access public
+         * ${inheritDoc}
          */
         @Override
         public void onClickSampleDialogCancel(int tag) {

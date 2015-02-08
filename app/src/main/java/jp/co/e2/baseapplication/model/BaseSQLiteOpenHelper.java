@@ -28,11 +28,7 @@ public class BaseSQLiteOpenHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * onCreate
-     *
-     * @param db
-     * @return void
-     * @access public
+     * ${inheritDoc}
      */
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -52,13 +48,7 @@ public class BaseSQLiteOpenHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * onUpgrade
-     *
-     * @param db
-     * @param oldVersion 前のバージョン
-     * @param newVersion 新しいバージョン
-     * @return void
-     * @access public
+     * ${inheritDoc}
      */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {

@@ -17,11 +17,7 @@ public abstract class BaseDialog<Interface> extends DialogFragment {
     protected Interface mCallbackListener = null;
 
     /**
-     * onAttach
-     *
-     * @param activity
-     * @return void
-     * @access public
+     * ${inheritDoc}
      */
     @SuppressWarnings("unchecked")
     @Override
