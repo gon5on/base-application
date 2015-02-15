@@ -6,15 +6,12 @@ import android.content.Context;
 
 /**
  * サンプル非同期処理
- *
- * @access public
  */
 public class SampleAsyncTask extends BaseAsyncTask<Void, Integer, HttpHelper> {
     /**
      * コンストラクタ
      *
-     * @param context
-     * @access public
+     * @param context コンテキスト
      */
     public SampleAsyncTask(Integer tag, Context context) {
         super(tag, context);

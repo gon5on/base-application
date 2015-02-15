@@ -18,8 +18,6 @@ import java.util.LinkedHashMap;
  * if(v.getResult() == false){
  * .....
  * }
- *
- * @access public
  */
 public class ValidateHelper {
     private Boolean mResult = true;                         //バリデート結果
@@ -27,8 +25,6 @@ public class ValidateHelper {
 
     /**
      * コンストラクタ
-     *
-     * @access public
      */
     public ValidateHelper() {
         mResult = true;
@@ -40,8 +36,6 @@ public class ValidateHelper {
      *
      * @param name 変数名
      * @param msg  エラーメッセージ
-     * @return void
-     * @access public
      */
     public void error(String name, String msg) {
         mResult = false;
@@ -54,7 +48,6 @@ public class ValidateHelper {
      *
      * @param name 変数名
      * @return boolean エラーの有無
-     * @access public
      */
     public Boolean getResult(String name) {
         return !mErrorMsg.containsKey(name);
@@ -64,7 +57,6 @@ public class ValidateHelper {
      * バリデート結果を返す
      *
      * @return boolean result バリデート結果
-     * @access public
      */
     public Boolean getResult() {
         return mResult;
@@ -74,7 +66,6 @@ public class ValidateHelper {
      * エラ―文言を返す（マップ）
      *
      * @return HashMap<String, String> mErrorMsg
-     * @access public
      */
     public HashMap<String, String> getErrorMsgMap() {
         return mErrorMsg;
@@ -84,7 +75,6 @@ public class ValidateHelper {
      * エラ―文言を返す（リスト）
      *
      * @return ArrayList<String>
-     * @access public
      */
     public ArrayList<String> getErrorMsgList() {
         return new ArrayList<String>(mErrorMsg.values());

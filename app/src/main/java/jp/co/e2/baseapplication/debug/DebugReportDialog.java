@@ -11,15 +11,12 @@ import jp.co.e2.baseapplication.dialog.BaseDialog;
 
 /**
  * 例外報告ダイアログ
- *
- * @access public
  */
 public class DebugReportDialog extends BaseDialog<DebugReportDialog.CallbackListener> {
     /**
      * インスタンスを返す
      *
      * @return DebugReportDialog
-     * @access public
      */
     public static DebugReportDialog getInstance() {
         DebugReportDialog dialog = new DebugReportDialog();
@@ -65,9 +62,6 @@ public class DebugReportDialog extends BaseDialog<DebugReportDialog.CallbackList
 
     /**
      * メーラーを起動する
-     *
-     * @return void
-     * @access private
      */
     private void sendMail() {
         //例外内容をプリファレンスから取得して、プリファレンスの中身を空にしておく
@@ -86,23 +80,15 @@ public class DebugReportDialog extends BaseDialog<DebugReportDialog.CallbackList
 
     /**
      * コールバックリスナー
-     *
-     * @access public
      */
     public interface CallbackListener {
         /**
          * 例外報告ダイアログでOKが押された
-         *
-         * @return void
-         * @access public
          */
         public void onClickDebugReportDialogOk();
 
         /**
          * 例外報告ダイアログでキャンセルが押された
-         *
-         * @return void
-         * @access public
          */
         public void onClickDebugReportDialogCancel();
     }

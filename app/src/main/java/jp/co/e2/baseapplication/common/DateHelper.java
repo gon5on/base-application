@@ -7,8 +7,6 @@ import java.util.Date;
 
 /**
  * 日時関連の便利なものをまとめたクラス
- *
- * @access public
  */
 public class DateHelper {
     //フォーマット
@@ -27,8 +25,6 @@ public class DateHelper {
 
     /**
      * コンストラクタ
-     *
-     * @access public
      */
     public DateHelper() {
         mCal = Calendar.getInstance();
@@ -37,8 +33,7 @@ public class DateHelper {
     /**
      * コンストラクタ
      *
-     * @param cal
-     * @access public
+     * @param cal カレンダークラス
      */
     public DateHelper(Calendar cal) {
         mCal = cal;
@@ -47,8 +42,7 @@ public class DateHelper {
     /**
      * コンストラクタ
      *
-     * @param time
-     * @access public
+     * @param time ミリ秒
      */
     public DateHelper(Long time) {
         mCal = Calendar.getInstance();
@@ -59,8 +53,7 @@ public class DateHelper {
     /**
      * コンストラクタ
      *
-     * @param date
-     * @access public
+     * @param date Dateクラス
      */
     public DateHelper(Date date) {
         mCal = Calendar.getInstance();
@@ -71,10 +64,9 @@ public class DateHelper {
     /**
      * コンストラクタ
      *
-     * @param strDate
-     * @param format
+     * @param strDate 日付文字列
+     * @param format 日付文字列の形式
      * @throws ParseException
-     * @access public
      */
     public DateHelper(String strDate, String format) throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat(format);
@@ -87,9 +79,6 @@ public class DateHelper {
 
     /**
      * 時間以降をクリアする（日付だけを使いたい場合に使用）
-     *
-     * @return void
-     * @access public
      */
     public void clearHour() {
         mCal.set(Calendar.HOUR_OF_DAY, 0);
@@ -105,7 +94,6 @@ public class DateHelper {
      * 足さない部分には0を指定する
      *
      * @param add 何年後
-     * @access public
      */
     public void addYear(Integer add) {
         add(add, 0, 0, 0, 0, 0);
@@ -118,7 +106,6 @@ public class DateHelper {
      * 足さない部分には0を指定する
      *
      * @param add 何か月後
-     * @access public
      */
     public void addMonth(Integer add) {
         add(0, add, 0, 0, 0, 0);
@@ -131,7 +118,6 @@ public class DateHelper {
      * 足さない部分には0を指定する
      *
      * @param add 何日後
-     * @access public
      */
     public void addDay(Integer add) {
         add(0, 0, add, 0, 0, 0);
@@ -144,7 +130,6 @@ public class DateHelper {
      * 足さない部分には0を指定する
      *
      * @param add 何時間後
-     * @access public
      */
     public void addHour(Integer add) {
         add(0, 0, 0, add, 0, 0);
@@ -157,7 +142,6 @@ public class DateHelper {
      * 足さない部分には0を指定する
      *
      * @param add 何分後
-     * @access public
      */
     public void addMin(Integer add) {
         add(0, 0, 0, 0, add, 0);
@@ -170,7 +154,6 @@ public class DateHelper {
      * 足さない部分には0を指定する
      *
      * @param add 何秒後
-     * @access public
      */
     public void addSec(Integer add) {
         add(0, 0, 0, 0, 0, add);
@@ -188,7 +171,6 @@ public class DateHelper {
      * @param addHour  何時間後
      * @param addMin   何分後
      * @param addSec   何秒後
-     * @access public
      */
     public void add(Integer addYear, Integer addMonth, Integer addDay, Integer addHour, Integer addMin, Integer addSec) {
         mCal.add(Calendar.YEAR, addYear);
@@ -202,9 +184,8 @@ public class DateHelper {
     /**
      * フォーマットした日時を返す
      *
-     * @param format
-     * @return String
-     * @access public
+     * @param format フォーマット
+     * @return String フォーマットした日付文字列
      */
     public String format(String format) {
         SimpleDateFormat sdf = new SimpleDateFormat(format);
@@ -215,8 +196,7 @@ public class DateHelper {
     /**
      * 今日までの年齢を計算する
      *
-     * @return int
-     * @access public
+     * @return int 年齢
      */
     public int getAge() {
         int today = Integer.parseInt(new DateHelper().format(FMT_DATE_NO_UNIT));
@@ -229,7 +209,6 @@ public class DateHelper {
      * カレンダークラスを返す
      *
      * @return Calendar mCal
-     * @access public
      */
     public Calendar get() {
         return mCal;

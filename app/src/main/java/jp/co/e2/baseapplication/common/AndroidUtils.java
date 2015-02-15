@@ -17,8 +17,6 @@ import java.util.concurrent.atomic.AtomicInteger;
  * Android独自の便利なものまとめたクラス
  *
  * newしなくても使える
- *
- * @access public
  */
 public class AndroidUtils {
     private static final AtomicInteger mNextGeneratedId = new AtomicInteger(1);
@@ -27,8 +25,6 @@ public class AndroidUtils {
      * トースト表示（短い）
      *
      * @param context コンテキスト
-     * @return void
-     * @access public
      */
     public static void showToastS(Context context, String msg) {
         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
@@ -38,8 +34,6 @@ public class AndroidUtils {
      * トースト表示（長い）
      *
      * @param context コンテキスト
-     * @return void
-     * @access public
      */
     public static void showToastL(Context context, String msg) {
         Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
@@ -50,7 +44,6 @@ public class AndroidUtils {
      *
      * @param context コンテキスト
      * @return String versionName バージョン名
-     * @access public
      */
     public static String getVerName(Context context) {
         String versionName = null;
@@ -72,7 +65,6 @@ public class AndroidUtils {
      *
      * @param context コンテキスト
      * @return Integer versionCode バージョンコード
-     * @access public
      */
     public static Integer getVerCode(Context context) {
         Integer versionCode = null;
@@ -94,7 +86,6 @@ public class AndroidUtils {
      *
      * @param context コンテキスト
      * @return Uri マーケットのURI
-     * @access public
      */
     public static Uri getMargetUri(Context context) {
         return Uri.parse("market://details?id=" + context.getPackageName());
@@ -103,10 +94,9 @@ public class AndroidUtils {
     /**
      * dp→pixelに変換
      *
-     * @param context
-     * @param value
+     * @param context コンテキスト
+     * @param value dp
      * @return Integer pixel
-     * @access public
      */
     public static Integer dpToPixel(Context context, Integer value) {
         double doubleValue = value;
@@ -117,10 +107,9 @@ public class AndroidUtils {
     /**
      * dp→pixelに変換
      *
-     * @param context
-     * @param value
+     * @param context コンテキスト
+     * @param value dp
      * @return Integer pixel
-     * @access public
      */
     public static Integer dpToPixel(Context context, Double value) {
         float density = context.getResources().getDisplayMetrics().density;
@@ -131,9 +120,8 @@ public class AndroidUtils {
     /**
      * ウィンドウの横幅を返す
      *
-     * @param context
-     * @return Integer pixel
-     * @access public
+     * @param context コンテキスト
+     * @return Integer ウインドウ横幅
      */
     public static Integer getScreenWidth(Context context) {
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
@@ -147,9 +135,8 @@ public class AndroidUtils {
     /**
      * ウィンドウの縦幅を返す
      *
-     * @param context
-     * @return Integer pixel
-     * @access public
+     * @param context コンテキスト
+     * @return Integer ウインドウ縦幅
      */
     public static Integer getScreenHeight(Context context) {
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
@@ -163,8 +150,7 @@ public class AndroidUtils {
     /**
      * 被らないリソースIDを生成する
      *
-     * @return int
-     * @access public
+     * @return int リソースID
      */
     public static int generateViewId() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {

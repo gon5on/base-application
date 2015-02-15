@@ -2,8 +2,6 @@ package jp.co.e2.baseapplication.validate;
 
 /**
  * 必須バリデーションクラス
- *
- * @access public
  */
 public class ValidateRequire {
     public static final String ERROR_MSG_REQUIRE = "%sを入力してください。";
@@ -16,8 +14,6 @@ public class ValidateRequire {
      * @param value    値
      * @param name     変数名
      * @param msgFull  エラーメッセージ全文
-     * @return void
-     * @access public
      */
     public static void check(ValidateHelper validate, String value, String name, String msgFull) {
         if (!validate.getResult(value)) {
@@ -35,8 +31,6 @@ public class ValidateRequire {
      * @param validate バリデートクラス
      * @param value    値
      * @param name     変数名
-     * @return void
-     * @access public
      */
     public static void check(ValidateHelper validate, String value, String name) {
         check(validate, value, name, null);
@@ -49,8 +43,6 @@ public class ValidateRequire {
      * @param value    値
      * @param name     変数名
      * @param msgFull  エラーメッセージ全文
-     * @return void
-     * @access public
      */
     public static void check(ValidateHelper validate, Integer value, String name, String msgFull) {
         if (!validate.getResult(name)) {
@@ -68,8 +60,6 @@ public class ValidateRequire {
      * @param validate バリデートクラス
      * @param value    値
      * @param name     変数名
-     * @return void
-     * @access public
      */
     public static void check(ValidateHelper validate, Integer value, String name) {
         check(validate, value, name, null);
@@ -82,8 +72,6 @@ public class ValidateRequire {
      * @param value    値
      * @param name     変数名
      * @param msgFull  エラーメッセージ全文
-     * @return void
-     * @access public
      */
     public static void check(ValidateHelper validate, Double value, String name, String msgFull) {
         if (!validate.getResult(name)) {
@@ -100,8 +88,6 @@ public class ValidateRequire {
      * @param validate バリデートクラス
      * @param value    値
      * @param name     変数名
-     * @return void
-     * @access public
      */
     public static void check(ValidateHelper validate, Double value, String name) {
         check(validate, value, name, null);
@@ -114,8 +100,6 @@ public class ValidateRequire {
      * @param value    値
      * @param name     変数名
      * @param msgFull  エラーメッセージ全文
-     * @return void
-     * @access public
      */
     public static void check(ValidateHelper validate, Float value, String name, String msgFull) {
         if (!validate.getResult(name)) {
@@ -132,8 +116,6 @@ public class ValidateRequire {
      * @param validate バリデートクラス
      * @param value    値
      * @param name     変数名
-     * @return void
-     * @access public
      */
     public static void check(ValidateHelper validate, Float value, String name) {
         check(validate, value, name, null);
@@ -146,8 +128,6 @@ public class ValidateRequire {
      * @param value    値
      * @param name     変数名
      * @param msgFull  エラーメッセージ全文
-     * @return void
-     * @access public
      */
     public static void check(ValidateHelper validate, boolean[] value, String name, String msgFull) {
         if (!validate.getResult(name)) {
@@ -156,8 +136,8 @@ public class ValidateRequire {
 
         Boolean flg = false;
 
-        for (int i = 0; i < value.length; i++) {
-            if (value[i]) {
+        for (boolean tmp : value) {
+            if (tmp) {
                 flg = true;
                 break;
             }
@@ -178,8 +158,6 @@ public class ValidateRequire {
      * @param validate バリデートクラス
      * @param value    値
      * @param name     変数名
-     * @return void
-     * @access public
      */
     public static void check(ValidateHelper validate, boolean[] value, String name) {
         check(validate, value, name, null);
@@ -191,8 +169,6 @@ public class ValidateRequire {
      * @param validate バリデートクラス
      * @param name     変数名
      * @param msgFull  エラーメッセージ全文
-     * @return void
-     * @access private
      */
     private static void setErrorMsg(ValidateHelper validate, String name, String msgFull) {
         if (msgFull != null) {

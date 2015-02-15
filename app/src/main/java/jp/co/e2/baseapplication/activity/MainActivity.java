@@ -21,8 +21,6 @@ import java.util.ArrayList;
 
 /**
  * メインアクテビティ
- *
- * @access public
  */
 public class MainActivity extends BaseActivity implements SampleDialog.CallbackListener {
     private static final int DIALOG_TAG = 1;
@@ -90,15 +88,12 @@ public class MainActivity extends BaseActivity implements SampleDialog.CallbackL
 
     /**
      * PlaceholderFragment
-     *
-     * @access public
      */
     public static class PlaceholderFragment extends Fragment {
         /**
          * ファクトリーメソッド
          *
          * @return PlaceholderFragment fragment
-         * @access public
          */
         public static PlaceholderFragment newInstance() {
             Bundle args = new Bundle();
@@ -131,7 +126,6 @@ public class MainActivity extends BaseActivity implements SampleDialog.CallbackL
          * サンプルデータ一覧を取得
          *
          * @return ArrayList<SampleEntity>
-         * @access private
          */
         private ArrayList<SampleEntity> getSampleData() {
             ArrayList<SampleEntity> data = null;

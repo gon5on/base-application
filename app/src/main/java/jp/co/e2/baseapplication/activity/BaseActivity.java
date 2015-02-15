@@ -7,8 +7,6 @@ import android.os.Bundle;
 
 /**
  * 基底アクテビティ
- *
- * @access public
  */
 public abstract class BaseActivity extends Activity {
     /**

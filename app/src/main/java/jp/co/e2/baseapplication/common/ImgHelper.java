@@ -24,8 +24,6 @@ import android.net.Uri;
 
 /**
  * 画像処理に関してのものをまとめたクラス
- *
- * @access public
  */
 public class ImgHelper {
     private String mPath = null;                       //画像ファイルパス
@@ -36,7 +34,6 @@ public class ImgHelper {
      *
      * @param context コンテキスト
      * @param uri     画像のURI
-     * @access public
      */
     public ImgHelper(Context context, Uri uri) throws Exception {
         mPath = null;
@@ -49,7 +46,6 @@ public class ImgHelper {
      * コンストラクタ
      *
      * @param path 画像のパス
-     * @access public
      */
     public ImgHelper(String path) {
         mPath = path;
@@ -58,9 +54,8 @@ public class ImgHelper {
     /**
      * コンストラクタ
      *
-     * @param context
+     * @param context コンテキスト
      * @param resId   リソースID
-     * @access public
      */
     public ImgHelper(Context context, Integer resId) {
         Resources resources = context.getResources();
@@ -71,7 +66,6 @@ public class ImgHelper {
      * コンストラクタ
      *
      * @param bitmap ビットマップ
-     * @access public
      */
     public ImgHelper(Bitmap bitmap) {
         mBitmap = bitmap;
@@ -82,7 +76,6 @@ public class ImgHelper {
      *
      * @return Bitmap
      * @throws IOException
-     * @access public
      */
     public Bitmap getCircleBitmap() throws IOException {
         return getCircleBitmap(getBitmap());
@@ -95,7 +88,6 @@ public class ImgHelper {
      * @param width  幅ピクセル
      * @return Bitmap
      * @throws IOException
-     * @access public
      */
     public Bitmap getResizeCircleBitmap(Integer height, Integer width) throws IOException {
         return getCircleBitmap(getResizeBitmap(height, width));
@@ -104,10 +96,9 @@ public class ImgHelper {
     /**
      * 丸にくりぬいたビットマップ画像を返す
      *
-     * @param bitmap
+     * @param bitmap ビットマップ
      * @return Bitmap
      * @throws IOException
-     * @access private
      */
     private Bitmap getCircleBitmap(Bitmap bitmap) throws IOException {
         Integer height = bitmap.getHeight();
@@ -135,7 +126,6 @@ public class ImgHelper {
      * @param radius 角丸にしたいピクセル数
      * @return Bitmap
      * @throws IOException
-     * @access public
      */
     public Bitmap getKadomaruBitmap(Integer radius) throws IOException {
         return getKadomaruBitmap(getBitmap(), radius);
@@ -149,7 +139,6 @@ public class ImgHelper {
      * @param radius 角丸にしたいピクセル数
      * @return Bitmap
      * @throws IOException
-     * @access public
      */
     public Bitmap getResizeKadomaruBitmap(Integer height, Integer width, Integer radius) throws IOException {
         return getKadomaruBitmap(getResizeBitmap(height, width), radius);
@@ -161,7 +150,6 @@ public class ImgHelper {
      * @param radius 角丸にしたいピクセル数
      * @return Bitmap
      * @throws IOException
-     * @access private
      */
     private Bitmap getKadomaruBitmap(Bitmap bitmap, Integer radius) throws IOException {
         Integer height = bitmap.getHeight();
@@ -188,7 +176,6 @@ public class ImgHelper {
      *
      * @return Bitmap
      * @throws IOException
-     * @access public
      */
     public Bitmap getBitmap() throws IOException {
         if (mBitmap != null) {
@@ -221,7 +208,6 @@ public class ImgHelper {
      * @param width  幅ピクセル
      * @return Bitmap
      * @throws IOException
-     * @access public
      */
     public Bitmap getResizeBitmap(Integer height, Integer width) throws IOException {
         //一旦、リサイズしたいサイズに一番近い2のべき乗のサイズでbitmapを読み込む
@@ -251,7 +237,6 @@ public class ImgHelper {
      * @param width  幅ピクセル
      * @return Bitmap
      * @throws IOException
-     * @access private
      */
     private Bitmap getPreResizeBitmap(Integer height, Integer width) throws IOException {
         //画像がすでに読み込んである場合は、それを返す
@@ -291,7 +276,6 @@ public class ImgHelper {
      * @param reHeight リサイズ後の高さ
      * @param reWidth  リサイズ後の幅
      * @return Integer inSampleSize 縮小比率
-     * @access private
      */
     private int calcScale(BitmapFactory.Options options, Integer reHeight, Integer reWidth) {
         Integer oriHeight = options.outHeight;
@@ -316,7 +300,6 @@ public class ImgHelper {
      * @param filename 保存画像名
      * @return boolean 成功/失敗
      * @throws IOException
-     * @access public
      */
     public Boolean saveJpg(String dirPath, String filename) throws IOException {
         //画像読み込み
@@ -335,7 +318,6 @@ public class ImgHelper {
      * @param weight   幅ピクセル
      * @return boolean 成功/失敗
      * @throws IOException
-     * @access public
      */
     public Boolean saveResizeJpg(String dirPath, String filename, Integer height, Integer weight) throws IOException {
         //画像読み込み
@@ -353,7 +335,6 @@ public class ImgHelper {
      * @param img      ビットマップ画像
      * @return boolean 成功/失敗
      * @throws IOException
-     * @access private
      */
     private Boolean saveJpg(String dirPath, String filename, Bitmap img) throws IOException {
         //保存先のフォルダ存在確認

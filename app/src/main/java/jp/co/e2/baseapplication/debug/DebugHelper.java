@@ -20,8 +20,6 @@ import jp.co.e2.baseapplication.config.EnvConfig;
  * アクテビティから呼んであげると、通常キャッチできない例外をハンドリングして、メールで送信することができる
  *
  * 意図的にキャッチした例外もメールで送信したい場合は、すべてのcatch節でsaveメソッドを呼んでおけばOK
- *
- * @access public
  */
 public class DebugHelper {
     public static final boolean DEBUG_FLG = EnvConfig.DEBUG_FLG;                //このフラグで例外を報告するかどうか決められる、リリース時には0にすること
@@ -33,9 +31,7 @@ public class DebugHelper {
     /**
      * 例外をハンドリングする処理を仕込む
      *
-     * @param context
-     * @return void
-     * @access public
+     * @param context コンテキスト
      */
     public static void setUncaughtExHandler(Context context) {
         if (DEBUG_FLG) {
@@ -47,10 +43,8 @@ public class DebugHelper {
     /**
      * プリファレンスに例外が保存してあれば、メールで内容を送信する
      *
-     * @param context
-     * @param fragmentManager
-     * @return void
-     * @access public
+     * @param context コンテキスト
+     * @param fragmentManager フラグメントマネージャ
      */
     public static void showReportDialog(Context context, FragmentManager fragmentManager) {
         if (DEBUG_FLG) {
@@ -66,10 +60,8 @@ public class DebugHelper {
     /**
      * 例外を受け取って、プリファレンスに保存する
      *
-     * @param context
-     * @param e
-     * @return void
-     * @access public
+     * @param context コンテキスト
+     * @param e 例外
      */
     public static void save(Context context, Throwable e) {
         if (DEBUG_FLG) {
@@ -82,10 +74,8 @@ public class DebugHelper {
     /**
      * 例外を受け取って、プリファレンスに保存する
      *
-     * @param context
-     * @param e
-     * @return void
-     * @access public
+     * @param context コンテキスト
+     * @param e 例外
      */
     public static void save(Context context, Exception e) {
         if (DEBUG_FLG) {
@@ -98,11 +88,9 @@ public class DebugHelper {
     /**
      * 例外と配列を受け取って、プリファレンスに保存する
      *
-     * @param context
-     * @param e
-     * @param map
-     * @return void
-     * @access public
+     * @param context コンテキスト
+     * @param e 例外
+     * @param map 例外以外に格納したい情報配列
      */
     public static void save(Context context, Exception e, LinkedHashMap<String, String> map) {
         if (DEBUG_FLG) {
@@ -117,10 +105,8 @@ public class DebugHelper {
     /**
      * 文字列をプリファレンスに保存する
      *
-     * @param context
-     * @param text
-     * @return void
-     * @access private
+     * @param context コンテキスト
+     * @param text テキスト
      */
     private static void savePreference(Context context, String text) {
         String savedText = PreferenceUtils.get(context, DebugHelper.KEY, "");
@@ -130,10 +116,9 @@ public class DebugHelper {
     /**
      * 例外の内容を文字列にして、日時などを他情報も付与する
      *
-     * @param context
+     * @param context コンテキスト
      * @param e       例外
      * @return String
-     * @access private
      */
     private static String createExDebugText(Context context, Exception e) {
         LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
@@ -145,10 +130,9 @@ public class DebugHelper {
     /**
      * 例外の内容を文字列にして、日時などを他情報も付与する
      *
-     * @param context
+     * @param context コンテキスト
      * @param e       例外
      * @return String
-     * @access private
      */
     private static String createExDebugText(Context context, Throwable e) {
         LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
@@ -160,11 +144,10 @@ public class DebugHelper {
     /**
      * 例外の内容を文字列にして、日時などを他情報も付与する
      *
-     * @param context
+     * @param context コンテキスト
      * @param e       例外
      * @param map     追加したい項目の配列
      * @return String
-     * @access private
      */
     private static String createExDebugText(Context context, Exception e, LinkedHashMap<String, String> map) {
         map.put("exception", exToString(e));
@@ -177,7 +160,6 @@ public class DebugHelper {
      *
      * @param e 例外
      * @return String
-     * @access private
      */
     private static String exToString(Exception e) {
         StringWriter sw = new StringWriter();
@@ -193,7 +175,6 @@ public class DebugHelper {
      *
      * @param e 例外
      * @return String
-     * @access private
      */
     private static String exToString(Throwable e) {
         StringWriter stringWriter = new StringWriter();
@@ -207,10 +188,9 @@ public class DebugHelper {
      *
      * 日付、アプリバージョン、アプリバージョンコード、OSバージョン、モデル名は自動で付与
      *
-     * @param context
-     * @param data
+     * @param context コンテキスト
+     * @param data 配列
      * @return String
-     * @access private
      */
     private static String createExDebugText(Context context, LinkedHashMap<String, String> data) {
         String date = new DateHelper().format(DateHelper.FMT_DATETIME);

@@ -12,8 +12,6 @@ import java.util.List;
 
 /**
  * CSV読み込み関連のクラス
- *
- * @access public
  */
 public class CsvUtils {
     public static final String DELIMITER = ",";                 //区切り文字
@@ -21,11 +19,10 @@ public class CsvUtils {
     /**
      * rawからファイルを読み込んでCSVを返す
      *
-     * @param context
-     * @param resId
-     * @param headerFlg
-     * @return List<String[]>
-     * @access public
+     * @param context コンテキスト
+     * @param resId 読み込み元リソースID
+     * @param headerFlg ヘッダの有無フラグ
+     * @return List<String[]> 内容
      * @throws IOException
      */
     public static List<String[]> readFromRaw(Context context, int resId, boolean headerFlg) throws IOException {
@@ -37,11 +34,10 @@ public class CsvUtils {
     /**
      * assetからファイルを読み込んでCSVを返す
      *
-     * @param context
-     * @param filename
-     * @param headerFlg
-     * @return List<String[]>
-     * @access public
+     * @param context コンテキスト
+     * @param filename 読み込み元ファイル名
+     * @param headerFlg ヘッダの生むフラグ
+     * @return List<String[]> 内容
      * @throws IOException
      */
     public static List<String[]> readFromAssets(Context context, String filename, boolean headerFlg) throws IOException {
@@ -54,10 +50,9 @@ public class CsvUtils {
     /**
      * InputStreamからCSVを読み込んで返す
      *
-     * @param inputStream
-     * @param headerFlg
-     * @return List<String[]> data
-     * @access public
+     * @param inputStream インプットストリーム
+     * @param headerFlg ヘッダの生むフラグ
+     * @return List<String[]> 内容
      */
     public static List<String[]> readFromInputStream(InputStream inputStream, boolean headerFlg) throws IOException {
         List<String[]> data = new ArrayList< String [] >();

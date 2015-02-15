@@ -51,8 +51,6 @@ import jp.co.e2.baseapplication.debug.DebugHelper;
  * HTTP通信クラス
  *
  * GET/POST/DELETEを実装、ベーシック認証にも対応
- *
- * @access public
  */
 public class HttpHelper {
     // メソッド
@@ -118,11 +116,10 @@ public class HttpHelper {
     /**
      * コンストラクタ
      *
-     * @param context
-     * @access public
+     * @param context コンテキスト
      */
     public HttpHelper(Context context) {
-        setNull();
+        init();
 
         mContext = context;
     }
@@ -131,8 +128,6 @@ public class HttpHelper {
      * 通信を行う
      *
      * @param method メソッド（POST/GET/PUT/DELETE）
-     * @return void
-     * @access public
      */
     public void connect(String method, String url) {
         // ネットワーク接続確認
@@ -226,7 +221,6 @@ public class HttpHelper {
      *
      * @return HttpResponse
      * @throws IOException
-     * @access private
      */
     private HttpResponse doConnectGet() throws IOException {
         if (mParamsMap != null) {
@@ -247,7 +241,6 @@ public class HttpHelper {
      *
      * @return HttpResponse
      * @throws IOException
-     * @access private
      */
     private HttpResponse doConnectPost() throws IOException {
         HttpPost http = new HttpPost(mUrl);
@@ -272,7 +265,6 @@ public class HttpHelper {
      *
      * @return HttpResponse
      * @throws IOException
-     * @access private
      */
     private HttpResponse doConnectPut() throws IOException {
         HttpPut http = new HttpPut(mUrl);
@@ -297,7 +289,6 @@ public class HttpHelper {
      *
      * @return HttpResponse
      * @throws IOException
-     * @access private
      */
     private HttpResponse doConnectDelete() throws IOException {
         HttpDeleteWithBody http = new HttpDeleteWithBody(mUrl);
@@ -320,7 +311,6 @@ public class HttpHelper {
      *
      * @return String paramsStr
      * @throws UnsupportedEncodingException
-     * @access private
      */
     private String createGetParams() throws UnsupportedEncodingException {
         String paramsStr = "";
@@ -341,10 +331,9 @@ public class HttpHelper {
     /**
      * URLにスラッシュ区切りでパラメータを付与する
      *
-     * @param url
+     * @param url URL
      * @return String paramsStr
      * @throws UnsupportedEncodingException
-     * @access private
      */
     private String createUrl(String url) throws UnsupportedEncodingException {
         if (mUrlParamsList != null && mUrlParamsList.size() != 0) {
@@ -360,7 +349,6 @@ public class HttpHelper {
      * パラメータをポスト用にセットする
      *
      * @return ArrayList<NameValuePair>
-     * @access private
      */
     private ArrayList<NameValuePair> createPostParams() {
         ArrayList<NameValuePair> postParams = new ArrayList<NameValuePair>();
@@ -390,7 +378,6 @@ public class HttpHelper {
      * バイナリのパラメータをポスト用にセットする
      *
      * @return ArrayList<NameValuePair>
-     * @access private
      */
     private HttpEntity createBinaryPostParams() throws FileNotFoundException {
         HttpEntity httpEntity = null;
@@ -439,9 +426,8 @@ public class HttpHelper {
     /**
      * GETにヘッダを付与する
      *
-     * @param http
+     * @param http HTTPGetクラス
      * @return HttpGet http
-     * @access private
      */
     public HttpGet addHeader(HttpGet http) {
         if (mHeadersMap != null && mHeadersMap.size() != 0) {
@@ -462,9 +448,8 @@ public class HttpHelper {
     /**
      * POSTにヘッダを付与する
      *
-     * @param http
+     * @param http HttpPostクラス
      * @return HttpPost http
-     * @access private
      */
     public HttpPost addHeader(HttpPost http) {
         if (mHeadersMap != null && mHeadersMap.size() != 0) {
@@ -485,9 +470,8 @@ public class HttpHelper {
     /**
      * PUTにヘッダを付与する
      *
-     * @param http
+     * @param http HttpPutクラス
      * @return HttpPut http
-     * @access private
      */
     public HttpPut addHeader(HttpPut http) {
         if (mHeadersMap != null && mHeadersMap.size() != 0) {
@@ -508,9 +492,8 @@ public class HttpHelper {
     /**
      * DELETEにヘッダを付与する
      *
-     * @param http
+     * @param http HttpDeleteWithBodyクラス
      * @return HttpDeleteWithBody http
-     * @access private
      */
     public HttpDeleteWithBody addHeader(HttpDeleteWithBody http) {
         if (mHeadersMap != null && mHeadersMap.size() != 0) {
@@ -532,7 +515,6 @@ public class HttpHelper {
      * ネットワーク接続確認
      *
      * @return Boolean
-     * @access private
      */
     private Boolean checkNetworkStatus() {
         ConnectivityManager connectivity = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -557,10 +539,8 @@ public class HttpHelper {
     /**
      * レスポンスを解析する
      *
-     * @return void
      * @throws IOException
      * @throws IllegalStateException
-     * @access private
      */
     private void analyzeResponse() throws IllegalStateException, IOException {
         // HTTPステータス取得解析
@@ -597,9 +577,6 @@ public class HttpHelper {
 
     /**
      * ベーシック認証
-     *
-     * @return void
-     * @access private
      */
     private void doBasicAuth() {
         if (mBasicAuthId == null || mBasicAuthPass == null) {
@@ -625,9 +602,7 @@ public class HttpHelper {
     /**
      * 例外内容とその他デバッグ用の通信情報を作成
      *
-     * @param e
-     * @return void
-     * @access protected
+     * @param e 例外
      */
     protected void saveException(Exception e) {
         LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
@@ -702,11 +677,8 @@ public class HttpHelper {
 
     /**
      * 初期化を行う
-     *
-     * @return void
-     * @access private
      */
-    private void setNull() {
+    private void init() {
         mContext = null;
         mUrl = null;
         mDefaultHttpClient = null;
@@ -731,8 +703,6 @@ public class HttpHelper {
      * 接続タイムアウトの時間をセット
      *
      * @param value 接続タイムアウトまでの時間
-     * @return void
-     * @access public
      */
     public void setConnectionTimeout(Integer value) {
         CONNECTION_TIMEOUT = value;
@@ -742,8 +712,6 @@ public class HttpHelper {
      * ソケットイムアウトの時間をセット
      *
      * @param value 接続タイムアウトまでの時間
-     * @return void
-     * @access public
      */
     public void setSoTimeout(Integer value) {
         SO_TIMEOUT = value;
@@ -752,9 +720,7 @@ public class HttpHelper {
     /**
      * 追加するcookieのパラメータを受け取る
      *
-     * @param cookie
-     * @return void
-     * @access public
+     * @param cookie クッキー
      */
     public void setCookie(String cookie) {
         mCookie = cookie;
@@ -764,8 +730,6 @@ public class HttpHelper {
      * ヘッダのパラメータを受け取る
      *
      * @param headersMap ヘッダのパラメータ
-     * @return void
-     * @access public
      */
     public void setHeaders(HashMap<String, String> headersMap) {
         mHeadersMap = headersMap;
@@ -775,8 +739,6 @@ public class HttpHelper {
      * URLにフラッシュ区切りで付与するパラメータ
      *
      * @param urlParamsList パラメータ
-     * @return void
-     * @access public
      */
     public void setUrlParams(ArrayList<String> urlParamsList) {
         mUrlParamsList = urlParamsList;
@@ -786,8 +748,6 @@ public class HttpHelper {
      * name=valueの形のパラメータを受け取る
      *
      * @param paramsMap パラメータ
-     * @return void
-     * @access public
      */
     public void setParams(HashMap<String, String> paramsMap) {
         mParamsMap = paramsMap;
@@ -797,8 +757,6 @@ public class HttpHelper {
      * name=valueの形の配列のパラメータを受け取る
      *
      * @param arrayParamsMap パラメータ
-     * @return void
-     * @access public
      */
     public void setArrayParams(HashMap<String, ArrayList<String>> arrayParamsMap) {
         mArrayParamsMap = arrayParamsMap;
@@ -809,8 +767,6 @@ public class HttpHelper {
      * ※post・putの場合のみ付与される
      *
      * @param binaryParamsList パラメータ
-     * @return void
-     * @access public
      */
     public void setBinaryParams(HashMap<String, String> binaryParamsList) {
         mBinaryParamsList = binaryParamsList;
@@ -820,8 +776,6 @@ public class HttpHelper {
      * name=valueの形でない、valueだけのパラメータを受け取る
      *
      * @param paramsString パラメータ
-     * @return void
-     * @access public
      */
     public void setSingleStringParams(String paramsString) {
         mParamsString = paramsString;
@@ -832,9 +786,7 @@ public class HttpHelper {
     /**
      * ベーシック認証のIDを受け取る
      *
-     * @param basicAuthId
-     * @return void
-     * @access public
+     * @param basicAuthId ベーシック認証ID
      */
     public void setBasicAuthId(String basicAuthId) {
         mBasicAuthId = basicAuthId;
@@ -845,9 +797,7 @@ public class HttpHelper {
     /**
      * ベーシック認証のPASSを受け取る
      *
-     * @param basicAuthPass
-     * @return void
-     * @access public
+     * @param basicAuthPass ベーシック認証PASS
      */
     public void setBasicAuthPass(String basicAuthPass) {
         mBasicAuthPass = basicAuthPass;
@@ -859,7 +809,6 @@ public class HttpHelper {
      * ステータスを返す
      *
      * @return Integer mStatus テータス
-     * @access public
      */
     public Integer getStatus() {
         //仮にステータスが入ってなかった場合、不明なエラーステータスを入れる
@@ -874,7 +823,6 @@ public class HttpHelper {
      * HTTPテータスを返す
      *
      * @return Integer mHttpStatus HTTPテータス
-     * @access public
      */
     public Integer getHttpStatus() {
         return mHttpStatus;
@@ -884,7 +832,6 @@ public class HttpHelper {
      * レスポンスボディを返す
      *
      * @return String mBody レスポンス
-     * @access public
      */
     public String getBody() {
         return mBody;
@@ -894,7 +841,6 @@ public class HttpHelper {
      * レスポンスヘッダを返す
      *
      * @return String header ヘッダ
-     * @access public
      */
     public String getHeader(String name) {
         String header = null;
@@ -911,8 +857,6 @@ public class HttpHelper {
     /**
      * DELETEメソッドでbodyを付けられるように拡張
      * （通常のHttpDeleteはbodyを付けられない）
-     *
-     * @access private
      */
     @NotThreadSafe
     class HttpDeleteWithBody extends HttpEntityEnclosingRequestBase {

@@ -32,8 +32,6 @@ import jp.co.e2.baseapplication.common.MediaUtils;
 
 /**
  * 独自カメラ
- *
- * @access public
  */
 public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Callback, SensorEventListener {
     public static final int TAKE_PICTURE_SIZE = 1500;                   //撮影画像サイズの最大値（撮影可能サイズの中からこれを超えない一番近いサイズで撮影される）
@@ -53,7 +51,7 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
     private SurfaceHolder mHolder = null;
     private String mFlashFlg = Parameters.FLASH_MODE_AUTO;
     private boolean mIsProcessing = false;
-    private OnTakePictureListener mOnTakePictureListener;
+    private CallbackListener mCallbackListener;
     private SensorManager mSensorManager;
 
     private int mFrontCameraId = -1;
@@ -80,7 +78,6 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
      * コンストラクタ
      *
      * @param context Context
-     * @access public
      */
     public CameraSurfaceView(Context context) {
         super(context);
@@ -92,7 +89,6 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
      *
      * @param context Context
      * @param attrs   AttributeSet
-     * @access public
      */
     public CameraSurfaceView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -103,8 +99,6 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
      * 初期化
      *
      * @param context Context
-     * @return void
-     * @access private
      */
     private void initialize(Context context) {
         mContext = context;
@@ -155,8 +149,8 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
                 mCamera = null;
             }
 
-            if (mOnTakePictureListener != null) {
-                mOnTakePictureListener.unknownException();
+            if (mCallbackListener != null) {
+                mCallbackListener.unknownException();
             }
         }
     }
@@ -182,8 +176,8 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
                 mCamera = null;
             }
 
-            if (mOnTakePictureListener != null) {
-                mOnTakePictureListener.unknownException();
+            if (mCallbackListener != null) {
+                mCallbackListener.unknownException();
             }
         }
     }
@@ -216,8 +210,8 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
         }
         //オートフォーカス失敗
         catch(RuntimeException e) {
-            if (mOnTakePictureListener != null) {
-                mOnTakePictureListener.autoFocusFailed();
+            if (mCallbackListener != null) {
+                mCallbackListener.autoFocusFailed();
             }
         }
 
@@ -226,10 +220,6 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
 
     /**
      * 撮影サイズ設定
-     *
-     *
-     * @return void
-     * @access public
      */
     public void setPictureSize(){
         //端末がサポートするサイズ一覧取得
@@ -256,9 +246,6 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
 
     /**
      * プレビューサイズ設定
-     *
-     * @return void
-     * @access public
      */
     public void setPreviewSize(){
         Parameters cameraParam = mCamera.getParameters();
@@ -274,9 +261,6 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
 
     /**
      * 縦画面設定
-     *
-     * @return void
-     * @access public
      */
     private void setPortrait() {
         Parameters cameraParam = mCamera.getParameters();
@@ -296,7 +280,6 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
      * 縦画面かどうか
      *
      * @return boolean
-     * @access private
      */
     private boolean isPortrait() {
         return (mContext.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT);
@@ -304,9 +287,6 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
 
     /**
      * シャッターが押された
-     *
-     * @return void
-     * @access public
      */
     public void onClickShutterButton() {
         //連打対策
@@ -332,8 +312,8 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
                                 mIsProcessing = false;
                                 e.printStackTrace();
 
-                                if (mOnTakePictureListener != null) {
-                                    mOnTakePictureListener.unknownException();
+                                if (mCallbackListener != null) {
+                                    mCallbackListener.unknownException();
                                 }
                             }
                         }
@@ -344,8 +324,8 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
             mIsProcessing = false;
             e.printStackTrace();
 
-            if (mOnTakePictureListener != null) {
-                mOnTakePictureListener.unknownException();
+            if (mCallbackListener != null) {
+                mCallbackListener.unknownException();
             }
         }
     }
@@ -353,11 +333,10 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
     /**
      * プレビュー用のサイズを取得する
      *
-     * @param sizes
-     * @param w
-     * @param h
+     * @param sizes プレビュー可能サイズ一覧
+     * @param w 幅
+     * @param h 高さ
      * @return Size
-     * @access private
      */
     private Size getOptimalPreviewSize(List<Size> sizes, int w, int h) {
         final double ASPECT_TOLERANCE = 0.1;
@@ -395,9 +374,6 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
 
     /**
      * フラッシュをセットする
-     *
-     * @return void
-     * @access private
      */
     private void setFlash() {
         try {
@@ -412,17 +388,14 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
         catch (Exception e) {
             e.printStackTrace();
 
-            if (mOnTakePictureListener != null) {
-                mOnTakePictureListener.unknownException();
+            if (mCallbackListener != null) {
+                mCallbackListener.unknownException();
             }
         }
     }
 
     /**
      * カメラ切り替え
-     *
-     * @return void
-     * @access private
      */
     public void changeCamera() {
         try {
@@ -462,8 +435,8 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
             mCamera.release();
             mCamera = null;
 
-            if (mOnTakePictureListener != null) {
-                mOnTakePictureListener.unknownException();
+            if (mCallbackListener != null) {
+                mCallbackListener.unknownException();
             }
         }
     }
@@ -471,9 +444,7 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
     /**
      * フラッシュフラグを受け取る
      *
-     * @param flashFlg
-     * @return void
-     * @access public
+     * @param flashFlg フラッシュフラグ
      */
     public void setFlashFlg(String flashFlg) {
         mFlashFlg = flashFlg;
@@ -482,8 +453,8 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
     /**
      * 画像保存時の回転角度を算出する
      *
-     * @return void
-     * @access public
+     * @param path 画像パス
+     * @return int 角度
      */
     public int getOrientation(String path) throws IOException {
         int degree = 0;
@@ -515,9 +486,6 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
 
     /**
      * exif情報から回転角度を取得する
-     *
-     * @return void
-     * @access public
      */
     public int getOrientationFromExif(String path) throws IOException {
         int degree = DEGREE_DEFAULT;
@@ -543,8 +511,6 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
 
     /**
      * シャッターが押された際のコールバック
-     *
-     * @access private
      */
     private Camera.ShutterCallback mShutterListener = new Camera.ShutterCallback() {
         public void onShutter() {
@@ -553,8 +519,6 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
 
     /**
      * JPEG データ生成完了時のコールバック
-     *
-     * @access private
      */
     private Camera.PictureCallback mPictureCallback = new Camera.PictureCallback() {
         public void onPictureTaken(byte[] data, Camera camera) {
@@ -606,51 +570,45 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
                 //連打対策解除
                 mIsProcessing = false;
 
-                if (mOnTakePictureListener != null) {
-                    mOnTakePictureListener.onTakePicture(uri);
+                if (mCallbackListener != null) {
+                    mCallbackListener.onTakePicture(uri);
                 }
             }
             catch (IOException e) {
                 e.printStackTrace();
 
-                if (mOnTakePictureListener != null) {
-                    mOnTakePictureListener.onTakePictureFailed();
+                if (mCallbackListener != null) {
+                    mCallbackListener.onTakePictureFailed();
                 }
             }
             catch (OutOfMemoryError e) {
                 e.printStackTrace();
 
-                if (mOnTakePictureListener != null) {
-                    mOnTakePictureListener.outOfMemory();
+                if (mCallbackListener != null) {
+                    mCallbackListener.outOfMemory();
                 }
             }
             catch (Exception e) {
                 e.printStackTrace();
 
-                if (mOnTakePictureListener != null) {
-                    mOnTakePictureListener.unknownException();
+                if (mCallbackListener != null) {
+                    mCallbackListener.unknownException();
                 }
             }
         }
     };
 
     /**
-     * setOnTakePictureListener
+     * コールバックリスナーをセット
      *
-     * @param listener
-     * @return void
-     * @access public
+     * @param listener コールバックリスナー
      */
-    public void setOnTakePictureListener(OnTakePictureListener listener) {
-        mOnTakePictureListener = listener;
+    public void setOnTakePictureListener(CallbackListener listener) {
+        mCallbackListener = listener;
     }
 
     /**
-     * onSensorChanged
-     *
-     * @param event
-     * @return void
-     * @access public
+     * ${inheritDoc}
      */
     @Override
     public void onSensorChanged(SensorEvent event) {
@@ -724,43 +682,32 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
 
     /**
      * コールバックリスナー
-     *
-     * @access public
      */
-    public static interface OnTakePictureListener {
+    public static interface CallbackListener {
         /**
          * 写真を撮影した
          *
          * @param uri 画像保存URI
-         * @access public
          */
         public void onTakePicture(Uri uri);
 
         /**
          * 写真撮影に失敗した
-         *
-         * @access public
          */
         public void onTakePictureFailed();
 
         /**
          * メモリ不足エラーが発生した
-         *
-         * @access public
          */
         public void outOfMemory();
 
         /**
          * オートフォーカスに失敗した
-         *
-         * @access public
          */
         public void autoFocusFailed();
 
         /**
          * 不明なエラーが発生した
-         *
-         * @access public
          */
         public void unknownException();
     }

@@ -8,8 +8,6 @@ import jp.co.e2.baseapplication.common.DateHelper;
 
 /**
  * 日付系バリデーションクラス
- *
- * @access public
  */
 public class ValidateDate {
     public static final String ERROR_MSG_FORMAT = "%sは正しい形式ではありません。";
@@ -27,8 +25,6 @@ public class ValidateDate {
      * @param name     変数名
      * @param format   フォーマット
      * @param msgFull  エラーメッセージ全文
-     * @return void
-     * @access public
      */
     public static void check(ValidateHelper validate, String value, String name, String format, String msgFull) {
         if (!validate.getResult(name)) {
@@ -79,8 +75,6 @@ public class ValidateDate {
      * @param value    値
      * @param name     変数名
      * @param format   フォーマット
-     * @return void
-     * @access public
      */
     public static void check(ValidateHelper validate, String value, String name, String format) {
         check(validate, value, name, format, null);
@@ -96,8 +90,6 @@ public class ValidateDate {
      * @param name     変数名
      * @param format   フォーマット
      * @param msgFull  エラーメッセージ全文
-     * @return void
-     * @access private
      */
     public static void isFuture(ValidateHelper validate, String value, String name, String format, String msgFull) {
         if (!validate.getResult(name)) {
@@ -124,8 +116,6 @@ public class ValidateDate {
      * @param validate バリデートクラス
      * @param value    値
      * @param name     変数名
-     * @return void
-     * @access private
      */
     public static void isFuture(ValidateHelper validate, String value, String name) {
         isFuture(validate, value, name, DateHelper.FMT_DATE, null);
@@ -141,8 +131,6 @@ public class ValidateDate {
      * @param name     変数名
      * @param format   フォーマット
      * @param msgFull  エラーメッセージ全文
-     * @return void
-     * @access public
      */
     public static void isFutureAllowToday(ValidateHelper validate, String value, String name, String format, String msgFull) {
         if (!validate.getResult(name)) {
@@ -169,8 +157,6 @@ public class ValidateDate {
      * @param validate バリデートクラス
      * @param value    値
      * @param name     変数名
-     * @return void
-     * @access public
      */
     public static void isFutureAllowToday(ValidateHelper validate, String value, String name) {
         isFutureAllowToday(validate, value, name, DateHelper.FMT_DATE, null);
@@ -186,8 +172,6 @@ public class ValidateDate {
      * @param name     変数名
      * @param format   フォーマット
      * @param msgFull  エラーメッセージ全文
-     * @return void
-     * @access public
      */
     public static void isPast(ValidateHelper validate, String value, String name, String format, String msgFull) {
         if (!validate.getResult(name)) {
@@ -214,8 +198,6 @@ public class ValidateDate {
      * @param validate バリデートクラス
      * @param value    値
      * @param name     変数名
-     * @return void
-     * @access public
      */
     public static void isPast(ValidateHelper validate, String value, String name) {
         isPast(validate, value, name, DateHelper.FMT_DATE, null);
@@ -231,8 +213,6 @@ public class ValidateDate {
      * @param name     変数名
      * @param format   フォーマット
      * @param msgFull  エラーメッセージ全文
-     * @return void
-     * @access public
      */
     public static void isPastAllowToday(ValidateHelper validate, String value, String name, String format, String msgFull) {
         if (!validate.getResult(name) ) {
@@ -259,8 +239,6 @@ public class ValidateDate {
      * @param validate バリデートクラス
      * @param value    値
      * @param name     変数名
-     * @return void
-     * @access public
      */
     public static void isPastAllowToday(ValidateHelper validate, String value, String name) {
         isPastAllowToday(validate, value, name, DateHelper.FMT_DATE, null);
@@ -272,7 +250,6 @@ public class ValidateDate {
      * @param value  値
      * @param format フォーマット
      * @return Integer compareTo()の結果
-     * @access private
      */
     private static Integer compareTo(String value, String format) {
         Integer ret = null;

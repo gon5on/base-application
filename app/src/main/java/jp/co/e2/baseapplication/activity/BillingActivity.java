@@ -26,8 +26,6 @@ import android.widget.Button;
  *
  * 前提として、アイテムを保持しているかどうかなどは基本的に専用サーバで保持しておく！
  * 複数回購入できるアイテムを買った時も、回数はサーバで持つ
- *
- * @access public
  */
 public class BillingActivity extends BaseActivity {
     // 課金のリクエストコード
@@ -54,8 +52,8 @@ public class BillingActivity extends BaseActivity {
     /**
      * ファクトリーメソッドもどき
      *
+     * @param activity アクテビティ
      * @return Intent intent
-     * @access public
      */
     public static Intent newIntent(Activity activity) {
         Intent intent = new Intent(activity, BillingActivity.class);
@@ -91,8 +89,6 @@ public class BillingActivity extends BaseActivity {
 
     /**
      * PlaceholderFragment
-     *
-     * @access public
      */
     public static class PlaceholderFragment extends Fragment {
         private View mView = null;
@@ -104,7 +100,6 @@ public class BillingActivity extends BaseActivity {
          * ファクトリーメソッド
          *
          * @return PlaceholderFragment fragment
-         * @access public
          */
         public static PlaceholderFragment newInstance() {
             Bundle args = new Bundle();
@@ -170,9 +165,6 @@ public class BillingActivity extends BaseActivity {
 
         /**
          * イベントをセットする
-         *
-         * @return void
-         * @access private
          */
         private void setEvent() {
             //管理対象アイテム購入
@@ -266,9 +258,6 @@ public class BillingActivity extends BaseActivity {
 
         /**
          * 課金準備
-         *
-         * @return void
-         * @access private
          */
         private void setupBilling() {
             // 課金ヘルパー作成
@@ -430,9 +419,8 @@ public class BillingActivity extends BaseActivity {
         /**
          * 識別子確認
          *
-         * @param p
+         * @param p 購入情報
          * @return boolean
-         * @access private
          */
         private boolean verifyDeveloperPayload(Purchase p) {
             //TODO なんか識別子判定処理書いたほうがいいっぽい

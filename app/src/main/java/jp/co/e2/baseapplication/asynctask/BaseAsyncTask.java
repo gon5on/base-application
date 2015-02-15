@@ -9,7 +9,6 @@ import android.os.AsyncTask;
  * @param <Params>
  * @param <Progress>
  * @param <Result>
- * @access public
  */
 public abstract class BaseAsyncTask<Params, Progress, Result> extends AsyncTask<Params, Progress, Result> {
     protected final int mTag;
@@ -20,8 +19,7 @@ public abstract class BaseAsyncTask<Params, Progress, Result> extends AsyncTask<
     /**
      * コンストラクタ
      *
-     * @param tag
-     * @access public
+     * @param tag タグc
      */
     public BaseAsyncTask(int tag) {
         super();
@@ -32,9 +30,8 @@ public abstract class BaseAsyncTask<Params, Progress, Result> extends AsyncTask<
     /**
      * コンストラクタ
      *
-     * @param tag
-     * @param context
-     * @access public
+     * @param tag タグ
+     * @param context コンテキスト
      */
     public BaseAsyncTask(int tag, Context context) {
         super();
@@ -100,9 +97,7 @@ public abstract class BaseAsyncTask<Params, Progress, Result> extends AsyncTask<
     /**
      * コールバックリスナーをセットする
      *
-     * @param listener
-     * @return void
-     * @access public
+     * @param listener コールバックリスナー
      */
     public void setCallbackListener(AsyncTaskCallbackListener<Progress, Result> listener) {
         mListener = listener;
@@ -110,9 +105,6 @@ public abstract class BaseAsyncTask<Params, Progress, Result> extends AsyncTask<
 
     /**
      * コールバックリスナーを解除する
-     *
-     * @return void
-     * @access public
      */
     public void removeCallbackListener() {
         mListener = null;
@@ -123,44 +115,35 @@ public abstract class BaseAsyncTask<Params, Progress, Result> extends AsyncTask<
      *
      * @param <Progress>
      * @param <Result>
-     * @access public
      */
     public static interface AsyncTaskCallbackListener<Progress, Result> {
         /**
          * 非同期処理前処理
          *
-         * @param tag
-         * @return void
-         * @access public
+         * @param tag タグ
          */
         public void onPreExecute(int tag);
 
         /**
          * 非同期処理中更新
          *
-         * @param tag
-         * @param values
-         * @return void
-         * @access public
+         * @param tag タグ
+         * @param values 呼び出し元に返したいもの
          */
         public void onProgressUpdate(int tag, Progress... values);
 
         /**
          * 非同期処理キャンセル
          *
-         * @param tag
-         * @return void
-         * @access public
+         * @param tag タグ
          */
         public void onCancelled(int tag);
 
         /**
          * 非同期処理後
          *
-         * @param tag
-         * @param result
-         * @return void
-         * @access public
+         * @param tag タグ
+         * @param result 呼び出し元に返却したいもの
          */
         public void onPostExecute(int tag, Result result);
     }

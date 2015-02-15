@@ -4,8 +4,6 @@ import java.io.Serializable;
 
 /**
  * サンプルエンティティクラス
- *
- * @access public
  */
 public class SampleEntity implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -20,9 +18,7 @@ public class SampleEntity implements Serializable {
     /**
      * IDをセット
      *
-     * @param value
-     * @return void
-     * @access public
+     * @param value 値
      */
     public void setId(Integer value) {
         mId = value;
@@ -32,7 +28,6 @@ public class SampleEntity implements Serializable {
      * IDを返す
      *
      * @return Integer mId
-     * @access public
      */
     public Integer getId() {
         return mId;
@@ -41,9 +36,7 @@ public class SampleEntity implements Serializable {
     /**
      * サンプル1をセット
      *
-     * @param value
-     * @return void
-     * @access public
+     * @param value 値
      */
     public void setSample1(String value) {
         mSample1 = value;
@@ -53,7 +46,6 @@ public class SampleEntity implements Serializable {
      * サンプル1を返す
      *
      * @return String mSample1
-     * @access public
      */
     public String getSample1() {
         return mSample1;
@@ -62,9 +54,7 @@ public class SampleEntity implements Serializable {
     /**
      * サンプル2をセット
      *
-     * @param value
-     * @return void
-     * @access public
+     * @param value 値
      */
     public void setSample2(String value) {
         mSample2 = value;
@@ -74,7 +64,6 @@ public class SampleEntity implements Serializable {
      * サンプル1を返す
      *
      * @return String mSample2
-     * @access public
      */
     public String getSample2() {
         return mSample2;
@@ -83,9 +72,7 @@ public class SampleEntity implements Serializable {
     /**
      * サンプル1をセット
      *
-     * @param value
-     * @return void
-     * @access public
+     * @param value 値
      */
     public void setSample3(String value) {
         mSample3 = value;
@@ -95,7 +82,6 @@ public class SampleEntity implements Serializable {
      * サンプル3を返す
      *
      * @return String mSample3
-     * @access public
      */
     public String getSample3() {
         return mSample3;
@@ -104,9 +90,7 @@ public class SampleEntity implements Serializable {
     /**
      * 作成日時をセット
      *
-     * @param value
-     * @return void
-     * @access public
+     * @param value 値
      */
     public void setCreated(String value) {
         mCreated = value;
@@ -116,7 +100,6 @@ public class SampleEntity implements Serializable {
      * 作成日時を返す
      *
      * @return String mCreated
-     * @access public
      */
     public String getCreated() {
         return mCreated;
@@ -125,9 +108,7 @@ public class SampleEntity implements Serializable {
     /**
      * 更新日時をセット
      *
-     * @param value
-     * @return void
-     * @access public
+     * @param value 値
      */
     public void setModified(String value) {
         mModified = value;
@@ -137,7 +118,6 @@ public class SampleEntity implements Serializable {
      * 更新日時を返す
      *
      * @return String mModified
-     * @access public
      */
     public String Modified() {
         return mModified;

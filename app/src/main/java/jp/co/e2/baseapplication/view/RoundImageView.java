@@ -17,8 +17,6 @@ import jp.co.e2.baseapplication.R;
  * 円形に表示するimageView
  *
  * 円形の元となる、shape_circle.xmlも必要になる
- *
- * @access public
  */
 public class RoundImageView extends TouchFeedbackImageView implements View.OnTouchListener {
     Paint mMaskedPaint;
@@ -30,8 +28,7 @@ public class RoundImageView extends TouchFeedbackImageView implements View.OnTou
     /**
      * コンテキスト
      *
-     * @param context
-     * @access public
+     * @param context コンテキスト
      */
     public RoundImageView(Context context) {
         this(context, null);
@@ -42,9 +39,8 @@ public class RoundImageView extends TouchFeedbackImageView implements View.OnTou
     /**
      * コンテキスト
      *
-     * @param context
+     * @param context コンテキスト
      * @param attrs 指定した属性値
-     * @access public
      */
     public RoundImageView(Context context, AttributeSet attrs) {
         super(context, attrs);

@@ -13,8 +13,6 @@ import android.webkit.MimeTypeMap;
 
 /**
  * メディア・ファイル系の便利なものをまとめたクラス
- *
- * @access public
  */
 public class MediaUtils {
     /**
@@ -23,7 +21,6 @@ public class MediaUtils {
      * @param context コンテキスト
      * @param uri URI
      * @return String path ファイルパス
-     * @access public
      */
     public static String getPathFromUri(Context context, Uri uri) {
         String path = null;
@@ -47,7 +44,6 @@ public class MediaUtils {
      * 外部ストレージが使用できるかどうか
      *
      * @return boolean 外部ストレージが使える/使えない
-     * @access public
      */
     public static boolean IsExternalStorageAvailableAndWriteable() {
         boolean externalStorageAvailable = false;
@@ -72,8 +68,6 @@ public class MediaUtils {
      * 4.4から使用できないので、使わないこと！
      *
      * @param context コンテキスト
-     * @return void
-     * @access public
      */
     @Deprecated
     public static void mediaScan(Context context) {
@@ -86,8 +80,6 @@ public class MediaUtils {
      * ファイル/ディレクトリを削除する（中身があってもOK）
      *
      * @param file ファイル/ディレクトリオブジェクト
-     * @return void
-     * @access public
      */
     public static void deleteDirFile(File file) throws IOException {
         if (!file.exists()) {
@@ -115,8 +107,6 @@ public class MediaUtils {
      * ファイル/ディレクトリを削除する（中身があってもOK）
      *
      * @param path ファイル/ディレクトリパス
-     * @return void
-     * @access public
      */
     public static void deleteDirFile(String path) throws IOException {
         deleteDirFile(new File(path));
@@ -127,7 +117,6 @@ public class MediaUtils {
      *
      * @param path ファイルパス
      * @return String
-     * @access public
      */
     public static String geFileName(String path) throws FileNotFoundException {
         File file = new File(path);
@@ -144,7 +133,6 @@ public class MediaUtils {
      *
      * @param path ファイルパス
      * @return String
-     * @access public
      */
     public static String getFileExt(String path) throws FileNotFoundException {
         String name = geFileName(path);
@@ -166,7 +154,6 @@ public class MediaUtils {
      *
      * @param path ファイルパス
      * @return String
-     * @access public
      */
     public static String getMimeType(String path) throws FileNotFoundException {
         String ext = getFileExt(path);
@@ -183,7 +170,6 @@ public class MediaUtils {
      *
      * @param path ファイルパス
      * @return File
-     * @access public
      * @throws FileNotFoundException
      */
     public static File getBinaryFile(String path) throws FileNotFoundException {

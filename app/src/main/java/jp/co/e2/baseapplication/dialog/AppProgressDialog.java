@@ -9,8 +9,6 @@ import android.os.Bundle;
 
 /**
  * プログレスダイアログ
- *
- * @access public
  */
 public class AppProgressDialog extends BaseDialog<CallbackListener> {
     private static ProgressDialog mDialog;
@@ -18,9 +16,8 @@ public class AppProgressDialog extends BaseDialog<CallbackListener> {
     /**
      * インスタンスを返す
      *
-     * @param title
-     * @return SampleDialog
-     * @access public
+     * @param title タイトル
+     * @return AppProgressDialog
      */
     public static AppProgressDialog getInstance(String title) {
         AppProgressDialog dialog = new AppProgressDialog();
@@ -82,7 +79,8 @@ public class AppProgressDialog extends BaseDialog<CallbackListener> {
 
     /**
      * ${inheritDoc}
-     */    @Override
+     */
+    @Override
     public void dismiss() {
         if (getDialog() != null) {
             getDialog().dismiss();
@@ -91,14 +89,10 @@ public class AppProgressDialog extends BaseDialog<CallbackListener> {
 
     /**
      * コールバックリスナー
-     *
-     * @access public
      */
     public interface CallbackListener {
         /**
          * プログレスダイアログでキャンセルが押された
-         *
-         * @access public
          */
         public void onProgressDialogCancel();
     }

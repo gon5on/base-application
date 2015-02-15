@@ -2,8 +2,6 @@ package jp.co.e2.baseapplication.validate;
 
 /**
  * 整数バリデーションクラス
- *
- * @access public
  */
 public class ValidateInt {
     public static final String ERROR_MSG_INT = "%sは整数で入力してください。";
@@ -17,8 +15,6 @@ public class ValidateInt {
      * @param value    値
      * @param name     変数名
      * @param msgFull  エラーメッセージ全文
-     * @return void
-     * @access public
      */
     public static void check(ValidateHelper validate, String value, String name, String msgFull) {
         if (!validate.getResult()) {
@@ -43,8 +39,6 @@ public class ValidateInt {
      * @param validate バリデートクラス
      * @param value    値
      * @param name     変数名
-     * @return void
-     * @access public
      */
     public static void check(ValidateHelper validate, String value, String name) {
         check(validate, value, name, null);
@@ -57,8 +51,6 @@ public class ValidateInt {
      * @param value    値
      * @param name     変数名
      * @param msgFull  エラーメッセージ全文
-     * @return void
-     * @access public
      */
     public static void check(ValidateHelper validate, Integer value, String name, String msgFull) {
         if (!validate.getResult()) {
@@ -77,8 +69,6 @@ public class ValidateInt {
      * @param validate バリデートクラス
      * @param value    値
      * @param name     変数名
-     * @return void
-     * @access public
      */
     public static void check(ValidateHelper validate, Integer value, String name) {
         check(validate, value, name, null);

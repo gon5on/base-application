@@ -19,8 +19,6 @@ import android.view.ViewGroup;
 
 /**
  * 非同期処理アクテビティ
- *
- * @access public
  */
 public class AsyncTaskActivity extends BaseActivity {
     private static final int DIALOG_TAG = 1;
@@ -29,8 +27,8 @@ public class AsyncTaskActivity extends BaseActivity {
     /**
      * ファクトリーメソッドもどき
      *
+     * @param activity アクテビティ
      * @return Intent intent
-     * @access public
      */
     public static Intent newIntent(Activity activity) {
         Intent intent = new Intent(activity, AsyncTaskActivity.class);
@@ -53,8 +51,6 @@ public class AsyncTaskActivity extends BaseActivity {
 
     /**
      * PlaceholderFragment
-     *
-     * @access public
      */
     public static class PlaceholderFragment extends Fragment implements SampleDialog.CallbackListener, AppProgressDialog.CallbackListener, AsyncTaskCallbackListener<Integer, HttpHelper> {
         private AppProgressDialog mAppProgressDialog = null;
@@ -64,7 +60,6 @@ public class AsyncTaskActivity extends BaseActivity {
          * ファクトリーメソッド
          *
          * @return PlaceholderFragment fragment
-         * @access public
          */
         public static PlaceholderFragment newInstance() {
             Bundle args = new Bundle();
@@ -100,9 +95,6 @@ public class AsyncTaskActivity extends BaseActivity {
 
         /**
          * サーバに接続
-         *
-         * @return void
-         * @access private
          */
         private void connectServer() {
             //非同期処理
@@ -114,9 +106,7 @@ public class AsyncTaskActivity extends BaseActivity {
         /**
          * サンプルダイアログ表示
          *
-         * @param status
-         * @return void
-         * @access private
+         * @param status ステータス
          */
         private void showSampleDialog(Integer status) {
             SampleDialog sampleDialog = SampleDialog.getInstance(DIALOG_TAG, "エラー", "エラーが発生しました（" + status + "）");

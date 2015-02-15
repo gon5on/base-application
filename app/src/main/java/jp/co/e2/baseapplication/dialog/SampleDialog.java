@@ -9,18 +9,15 @@ import android.os.Bundle;
 
 /**
  * サンプルダイアログ
- *
- * @access public
  */
 public class SampleDialog extends BaseDialog<CallbackListener> {
     /**
      * ファクトリーメソッド
      *
-     * @param tag
-     * @param title
-     * @param msg
+     * @param tag タグ
+     * @param title タイトル
+     * @param msg メッセージ
      * @return SampleDialog
-     * @access public
      */
     public static SampleDialog getInstance(int tag, String title, String msg) {
         SampleDialog dialog = new SampleDialog();
@@ -75,21 +72,15 @@ public class SampleDialog extends BaseDialog<CallbackListener> {
 
     /**
      * コールバックリスナー
-     *
-     * @access public
      */
     public interface CallbackListener {
         /**
          * サンプルダイアログでOKが押された
-         *
-         * @access public
          */
         public void onClickSampleDialogOk(int tag);
 
         /**
          * サンプルダイアログでキャンセルが押された
-         *
-         * @access public
          */
         public void onClickSampleDialogCancel(int tag);
     }

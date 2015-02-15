@@ -2,8 +2,6 @@ package jp.co.e2.baseapplication.validate;
 
 /**
  * 少数バリデーションクラス
- *
- * @access public
  */
 public class ValidateDecimal {
     public static final String ERROR_MSG_DOUBLE = "%sは少数で入力してください。";
@@ -19,8 +17,6 @@ public class ValidateDecimal {
      * @param value    値
      * @param name     変数名
      * @param msgFull  エラーメッセージ全文
-     * @return void
-     * @access public
      */
     public static void check(ValidateHelper validate, String value, String name, String msgFull) {
         if (!validate.getResult(name)) {
@@ -39,8 +35,6 @@ public class ValidateDecimal {
      * @param validate バリデートクラス
      * @param value    値
      * @param name     変数名
-     * @return void
-     * @access public
      */
     public static void check(ValidateHelper validate, String value, String name) {
         check(validate, value, name, null);
@@ -53,8 +47,6 @@ public class ValidateDecimal {
      * @param value    値
      * @param name     変数名
      * @param msgFull  エラーメッセージ全文
-     * @return void
-     * @access public
      */
     public static void check(ValidateHelper validate, Integer value, String name, String msgFull) {
         if (!validate.getResult(name)) {
@@ -73,8 +65,6 @@ public class ValidateDecimal {
      * @param validate バリデートクラス
      * @param value    値
      * @param name     変数名
-     * @return void
-     * @access public
      */
     public static void check(ValidateHelper validate, Integer value, String name) {
         check(validate, value, name, null);
@@ -87,8 +77,6 @@ public class ValidateDecimal {
      * @param value    値
      * @param name     変数名
      * @param msgFull  エラーメッセージ全文
-     * @return void
-     * @access public
      */
     public static void check(ValidateHelper validate, Float value, String name, String msgFull) {
         if (!validate.getResult(name)) {
@@ -107,8 +95,6 @@ public class ValidateDecimal {
      * @param validate バリデートクラス
      * @param value    値
      * @param name     変数名
-     * @return void
-     * @access public
      */
     public static void check(ValidateHelper validate, Float value, String name) {
         check(validate, value, name, null);
@@ -121,8 +107,6 @@ public class ValidateDecimal {
      * @param value    値
      * @param name     変数名
      * @param msgFull  エラーメッセージ全文
-     * @return void
-     * @access public
      */
     public static void check(ValidateHelper validate, Double value, String name, String msgFull) {
         if (!validate.getResult(name)) {
@@ -141,8 +125,6 @@ public class ValidateDecimal {
      * @param validate バリデートクラス
      * @param value    値
      * @param name     変数名
-     * @return void
-     * @access public
      */
     public static void check(ValidateHelper validate, Double value, String name) {
         check(validate, value, name, null);
@@ -157,8 +139,6 @@ public class ValidateDecimal {
      * @param msgFull  エラーメッセージ全文
      * @param pattern  正規表現パターン
      * @param msg      デフォルトエラーメッセージ
-     * @return void
-     * @access private
      */
     private static void check(ValidateHelper validate, String value, String name, String msgFull, String pattern, String msg) {
         if (!value.matches(pattern)) {
@@ -178,8 +158,6 @@ public class ValidateDecimal {
      * @param name     変数名
      * @param point    小数点第何位
      * @param msgFull  エラーメッセージ全文
-     * @return void
-     * @access public
      */
     public static void checkPoint(ValidateHelper validate, String value, String name, Integer point, String msgFull) {
         if (!validate.getResult(name)) {
@@ -199,8 +177,6 @@ public class ValidateDecimal {
      * @param value    値
      * @param name     変数名
      * @param point    小数点第何位
-     * @return void
-     * @access public
      */
     public static void checkPoint(ValidateHelper validate, String value, String name, Integer point) {
         checkPoint(validate, value, name, point, null);
@@ -214,8 +190,6 @@ public class ValidateDecimal {
      * @param name     変数名
      * @param point    小数点第何位
      * @param msgFull  エラーメッセージ全文
-     * @return void
-     * @access public
      */
     public static void checkPoint(ValidateHelper validate, Integer value, String name, Integer point, String msgFull) {
         if (!validate.getResult(name)) {
@@ -235,8 +209,6 @@ public class ValidateDecimal {
      * @param value    値
      * @param name     変数名
      * @param point    小数点第何位
-     * @return void
-     * @access public
      */
     public static void checkPoint(ValidateHelper validate, Integer value, String name, Integer point) {
         checkPoint(validate, value, name, point, null);
@@ -250,8 +222,6 @@ public class ValidateDecimal {
      * @param name     変数名
      * @param point    小数点第何位
      * @param msgFull  エラーメッセージ全文
-     * @return void
-     * @access public
      */
     public static void checkPoint(ValidateHelper validate, Float value, String name, Integer point, String msgFull) {
         if (!validate.getResult(name)) {
@@ -271,8 +241,6 @@ public class ValidateDecimal {
      * @param value    値
      * @param name     変数名
      * @param point    小数点第何位
-     * @return void
-     * @access public
      */
     public static void checkPoint(ValidateHelper validate, Float value, String name, Integer point) {
         checkPoint(validate, value, name, point, null);
@@ -286,8 +254,6 @@ public class ValidateDecimal {
      * @param name     変数名
      * @param point    小数点第何位
      * @param msgFull  エラーメッセージ全文
-     * @return void
-     * @access public
      */
     public static void checkPoint(ValidateHelper validate, Double value, String name, Integer point, String msgFull) {
         if (!validate.getResult(name)) {
@@ -307,8 +273,6 @@ public class ValidateDecimal {
      * @param value    値
      * @param name     変数名
      * @param point    小数点第何位
-     * @return void
-     * @access public
      */
     public static void checkPoint(ValidateHelper validate, Double value, String name, Integer point) {
         checkPoint(validate, value, name, point, null);
@@ -324,8 +288,6 @@ public class ValidateDecimal {
      * @param msgFull  エラーメッセージ全文
      * @param pattern  正規表現パターン
      * @param msg      デフォルトエラーメッセージ
-     * @return void
-     * @access private
      */
     private static void checkPoint(ValidateHelper validate, String value, String name, Integer point, String msgFull, String pattern, String msg) {
         //正規表現の小数点部分を置換しておく

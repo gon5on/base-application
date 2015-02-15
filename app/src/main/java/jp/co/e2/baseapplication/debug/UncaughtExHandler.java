@@ -6,8 +6,6 @@ import android.content.Context;
 
 /**
  * UncaughtExceptionハンドリングクラス
- *
- * @access public
  */
 public class UncaughtExHandler implements UncaughtExceptionHandler {
     private Context mContext;
@@ -16,8 +14,7 @@ public class UncaughtExHandler implements UncaughtExceptionHandler {
     /**
      * コンストラクタ
      *
-     * @param context
-     * @access public
+     * @param context コンテキスト
      */
     public UncaughtExHandler(Context context) {
         mContext = context;

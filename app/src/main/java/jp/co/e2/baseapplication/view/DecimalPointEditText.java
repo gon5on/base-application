@@ -20,8 +20,6 @@ import android.widget.EditText;
  *
  * custom:decimalPointLength="1"
  * ---------------------------------------------------------------------
- *
- * @access public
  */
 public class DecimalPointEditText extends EditText {
     private Integer mDecimalPointLength = 0;
@@ -29,8 +27,7 @@ public class DecimalPointEditText extends EditText {
     /**
      * コンテキスト
      *
-     * @param context
-     * @access public
+     * @param context コンテキスト
      */
     public DecimalPointEditText(Context context) {
         super(context);
@@ -41,9 +38,8 @@ public class DecimalPointEditText extends EditText {
     /**
      * コンテキスト
      *
-     * @param context
-     * @param attrs
-     * @access public
+     * @param context コンテキスト
+     * @param attrs 属性
      */
     public DecimalPointEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -54,10 +50,9 @@ public class DecimalPointEditText extends EditText {
     /**
      * コンテキスト
      *
-     * @param context
-     * @param attrs
+     * @param context コンテキスト
+     * @param attrs 属性
      * @param defStyle
-     * @access public
      */
     public DecimalPointEditText(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
@@ -73,10 +68,8 @@ public class DecimalPointEditText extends EditText {
     /**
      * 入力欄初期設定
      *
-     * @param context
-     * @param attrs
-     * @return void
-     * @access public
+     * @param context コンテキスト
+     * @param attrs 属性
      */
     private void init(Context context, AttributeSet attrs) {
         setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
@@ -93,8 +86,6 @@ public class DecimalPointEditText extends EditText {
 
     /**
      * DecimalPointLengthFilter
-     *
-     * @access private
      */
     private class DecimalPointLengthFilter implements InputFilter {
         /**

@@ -12,8 +12,6 @@ import android.database.sqlite.SQLiteDatabase;
 
 /**
  * サンプルテーブルへのデータアクセスオブジェクト
- *
- * @access public
  */
 public class SampleDao extends BaseDao {
     // テーブル名
@@ -43,7 +41,6 @@ public class SampleDao extends BaseDao {
      * コンストラクタ
      *
      * @param context コンテキスト
-     * @access public
      */
     public SampleDao(Context context) {
         mContext = context;
@@ -52,10 +49,9 @@ public class SampleDao extends BaseDao {
     /**
      * インサート・アップデート
      *
-     * @param db
-     * @param data
+     * @param db データベースオブジェクト
+     * @param data 保存データ
      * @return Boolean
-     * @access public
      */
     public Boolean save(SQLiteDatabase db, SampleEntity data) throws Exception {
         long ret;
@@ -80,10 +76,9 @@ public class SampleDao extends BaseDao {
     /**
      * IDからデータを取得する
      *
-     * @param db
-     * @param id
+     * @param db データベースオブジェクト
+     * @param id ID
      * @return SampleEntity values
-     * @access public
      */
     public SampleEntity findById(SQLiteDatabase db, Integer id) {
         SampleEntity data = new SampleEntity();
@@ -113,9 +108,8 @@ public class SampleDao extends BaseDao {
     /**
      * 全件データを取得する
      *
-     * @param db
+     * @param db データベースオブジェクト
      * @return ArrayList<SampleEntity> data
-     * @access public
      */
     public ArrayList<SampleEntity> findAll(SQLiteDatabase db) {
         ArrayList<SampleEntity> data = new ArrayList<SampleEntity>();
@@ -145,10 +139,9 @@ public class SampleDao extends BaseDao {
     /**
      * レコード全削除
      *
-     * @return void
-     * @access Boolean
+     * @return boolean
      */
-    public Boolean deleteAll(SQLiteDatabase db) {
+    public boolean deleteAll(SQLiteDatabase db) {
         Integer ret = db.delete(TABLE_NAME, null, null);
 
         return (ret != -1);
@@ -157,10 +150,9 @@ public class SampleDao extends BaseDao {
     /**
      * IDからレコード削除
      *
-     * @return void
-     * @access Boolean
+     * @return boolean
      */
-    public Boolean deleteById(SQLiteDatabase db, Integer id) {
+    public boolean deleteById(SQLiteDatabase db, Integer id) {
         String[] param = new String[] {String.valueOf(id)};
 
         Integer ret = db.delete(TABLE_NAME, COLUMN_ID + " = ?", param);
