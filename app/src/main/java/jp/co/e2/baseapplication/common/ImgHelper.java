@@ -36,10 +36,16 @@ public class ImgHelper {
      * @param uri     画像のURI
      */
     public ImgHelper(Context context, Uri uri) throws Exception {
-        mPath = null;
+        if (uri == null) {
+            throw new NullPointerException("URIが空です");
+        }
 
         //URIをファイルパスに変換
         mPath = MediaUtils.getPathFromUri(context, uri);
+
+        if (mPath == null) {
+            throw new NullPointerException("パスが空です");
+        }
     }
 
     /**
@@ -48,6 +54,10 @@ public class ImgHelper {
      * @param path 画像のパス
      */
     public ImgHelper(String path) {
+        if (path == null) {
+            throw new NullPointerException("パスが空です");
+        }
+
         mPath = path;
     }
 
@@ -60,6 +70,10 @@ public class ImgHelper {
     public ImgHelper(Context context, Integer resId) {
         Resources resources = context.getResources();
         mBitmap = BitmapFactory.decodeResource(resources, resId);
+
+        if (mBitmap == null) {
+            throw new NullPointerException("画像が取得できません");
+        }
     }
 
     /**
@@ -68,6 +82,10 @@ public class ImgHelper {
      * @param bitmap ビットマップ
      */
     public ImgHelper(Bitmap bitmap) {
+        if (bitmap == null) {
+            throw new NullPointerException("画像が空です");
+        }
+
         mBitmap = bitmap;
     }
 
