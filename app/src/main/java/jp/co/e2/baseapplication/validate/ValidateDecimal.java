@@ -4,7 +4,7 @@ package jp.co.e2.baseapplication.validate;
  * 少数バリデーションクラス
  */
 public class ValidateDecimal {
-    public static final String ERROR_MSG_DOUBLE = "%sは少数で入力してください。";
+    public static final String ERROR_MSG_DOUBLE = "%sは小数で入力してください。";
     public static final String ERROR_MSG_DOUBLE_POINT = "%sは小数点第%s位までで入力してください。";
 
     public static final String MATCH_DOUBLE = "^([0-9]\\d*|0)(\\.\\d+)?$";
