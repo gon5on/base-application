@@ -15,11 +15,17 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.RemoteException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+
+import org.json.JSONException;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * 課金アクテビティ
@@ -41,6 +47,10 @@ public class BillingActivity extends BaseActivity {
 
     // プロダクトコード
     private static final String PRODUCT_CODE[] = {
+            //"android.test.purchased",
+            //"android.test.canceled",
+            //"android.test.refunded",
+            //"android.test.unavaliable",
             "jp.co.e2.baseapplication.item1",           // 管理対象アイテムのプロダクトID
             "jp.co.e2.baseapplication.item2",           // 管理対象外アイテムのプロダクトID
             "jp.co.e2.baseapplication.item3",           // 定期購入アイテムのプロダクトID
@@ -167,6 +177,15 @@ public class BillingActivity extends BaseActivity {
          * イベントをセットする
          */
         private void setEvent() {
+            // 課金状態確認ボタン
+            Button buttonBillingItemInfo = (Button) mView.findViewById(R.id.buttonBillingItemInfo);
+            buttonBillingItemInfo.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    getItemInfo();
+                }
+            });
+
             //管理対象アイテム購入
             Button buttonBilling1 = (Button) mView.findViewById(R.id.buttonBilling1);
             buttonBilling1.setOnClickListener(new OnClickListener() {
@@ -284,6 +303,47 @@ public class BillingActivity extends BaseActivity {
                     mHelper.queryInventoryAsync(mGotInventoryListener);
                 }
             });
+        }
+
+        /**
+         * 課金アイテム情報を取得
+         */
+        private void getItemInfo() {
+            //アイテムIDのリストを作る
+            ArrayList<String> itemList = new ArrayList<String>();
+            itemList.add(PRODUCT_CODE[0]);
+            itemList.add(PRODUCT_CODE[1]);
+            itemList.add(PRODUCT_CODE[2]);
+
+            try {
+                //課金アイテム情報取得
+                ArrayList<HashMap<String, String>> itemInfo = mHelper.getBillingItemInfo(itemList);
+
+                //ログに格納
+                String msg = "";
+                mLog += "●Purchase item info\n";
+                mLog += new DateHelper().format(DateHelper.FMT_DATETIME) + "\n";
+
+                for (HashMap<String, String> item : itemInfo) {
+                    msg += "productId : " + item.get("productId") + "\n";
+                    msg += "type : " + item.get("type") + "\n";
+                    msg += "price : " + item.get("price") + "\n";
+                    msg += "title : " + item.get("title") + "\n";
+                    msg += "description : " + item.get("description") + "\n";
+                }
+                mLog += msg;
+                mLog += "==========================================\n";
+
+                //トースト表示
+                AndroidUtils.showToastS(getActivity(), msg);
+            }
+            catch (RemoteException e) {
+                e.printStackTrace();
+            }
+            catch (JSONException e) {
+                e.printStackTrace();
+            }
+
         }
 
         //課金状態確認

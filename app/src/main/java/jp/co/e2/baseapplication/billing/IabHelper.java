@@ -32,9 +32,14 @@ import android.util.Log;
 import com.android.vending.billing.IInAppBillingService;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+
+import jp.co.e2.baseapplication.common.AndroidUtils;
+import jp.co.e2.baseapplication.common.LogUtils;
 
 
 /**
@@ -987,5 +992,65 @@ public class IabHelper {
 
     void logWarn(String msg) {
         Log.w(mDebugTag, "In-app billing warning: " + msg);
+    }
+
+
+
+    /**
+     * 課金アイテム情報を取得
+     *
+     * @param itemIdList アイテムIDリスト
+     * @return ArrayList<HashMap<String, String>> 課金アイテム情報
+     */
+    public ArrayList<HashMap<String, String>> getBillingItemInfo(ArrayList<String> itemIdList) throws RemoteException, JSONException {
+        ArrayList<HashMap<String, String>> result = new ArrayList<HashMap<String, String>>();
+
+        ArrayList<HashMap<String, String>> result_inapp = getBillingItemInfoByIype(itemIdList, "inapp");
+        ArrayList<HashMap<String, String>> result_subs = getBillingItemInfoByIype(itemIdList, "subs");
+
+        result.addAll(result_inapp);
+        result.addAll(result_subs);
+
+        return result;
+    }
+
+    /**
+     * 課金アイテム情報を取得
+     *
+     * @param itemIdList アイテムIDリスト
+     * @param itemType アイテムタイプ（inapp / subs）
+     * @return ArrayList<HashMap<String, String>> 課金アイテム情報
+     */
+    private ArrayList<HashMap<String, String>> getBillingItemInfoByIype(ArrayList<String> itemIdList, String itemType) throws RemoteException, JSONException {
+        ArrayList<HashMap<String, String>> result = new ArrayList<HashMap<String, String>>();
+
+        Bundle query = new Bundle();
+        query.putStringArrayList("ITEM_ID_LIST", itemIdList);
+
+        Bundle skuDetails = mService.getSkuDetails(3, mContext.getPackageName(), itemType, query);
+
+        int responseCode = skuDetails.getInt("RESPONSE_CODE");
+        if (responseCode == 0) {
+            ArrayList<String> responseList = skuDetails.getStringArrayList("DETAILS_LIST");
+
+            for (String thisResponse : responseList) {
+                JSONObject object = new JSONObject(thisResponse);
+                String productId = object.getString("productId");
+                String type = object.getString("type");
+                String price = object.getString("price");
+                String title = object.getString("title");
+                String description = object.getString("description");
+
+                HashMap<String, String> map = new HashMap<String, String>();
+                map.put("productId", productId);
+                map.put("type ", type);
+                map.put("price", price);
+                map.put("title", title);
+                map.put("description ", description);
+                result.add(map);
+            }
+        }
+
+        return result;
     }
 }
