@@ -77,9 +77,15 @@ public class BillingActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_billing);
+        setContentView(R.layout.activity_common);
 
         if (savedInstanceState == null) {
+            //ツールバーセット
+            setToolbar();
+
+            //ドロワーセット
+            setDrawer(true);
+
             getFragmentManager().beginTransaction().add(R.id.container, PlaceholderFragment.newInstance()).commit();
         }
     }
@@ -187,8 +193,8 @@ public class BillingActivity extends BaseActivity {
             });
 
             //管理対象アイテム購入
-            Button buttonBilling1 = (Button) mView.findViewById(R.id.buttonBilling1);
-            buttonBilling1.setOnClickListener(new OnClickListener() {
+            Button buttonBuyNonConsumableItem = (Button) mView.findViewById(R.id.buttonBuyNonConsumableItem);
+            buttonBuyNonConsumableItem.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     mHelper.launchPurchaseFlow(getActivity(), PRODUCT_CODE[0], REQUEST_CODE_BILLING1, mPurchaseFinishedListener, PAYLOAD);
@@ -196,17 +202,17 @@ public class BillingActivity extends BaseActivity {
             });
 
             //管理対象外アイテム購入
-            Button buttonBilling2 = (Button) mView.findViewById(R.id.buttonBilling2);
-            buttonBilling2.setOnClickListener(new OnClickListener() {
+            Button buttonBuyConsumableItem = (Button) mView.findViewById(R.id.buttonBuyConsumableItem);
+            buttonBuyConsumableItem.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     mHelper.launchPurchaseFlow(getActivity(), PRODUCT_CODE[1], REQUEST_CODE_BILLING2, mPurchaseFinishedListener, PAYLOAD);
                 }
             });
 
-            //定期購入アイテム
-            Button buttonBilling3 = (Button) mView.findViewById(R.id.buttonBilling3);
-            buttonBilling3.setOnClickListener(new OnClickListener() {
+            //定期購入アイテム購入
+            Button buttonBuySubscriptionItem = (Button) mView.findViewById(R.id.buttonBuySubscriptionItem);
+            buttonBuySubscriptionItem.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (mHelper.subscriptionsSupported()) {
@@ -216,8 +222,8 @@ public class BillingActivity extends BaseActivity {
             });
 
             // 管理対象アイテム消費（普通は消費されない、デバッグ用）
-            Button buttonUse1 = (Button) mView.findViewById(R.id.buttonUse1);
-            buttonUse1.setOnClickListener(new OnClickListener() {
+            Button buttonUseNonConsumableItem = (Button) mView.findViewById(R.id.buttonUseNonConsumableItem);
+            buttonUseNonConsumableItem.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (mItem1Purchase != null) {
@@ -227,8 +233,8 @@ public class BillingActivity extends BaseActivity {
             });
 
             // 管理対象外アイテム消費
-            Button buttonUse2 = (Button) mView.findViewById(R.id.buttonUse2);
-            buttonUse2.setOnClickListener(new OnClickListener() {
+            Button buttonUseConsumableItem = (Button) mView.findViewById(R.id.buttonUseConsumableItem);
+            buttonUseConsumableItem.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     //保持アイテム数を変更する
@@ -241,8 +247,8 @@ public class BillingActivity extends BaseActivity {
             });
 
             //定期購入キャンセル
-            Button buttonUse3 = (Button) mView.findViewById(R.id.buttonUse3);
-            buttonUse3.setOnClickListener(new OnClickListener() {
+            Button buttonCancelSubscriptionItem = (Button) mView.findViewById(R.id.buttonCancelSubscriptionItem);
+            buttonCancelSubscriptionItem.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     //キャンセル画面（google play）へ
@@ -262,8 +268,8 @@ public class BillingActivity extends BaseActivity {
             });
 
             // ログ送信ボタン（メーラー起動）
-            Button buttonSend = (Button) mView.findViewById(R.id.buttonSend);
-            buttonSend.setOnClickListener(new OnClickListener() {
+            Button buttonSendLog = (Button) mView.findViewById(R.id.buttonSendLog);
+            buttonSendLog.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(Intent.ACTION_SEND);
@@ -337,13 +343,12 @@ public class BillingActivity extends BaseActivity {
                 //トースト表示
                 AndroidUtils.showToastS(getActivity(), msg);
             }
-            catch (RemoteException e) {
-                e.printStackTrace();
-            }
             catch (JSONException e) {
                 e.printStackTrace();
             }
-
+            catch (RemoteException e) {
+                e.printStackTrace();
+            }
         }
 
         //課金状態確認

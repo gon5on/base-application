@@ -81,7 +81,6 @@ public class PreferenceUtils {
      * @param context コンテキスト
      * @param name    名前
      * @param value   保存する値
-     * @return void
      */
     public static void save(Context context, String name, Integer value) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
@@ -151,7 +150,6 @@ public class PreferenceUtils {
      * プリファレンスの値を全て消す
      *
      * @param context コンテキスト
-     * @return void
      */
     public static void deleteAll(Context context) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);

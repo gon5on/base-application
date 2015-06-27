@@ -19,7 +19,7 @@ public abstract class BaseAsyncTask<Params, Progress, Result> extends AsyncTask<
     /**
      * コンストラクタ
      *
-     * @param tag タグc
+     * @param tag タグ
      */
     public BaseAsyncTask(int tag) {
         super();

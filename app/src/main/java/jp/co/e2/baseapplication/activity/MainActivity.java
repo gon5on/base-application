@@ -1,99 +1,76 @@
 package jp.co.e2.baseapplication.activity;
 
-import jp.co.e2.baseapplication.R;
-import jp.co.e2.baseapplication.common.AndroidUtils;
-import jp.co.e2.baseapplication.dialog.SampleDialog;
-import jp.co.e2.baseapplication.entity.SampleEntity;
-import jp.co.e2.baseapplication.model.BaseSQLiteOpenHelper;
-import jp.co.e2.baseapplication.model.SampleDao;
-
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
+import jp.co.e2.baseapplication.R;
+import jp.co.e2.baseapplication.entity.SampleEntity;
+import jp.co.e2.baseapplication.model.BaseSQLiteOpenHelper;
+import jp.co.e2.baseapplication.model.SampleDao;
+
 /**
  * メインアクテビティ
  */
-public class MainActivity extends BaseActivity implements SampleDialog.CallbackListener {
-    private static final int DIALOG_TAG = 1;
-
+public class MainActivity extends BaseActivity {
     /**
-     * ${inheritDoc}
+     * ファクトリーメソッドもどき
+     *
+     * @param activity アクテビティ
+     * @return Intent intent
      */
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        if (savedInstanceState == null) {
-            getFragmentManager().beginTransaction().add(R.id.container, PlaceholderFragment.newInstance()).commit();
-        }
+    public static Intent newIntent(Activity activity) {
+        return new Intent(activity, MainActivity.class);
     }
 
     /**
-     * ${inheritDoc}
+     * {@inheritDoc}
      */
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    /**
-     * ${inheritDoc}
-     */
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Integer id = item.getItemId();
-
-        if (id == R.id.action_content1) {
-            SampleDialog sampleDialog = SampleDialog.getInstance(DIALOG_TAG, "サンプル", "サンプルダイアログです");
-            sampleDialog.setCallbackListener(this);
-            sampleDialog.show(getFragmentManager(), "dialog");
-            return true;
-        } else if (id == R.id.action_content2) {
-            startActivity(AsyncTaskActivity.newIntent(MainActivity.this));
-            return true;
-        } else if (id == R.id.action_content3) {
-            startActivity(BillingActivity.newIntent(MainActivity.this));
-            return true;
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
     /**
-     * ${inheritDoc}
+     * {@inheritDoc}
      */
     @Override
-    public void onClickSampleDialogOk(int tag) {
-        AndroidUtils.showToastS(getApplicationContext(), "OK!");
-    }
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_common);
 
-    /**
-     * ${inheritDoc}
-     */
-    @Override
-    public void onClickSampleDialogCancel(int tag) {
-        AndroidUtils.showToastS(getApplicationContext(), "cancel!");
+        //ツールバーセット
+        setToolbar();
+
+        //ドロワーセット
+        setDrawer(false);
+
+        //フラグメントを呼び出す
+        getFragmentManager().beginTransaction().add(R.id.container, PlaceholderFragment.newInstance()).commit();
     }
 
     /**
      * PlaceholderFragment
      */
     public static class PlaceholderFragment extends Fragment {
+        private View mView;
+
         /**
          * ファクトリーメソッド
-         *
-         * @return PlaceholderFragment fragment
          */
         public static PlaceholderFragment newInstance() {
             Bundle args = new Bundle();
@@ -105,21 +82,13 @@ public class MainActivity extends BaseActivity implements SampleDialog.CallbackL
         }
 
         /**
-         * ${inheritDoc}
+         * {@inheritDoc}
          */
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
+            mView = inflater.inflate(R.layout.fragment_main, container, false);
 
-            View view = inflater.inflate(R.layout.fragment_main, container, false);
-
-            // fragment再生成抑止、必要に応じて
-            setRetainInstance(true);
-
-            //サンプルデータ一覧を取得
-            getSampleData();
-
-            return view;
+            return mView;
         }
 
         /**

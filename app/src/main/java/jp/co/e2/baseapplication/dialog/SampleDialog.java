@@ -76,11 +76,15 @@ public class SampleDialog extends BaseDialog<CallbackListener> {
     public interface CallbackListener {
         /**
          * サンプルダイアログでOKが押された
+         * 
+         * @param tag タグ
          */
         public void onClickSampleDialogOk(int tag);
 
         /**
          * サンプルダイアログでキャンセルが押された
+         * 
+         * @param tag タグ
          */
         public void onClickSampleDialogCancel(int tag);
     }

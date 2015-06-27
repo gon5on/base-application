@@ -42,9 +42,15 @@ public class AsyncTaskActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_common);
 
         if (savedInstanceState == null) {
+            //ツールバーセット
+            setToolbar();
+
+            //ドロワーセット
+            setDrawer(true);
+
             getFragmentManager().beginTransaction().add(R.id.container, PlaceholderFragment.newInstance()).commit();
         }
     }

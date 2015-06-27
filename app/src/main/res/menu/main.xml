@@ -3,19 +3,16 @@
     tools:context="com.example.sample.MainActivity" >
 
     <item
-        android:id="@+id/action_content1"
+        android:id="@+id/menu_dialog_sample"
         android:orderInCategory="1"
-        android:showAsAction="collapseActionView"
-        android:title="@string/action_content1"/>
+        android:title="@string/menu_dialog_sample"/>
     <item
-        android:id="@+id/action_content2"
+        android:id="@+id/menu_asynk_task_sample"
         android:orderInCategory="2"
-        android:showAsAction="collapseActionView"
-        android:title="@string/action_content2"/>
+        android:title="@string/menu_asynk_task_sample"/>
     <item
-        android:id="@+id/action_content3"
+        android:id="@+id/menu_billing_sample"
         android:orderInCategory="3"
-        android:showAsAction="collapseActionView"
-        android:title="@string/action_content3"/>
+        android:title="@string/menu_billing_sample"/>
 
 </menu>

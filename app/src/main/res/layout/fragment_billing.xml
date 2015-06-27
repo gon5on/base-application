@@ -1,84 +1,82 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/scrollView1"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content" >
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin" >
+        android:layout_height="wrap_content">
 
-        <Button
-            android:id="@+id/buttonBillingItemInfo"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:minHeight="36dp"
-            android:text="課金アイテム情報取得" />
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:orientation="vertical">
 
-        <Button
-            android:id="@+id/buttonBillingStatus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:minHeight="36dp"
-            android:text="課金状態確認" />
+            <Button
+                android:id="@+id/buttonBillingItemInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:text="@string/str_get_billing_item_info"/>
 
-        <Button
-            android:id="@+id/buttonBilling1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:minHeight="36dp"
-            android:text="管理型アイテム課金" />
+            <Button
+                android:id="@+id/buttonBillingStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:text="@string/str_get_billing_status"/>
 
-        <Button
-            android:id="@+id/buttonUse1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:minHeight="36dp"
-            android:text="管理型アイテム消費" />
+            <Button
+                android:id="@+id/buttonBuyNonConsumableItem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/str_buy_non_consumable_item"/>
 
-        <Button
-            android:id="@+id/buttonBilling2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:minHeight="36dp"
-            android:text="非管理型アイテム課金" />
+            <Button
+                android:id="@+id/buttonUseNonConsumableItem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:text="@string/str_use_non_consumable_item"/>
 
-        <Button
-            android:id="@+id/buttonUse2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:minHeight="36dp"
-            android:text="非管理型アイテム消費" />
+            <Button
+                android:id="@+id/buttonBuyConsumableItem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/str_buy_consumable_item"/>
 
-        <Button
-            android:id="@+id/buttonBilling3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:minHeight="36dp"
-            android:text="定期購入" />
+            <Button
+                android:id="@+id/buttonUseConsumableItem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:text="@string/str_get_billing_item_info"/>
 
-        <Button
-            android:id="@+id/buttonUse3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:minHeight="36dp"
-            android:text="定期購入キャンセル" />
+            <Button
+                android:id="@+id/buttonBuySubscriptionItem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/str_buy_subscription_item"/>
 
-        <Button
-            android:id="@+id/buttonSend"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:minHeight="36dp"
-            android:text="ログ送信" />
-    </LinearLayout>
+            <Button
+                android:id="@+id/buttonCancelSubscriptionItem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:text="@string/str_cancel_subscription_item"/>
 
-</ScrollView>
+            <Button
+                android:id="@+id/buttonSendLog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/str_send_log"/>
+        </LinearLayout>
+
+    </ScrollView>
+
+</RelativeLayout>
