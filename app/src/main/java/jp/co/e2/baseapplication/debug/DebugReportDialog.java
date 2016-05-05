@@ -5,9 +5,9 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import jp.co.e2.baseapplication.common.PreferenceUtils;
+import android.preference.PreferenceManager;
 
 /**
  * 例外報告ダイアログ
@@ -53,8 +53,9 @@ public class DebugReportDialog extends DialogFragment {
      */
     private void sendMail() {
         //例外内容をプリファレンスから取得して、プリファレンスの中身を空にしておく
-        String text = PreferenceUtils.get(getActivity(), DebugHelper.KEY, "");
-        PreferenceUtils.delete(getActivity(), DebugHelper.KEY);
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String text = sp.getString(DebugHelper.KEY, "");
+        sp.edit().remove(DebugHelper.KEY).apply();
 
         //メーラーに投げる
         Intent intent = new Intent(Intent.ACTION_SEND);

@@ -5,23 +5,17 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
-import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
-import android.media.ExifInterface;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.BaseColumns;
-import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -36,11 +30,11 @@ import android.widget.PopupMenu;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 
 import jp.co.e2.baseapplication.R;
 import jp.co.e2.baseapplication.common.AndroidUtils;
+import jp.co.e2.baseapplication.common.ImgHelper;
 
 /**
  * カメラ・ギャラリーフラグメント
@@ -237,7 +231,8 @@ public class CameraGalleryFragment extends Fragment {
             }
 
             //URIをパスに変換
-            String orgPath = getPathFromUri(requestCode);
+            boolean newMethod = (requestCode == REQUEST_CODE_GALLERY);
+            String orgPath = AndroidUtils.getPathFromUri(getActivity(), mPhotoUri, newMethod);
 
             //パスが取れなかった
             if (orgPath == null) {
@@ -246,12 +241,14 @@ public class CameraGalleryFragment extends Fragment {
 
             //回転を考慮して画像を保存し直す
             String tmpPath = getSaveTmpPath();
-            saveRotatedResizedImage(orgPath, tmpPath);
+            ImgHelper imgHelper = new ImgHelper(orgPath);
+            imgHelper.getRotatedResizedImage(500, 500);
+            imgHelper.saveImg(getActivity(), tmpPath);
 
             //トリミングアプリ呼び出し
             String savePath = getSavePath();
             Intent intent = new Intent("com.android.camera.action.CROP");
-            intent.setData(path2contentUri(tmpPath));
+            intent.setData(AndroidUtils.path2contentUri(getActivity(), tmpPath));
             intent.putExtra("outputX", 500);
             intent.putExtra("outputY", 500);
             intent.putExtra("aspectX", 1);
@@ -264,221 +261,6 @@ public class CameraGalleryFragment extends Fragment {
             e.printStackTrace();
             AndroidUtils.showToastS(getActivity(), "エラーが発生しました。");
         }
-    }
-
-    /**
-     * URIからパスを取得する
-     *
-     * @param requestCode リクエストコード
-     * @return path パス
-     */
-    @TargetApi(Build.VERSION_CODES.KITKAT)
-    private String getPathFromUri(int requestCode) {
-        String path = null;
-
-        //カメラ or キットカットより前
-        if (requestCode == REQUEST_CODE_CAMERA || requestCode == REQUEST_CODE_GALLERY_UNDER_KITKAT) {
-            String[] strColumns = { MediaStore.Images.Media.DATA };
-            Cursor crsCursor = getActivity().getContentResolver().query(mPhotoUri, strColumns, null, null, null);
-            if(crsCursor != null && crsCursor.moveToFirst()) {
-                path = crsCursor.getString(0);
-            }
-            if (crsCursor != null) {
-                crsCursor.close();
-            }
-        }
-        //キットカット以降
-        else {
-            String strDocId = DocumentsContract.getDocumentId(mPhotoUri);
-            String[] strSplitDocId = strDocId.split(":");
-            String strId = strSplitDocId[strSplitDocId.length - 1];
-
-            Cursor crsCursor = getActivity().getContentResolver().query(
-                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-                    , new String[]{ MediaStore.MediaColumns.DATA }
-                    , "_id=?"
-                    , new String[]{ strId }
-                    , null);
-            if (crsCursor != null && crsCursor.moveToFirst()) {
-                path = crsCursor.getString(0);
-            }
-            if (crsCursor != null) {
-                crsCursor.close();
-            }
-        }
-
-        return path;
-    }
-
-    /**
-     * 回転を考慮して、リサイズした画像を保存し直す
-     *
-     * @param orgPath 元画像パス
-     * @param savePath 保存画像パス
-     * @throws IOException
-     */
-    private void saveRotatedResizedImage(String orgPath, String savePath) throws IOException {
-        File file = new File(orgPath);
-
-        //ファイルが存在しない
-        if (!file.exists()) {
-            throw new NullPointerException();
-        }
-
-        //回転と読み込みサイズを計算
-        Matrix matrix = new Matrix();
-        matrix = getResizedMatrix(file, matrix);
-        matrix = getRotatedMatrix(file, matrix);
-
-        // 元画像の取得
-        Bitmap originalPicture = BitmapFactory.decodeFile(orgPath);
-        int height = originalPicture.getHeight();
-        int width = originalPicture.getWidth();
-
-        // マトリクスをつけることで縮小、向きを反映した画像を生成
-        Bitmap resizedPicture = Bitmap.createBitmap(originalPicture, 0, 0, width, height, matrix, true);
-
-        // 一時ファイルの保存
-        File destination = new File(savePath);
-        FileOutputStream outputStream = new FileOutputStream(destination);
-        resizedPicture.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
-        outputStream.flush();
-        outputStream.close();
-
-        //ギャラリーのスキャン
-        String path[] = new String[]{ savePath };
-        String type[] = new String[]{ "image/jpeg" };
-        MediaScannerConnection.scanFile(getActivity(), path, type, null);
-
-        //ギャラリーのスキャンに微妙に時間がかかる場合があるので、スリープさせる
-        try{
-            Thread.sleep(300);
-        } catch (InterruptedException e){
-            //何もしない
-        }
-    }
-
-    /**
-     * リサイズするマトリクスを取得
-     * 縮小の場合のみ、縮小のマトリクスをセットして返す
-     *
-     * @param file 入力画像
-     * @param matrix 元のマトリクス
-     * @return matrix リサイズ後のマトリクス
-     */
-    private Matrix getResizedMatrix(File file, Matrix matrix) {
-        // リサイズチェック用にメタデータ読み込み
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(file.getPath(), options);
-        int height = options.outHeight;
-        int width = options.outWidth;
-
-        // リサイズ比の取得
-        float scale = Math.max((float) 500 / width, (float) 500 / height);
-
-        // 縮小のみのため、scaleは1.0未満の場合のみマトリクス設定
-        if (scale < 1.0) {
-            matrix.postScale(scale, scale);
-        }
-
-        return matrix;
-    }
-
-    /**
-     * 画像の回転後のマトリクスを取得
-     *
-     * @param file 入力画像
-     * @param matrix 元のマトリクス
-     * @return matrix 回転後のマトリクス
-     */
-    private Matrix getRotatedMatrix(File file, Matrix matrix){
-        ExifInterface exifInterface;
-
-        try {
-            exifInterface = new ExifInterface(file.getPath());
-        } catch (IOException e) {
-            e.printStackTrace();
-            return matrix;
-        }
-
-        // 画像の向きを取得
-        int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
-
-        // 画像を回転させる処理をマトリクスに追加
-        switch (orientation) {
-            case ExifInterface.ORIENTATION_UNDEFINED:
-                break;
-            case ExifInterface.ORIENTATION_NORMAL:
-                break;
-            case ExifInterface.ORIENTATION_FLIP_HORIZONTAL:
-                // 水平方向にリフレクト
-                matrix.postScale(-1f, 1f);
-                break;
-            case ExifInterface.ORIENTATION_ROTATE_180:
-                // 180度回転
-                matrix.postRotate(180f);
-                break;
-            case ExifInterface.ORIENTATION_FLIP_VERTICAL:
-                // 垂直方向にリフレクト
-                matrix.postScale(1f, -1f);
-                break;
-            case ExifInterface.ORIENTATION_ROTATE_90:
-                // 反時計回り90度回転
-                matrix.postRotate(90f);
-                break;
-            case ExifInterface.ORIENTATION_TRANSVERSE:
-                // 時計回り90度回転し、垂直方向にリフレクト
-                matrix.postRotate(-90f);
-                matrix.postScale(1f, -1f);
-                break;
-            case ExifInterface.ORIENTATION_TRANSPOSE:
-                // 反時計回り90度回転し、垂直方向にリフレクト
-                matrix.postRotate(90f);
-                matrix.postScale(1f, -1f);
-                break;
-            case ExifInterface.ORIENTATION_ROTATE_270:
-                // 反時計回りに270度回転（時計回りに90度回転）
-                matrix.postRotate(-90f);
-                break;
-        }
-
-        return matrix;
-    }
-
-    /**
-     * パスをコンテンツURIに変換
-     *
-     * @param path パス
-     * @return コンテンツURI
-     * @throws NullPointerException
-     */
-    private Uri path2contentUri(String path) throws NullPointerException {
-        Uri uri;
-
-        Uri baseUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
-        String[] project = { BaseColumns._ID };
-        String sel = MediaStore.Images.ImageColumns.DATA + " LIKE ?";
-        String[] selArgs = new String[] { path };
-        ContentResolver cr = getActivity().getContentResolver();
-
-        Cursor cur = cr.query(baseUri, project, sel, selArgs, null);
-
-        if (cur == null) {
-            throw new NullPointerException();
-        }
-
-        cur.moveToFirst();
-        int idx = cur.getColumnIndex(project[0]);
-        long id = cur.getLong(idx);
-        cur.close();
-        uri = Uri.parse(baseUri.toString() + "/" + id);
-
-        if (uri == null) {
-            throw new NullPointerException();
-        }
-
-        return uri;
     }
 
     /**

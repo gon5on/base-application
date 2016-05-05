@@ -1,11 +1,17 @@
 package jp.co.e2.baseapplication.common;
 
+import android.annotation.TargetApi;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
+import android.provider.BaseColumns;
+import android.provider.DocumentsContract;
+import android.provider.MediaStore;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.WindowManager;
@@ -165,5 +171,87 @@ public class AndroidUtils {
         } else {
             return View.generateViewId();
         }
+    }
+
+    /**
+     * URIからパスを取得する
+     *
+     * @param context コンテキスト
+     * @param uri URI
+     * @param newMethod リクエストコード
+     * @return path パス
+     */
+    @TargetApi(Build.VERSION_CODES.KITKAT)
+    public static String getPathFromUri(Context context, Uri uri, boolean newMethod) {
+        String path = null;
+
+        //キットカット以降の取得方法で取得する
+        if (newMethod) {
+            String strDocId = DocumentsContract.getDocumentId(uri);
+            String[] strSplitDocId = strDocId.split(":");
+            String strId = strSplitDocId[strSplitDocId.length - 1];
+
+            Cursor crsCursor = context.getContentResolver().query(
+                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                    , new String[]{ MediaStore.MediaColumns.DATA }
+                    , "_id=?"
+                    , new String[]{ strId }
+                    , null);
+            if (crsCursor != null && crsCursor.moveToFirst()) {
+                path = crsCursor.getString(0);
+            }
+            if (crsCursor != null) {
+                crsCursor.close();
+            }
+        }
+        //キットカットより前の取得方法で取得
+        else {
+            String[] strColumns = { MediaStore.Images.Media.DATA };
+            Cursor crsCursor = context.getContentResolver().query(uri, strColumns, null, null, null);
+            if(crsCursor != null && crsCursor.moveToFirst()) {
+                path = crsCursor.getString(0);
+            }
+            if (crsCursor != null) {
+                crsCursor.close();
+            }
+        }
+
+        return path;
+    }
+
+    /**
+     * パスをコンテンツURIに変換
+     *
+     * @param context コンテキスト
+     * @param path パス
+     * @return コンテンツURI
+     * @throws NullPointerException
+     */
+    public static Uri path2contentUri(Context context, String path) throws NullPointerException {
+        Uri uri;
+
+        Uri baseUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+        String[] project = { BaseColumns._ID };
+        String sel = MediaStore.Images.ImageColumns.DATA + " LIKE ?";
+        String[] selArgs = new String[] { path };
+        ContentResolver cr = context.getContentResolver();
+
+        Cursor cur = cr.query(baseUri, project, sel, selArgs, null);
+
+        if (cur == null) {
+            throw new NullPointerException();
+        }
+
+        cur.moveToFirst();
+        int idx = cur.getColumnIndex(project[0]);
+        long id = cur.getLong(idx);
+        cur.close();
+        uri = Uri.parse(baseUri.toString() + "/" + id);
+
+        if (uri == null) {
+            throw new NullPointerException();
+        }
+
+        return uri;
     }
 }

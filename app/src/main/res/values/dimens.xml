@@ -1,6 +1,7 @@
 <resources>
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="activity_horizontal_padding">8dp</dimen>
-    <dimen name="activity_vertical_padding">8dp</dimen>
+    <dimen name="halfBlock">4dp</dimen>
+    <dimen name="singleBlock">8dp</dimen>
+    <dimen name="doubleBlock">16dp</dimen>
+    <dimen name="tripleBlock">24dp</dimen>
+    <dimen name="quadBlock">32dp</dimen>
 </resources>

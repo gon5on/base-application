@@ -2,19 +2,5 @@
 <resources>
 
     <string name="app_name">BaseApplication</string>
-    <string name="menu_dialog_sample">ダイアログサンプル</string>
-    <string name="menu_asynk_task_sample">非同期処理サンプル</string>
-    <string name="menu_billing_sample">課金サンプル</string>
-    <string name="menu_card_view_sample">カードビューサンプル</string>
-    <string name="str_connect">通信</string>
-    <string name="str_get_billing_item_info">課金アイテム情報取得</string>
-    <string name="str_get_billing_status">課金状態得</string>
-    <string name="str_buy_non_consumable_item">管理型アイテム購入</string>
-    <string name="str_use_non_consumable_item">管理型アイテム消費</string>
-    <string name="str_buy_consumable_item">非管理型アイテム購入</string>
-    <string name="str_use_consumable_item">非管理型アイテム消費</string>
-    <string name="str_buy_subscription_item">定期購入</string>
-    <string name="str_cancel_subscription_item">定期購入キャンセル</string>
-    <string name="str_send_log">ログ送信</string>
 
 </resources>

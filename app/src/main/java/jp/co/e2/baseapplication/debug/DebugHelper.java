@@ -6,11 +6,12 @@ import java.util.LinkedHashMap;
 
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Build;
+import android.preference.PreferenceManager;
 
 import jp.co.e2.baseapplication.common.AndroidUtils;
 import jp.co.e2.baseapplication.common.DateHelper;
-import jp.co.e2.baseapplication.common.PreferenceUtils;
 import jp.co.e2.baseapplication.config.EnvConfig;
 
 /**
@@ -48,7 +49,8 @@ public class DebugHelper {
      */
     public static void showReportDialog(Context context, FragmentManager fragmentManager) {
         if (DEBUG_FLG) {
-            String exStr = PreferenceUtils.get(context, DebugHelper.KEY, "");
+            SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+            String exStr = sp.getString(DebugHelper.KEY, "");
 
             if (!exStr.equals("")) {
                 DebugReportDialog debugReportDialog = DebugReportDialog.getInstance();
@@ -109,8 +111,11 @@ public class DebugHelper {
      * @param text テキスト
      */
     private static void savePreference(Context context, String text) {
-        String savedText = PreferenceUtils.get(context, DebugHelper.KEY, "");
-        PreferenceUtils.save(context, KEY, (savedText + text));
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+
+        String savedText = sp.getString(DebugHelper.KEY, "");
+
+        sp.edit().putString(DebugHelper.KEY, (savedText + text)).apply();
     }
 
     /**
