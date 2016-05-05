@@ -62,6 +62,8 @@ public class CameraGalleryFragment extends Fragment {
 
     /**
      * ファクトリーメソッド
+     *
+     * @return fragment フラグメント
      */
     public static CameraGalleryFragment newInstance() {
         Bundle args = new Bundle();

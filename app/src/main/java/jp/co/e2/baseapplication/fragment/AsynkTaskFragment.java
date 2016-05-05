@@ -26,6 +26,8 @@ public class AsynkTaskFragment extends Fragment {
 
     /**
      * ファクトリーメソッド
+     *
+     * @return fragment フラグメント
      */
     public static AsynkTaskFragment newInstance() {
         Bundle args = new Bundle();

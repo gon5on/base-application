@@ -1,6 +1,7 @@
 package jp.co.e2.baseapplication.activity;
 
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -24,7 +25,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     /**
-     * ツールバーセット
+     * ツールバーをセット
      */
     protected void setToolbar() {
         //ツールバーをアクションバーとして扱う
@@ -32,6 +33,20 @@ public class BaseActivity extends AppCompatActivity {
 
         if (toolbar != null) {
             setSupportActionBar(toolbar);
+        }
+    }
+
+    /**
+     * 戻る矢印付きのツールバーをセット
+     */
+    protected void setBackArrowToolbar() {
+        setToolbar();
+
+        ActionBar actionbar = getSupportActionBar();
+
+        if (actionbar != null) {
+            actionbar.setHomeButtonEnabled(true);
+            actionbar.setDisplayHomeAsUpEnabled(true);
         }
     }
 }

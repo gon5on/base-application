@@ -30,6 +30,8 @@ public class EncryptFragment extends Fragment {
 
     /**
      * ファクトリーメソッド
+     *
+     * @return fragment フラグメント
      */
     public static EncryptFragment newInstance() {
         Bundle args = new Bundle();

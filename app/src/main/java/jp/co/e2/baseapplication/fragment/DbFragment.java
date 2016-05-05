@@ -27,6 +27,8 @@ public class DbFragment extends Fragment {
 
     /**
      * ファクトリーメソッド
+     *
+     * @return fragment フラグメント
      */
     public static DbFragment newInstance() {
         Bundle args = new Bundle();

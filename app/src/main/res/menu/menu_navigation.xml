@@ -25,6 +25,11 @@
             android:icon="@android:drawable/ic_menu_camera"
             />
         <item
+            android:id="@+id/menu_activity_dialog"
+            android:title="アクテビティとダイアログ"
+            android:icon="@android:drawable/ic_menu_directions"
+            />
+        <item
             android:id="@+id/menu_billing"
             android:title="課金"
             android:icon="@android:drawable/ic_menu_compass"
