@@ -1,48 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context=".MyActivity$PlaceholderFragment"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    >
 
     <TextView
-        android:id="@+id/section_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ほげほげほげほげ"/>
+        android:text="平文"
+        android:textStyle="bold"
+        />
 
-    <Button
+    <TextView
+        android:id="@+id/textViewPlane"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button"/>
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        />
 
-    <RadioButton
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New RadioButton"
-        android:id="@+id/radioButton"/>
+        android:text="暗号化文字列"
+        android:textStyle="bold"
+        />
 
-    <CheckBox
+    <TextView
+        android:id="@+id/textViewEncrypt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New CheckBox"
-        android:id="@+id/checkBox"/>
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        />
 
-    <android.support.v7.widget.SwitchCompat
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Switch"
-        android:id="@+id/switch1"/>
+        android:text="復号化文字列"
+        android:textStyle="bold"
+        />
 
-    <EditText
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/textViewDecrypt"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/editText"/>
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        />
+
 </LinearLayout>

@@ -85,11 +85,11 @@ public class DebugReportDialog extends BaseDialog<DebugReportDialog.CallbackList
         /**
          * 例外報告ダイアログでOKが押された
          */
-        public void onClickDebugReportDialogOk();
+        void onClickDebugReportDialogOk();
 
         /**
          * 例外報告ダイアログでキャンセルが押された
          */
-        public void onClickDebugReportDialogCancel();
+        void onClickDebugReportDialogCancel();
     }
 }

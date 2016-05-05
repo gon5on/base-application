@@ -11,6 +11,10 @@ import android.os.Bundle;
  * サンプルダイアログ
  */
 public class SampleDialog extends BaseDialog<CallbackListener> {
+    private static final String TAG = "tag";
+    private static final String TITLE = "title";
+    private static final String MSG = "msg";
+
     /**
      * ファクトリーメソッド
      *
@@ -23,9 +27,9 @@ public class SampleDialog extends BaseDialog<CallbackListener> {
         SampleDialog dialog = new SampleDialog();
 
         Bundle bundle = new Bundle();
-        bundle.putInt("tag", tag);
-        bundle.putString("title", title);
-        bundle.putString("msg", msg);
+        bundle.putInt(TAG, tag);
+        bundle.putString(TITLE, title);
+        bundle.putString(MSG, msg);
         dialog.setArguments(bundle);
 
         return dialog;
@@ -37,9 +41,9 @@ public class SampleDialog extends BaseDialog<CallbackListener> {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         //bundleから値を取り出す
-        final int tag = getArguments().getInt("tag");
-        String title = getArguments().getString("title");
-        String msg = getArguments().getString("msg");
+        final int tag = getArguments().getInt(TAG);
+        String title = getArguments().getString(TITLE);
+        String msg = getArguments().getString(MSG);
 
         //ダイアログ生成
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -79,13 +83,13 @@ public class SampleDialog extends BaseDialog<CallbackListener> {
          * 
          * @param tag タグ
          */
-        public void onClickSampleDialogOk(int tag);
+        void onClickSampleDialogOk(int tag);
 
         /**
          * サンプルダイアログでキャンセルが押された
          * 
          * @param tag タグ
          */
-        public void onClickSampleDialogCancel(int tag);
+        void onClickSampleDialogCancel(int tag);
     }
 }

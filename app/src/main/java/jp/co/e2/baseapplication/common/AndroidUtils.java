@@ -19,8 +19,6 @@ import java.util.concurrent.atomic.AtomicInteger;
  * newしなくても使える
  */
 public class AndroidUtils {
-    private static final AtomicInteger mNextGeneratedId = new AtomicInteger(1);
-
     /**
      * トースト表示（短い）
      *
@@ -153,12 +151,14 @@ public class AndroidUtils {
      * @return int リソースID
      */
     public static int generateViewId() {
+        AtomicInteger nextGeneratedId = new AtomicInteger(1);
+
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
             for (;;) {
-                final int result = mNextGeneratedId.get();
+                final int result = nextGeneratedId.get();
                 int newValue = result + 1;
-                if (newValue > 0x00FFFFFF) newValue = 1;        // Roll over to 1, not 0.
-                if (mNextGeneratedId.compareAndSet(result, newValue)) {
+                if (newValue > 0x00FFFFFF) newValue = 1;
+                if (nextGeneratedId.compareAndSet(result, newValue)) {
                     return result;
                 }
             }

@@ -1,0 +1,53 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group
+        android:id="@+id/group_main"
+        android:checkableBehavior="single"
+        >
+
+        <item
+            android:id="@+id/menu_view"
+            android:title="ビューとスタイル"
+            android:icon="@android:drawable/ic_menu_edit"
+            />
+        <item
+            android:id="@+id/menu_db"
+            android:title="データベース"
+            android:icon="@android:drawable/ic_menu_add"
+            />
+        <item
+            android:id="@+id/menu_asynk_task"
+            android:title="非同期処理"
+            android:icon="@android:drawable/ic_menu_agenda"
+            />
+        <item
+            android:id="@+id/menu_camera_gallery"
+            android:title="カメラ・ギャラリー"
+            android:icon="@android:drawable/ic_menu_camera"
+            />
+        <item
+            android:id="@+id/menu_billing"
+            android:title="課金"
+            android:icon="@android:drawable/ic_menu_compass"
+            />
+        <item
+            android:id="@+id/menu_encrypt"
+            android:title="鍵・暗号化"
+            android:icon="@android:drawable/ic_menu_call"
+            />
+    </group>
+
+    <group
+        android:id="@+id/group_sub"
+        android:checkableBehavior="single"
+        >
+
+        <item
+            android:id="@+id/menu_setting"
+            android:title="設定"
+            />
+        <item
+            android:id="@+id/menu_logout"
+            android:title="ログアウト"
+            />
+    </group>
+</menu>

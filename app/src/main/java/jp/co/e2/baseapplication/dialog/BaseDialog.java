@@ -7,8 +7,6 @@ import android.os.Bundle;
 
 /**
  * ダイアログ基底クラス
- *
- * @access public
  */
 public abstract class BaseDialog<Interface> extends DialogFragment {
     public static final int LISTENER_ACTIVITY = 1;
@@ -39,9 +37,7 @@ public abstract class BaseDialog<Interface> extends DialogFragment {
      * アクテビティから呼ばれているのか、フラグメントから呼ばれているのかを判別して、
      * 適当な方法でイベントリスナーを登録する
      *
-     * @param listener
-     * @return void
-     * @access public
+     * @param listener コールバックリスナー
      */
     public void setCallbackListener(Interface listener) {
         Integer listenerType;
@@ -62,9 +58,6 @@ public abstract class BaseDialog<Interface> extends DialogFragment {
 
     /**
      * コールバックリスナーを削除
-     *
-     * @return void
-     * @access public
      */
     public void removeCallbackListener() {
         mCallbackListener = null;

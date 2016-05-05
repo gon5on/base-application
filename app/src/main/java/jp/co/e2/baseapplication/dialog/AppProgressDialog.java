@@ -11,6 +11,8 @@ import android.os.Bundle;
  * プログレスダイアログ
  */
 public class AppProgressDialog extends BaseDialog<CallbackListener> {
+    private static final String TITLE = "title";
+
     private static ProgressDialog mDialog;
 
     /**
@@ -23,7 +25,7 @@ public class AppProgressDialog extends BaseDialog<CallbackListener> {
         AppProgressDialog dialog = new AppProgressDialog();
 
         Bundle bundle = new Bundle();
-        bundle.putString("title", title);
+        bundle.putString(TITLE, title);
         dialog.setArguments(bundle);
 
         return dialog;
@@ -35,7 +37,7 @@ public class AppProgressDialog extends BaseDialog<CallbackListener> {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         //bundleから値を取り出す
-        String title = getArguments().getString("title");
+        String title = getArguments().getString(TITLE);
 
         if (mDialog == null) {
             mDialog = new ProgressDialog(getActivity());
@@ -94,6 +96,6 @@ public class AppProgressDialog extends BaseDialog<CallbackListener> {
         /**
          * プログレスダイアログでキャンセルが押された
          */
-        public void onProgressDialogCancel();
+        void onProgressDialogCancel();
     }
 }

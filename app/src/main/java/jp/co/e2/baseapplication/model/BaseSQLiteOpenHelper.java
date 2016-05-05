@@ -6,25 +6,16 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 /**
  * SQLiteOpenHelperのラッパークラス
- *
- * @access public
  */
 public class BaseSQLiteOpenHelper extends SQLiteOpenHelper {
     public static final String DB_NAME = "database.db";             //データベース名
-    public static final int DB_VERSION = 2;                         //データベースバージョン
-
-    private Context mContext;
+    public static final int DB_VERSION = 1;                         //データベースバージョン
 
     /**
      * コンストラクタ
-     *
-     * @param context コンテキスト
-     * @access public
      */
     public BaseSQLiteOpenHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
-
-        mContext = context;
     }
 
     /**
@@ -78,20 +69,16 @@ public class BaseSQLiteOpenHelper extends SQLiteOpenHelper {
     /**
      * DBバージョンが1の時のDB変更
      *
-     * @param db
-     * @return void
-     * @access private
+     * @param db データベースオブジェクト
      */
     private void dbVer1(SQLiteDatabase db) throws Exception {
-        //処理を書く
+        db.execSQL(SampleDao.CREATE_TABLE_SQL);
     }
 
     /**
      * DBバージョンが2に上がった時のDB変更
      *
-     * @param db
-     * @return void
-     * @access private
+     * @param db データベースオブジェクト
      */
     private void dbVer2(SQLiteDatabase db) throws Exception {
         //処理を書く
@@ -100,9 +87,7 @@ public class BaseSQLiteOpenHelper extends SQLiteOpenHelper {
     /**
      * DBバージョンが3に上がった時のDB変更
      *
-     * @param db
-     * @return void
-     * @access private
+     * @param db データベースオブジェクト
      */
     private void dbVer3(SQLiteDatabase db) throws Exception {
         //処理を書く

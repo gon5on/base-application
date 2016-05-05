@@ -2,652 +2,378 @@ package jp.co.e2.baseapplication.validate;
 
 /**
  * 最大・最小系バリデーションクラス
+ *
+ * 小数に変換して大小を確認するので、
+ * 事前に整数か小数であるかのバリデーションを掛けておくこと！
  */
 public class ValidateSize {
-    public static final String ERROR_MSG_SIZE_MIN = "%sは%s以上で入力してください。";
-    public static final String ERROR_MSG_SIZE_MAX = "%sは%s以下で入力してください。";
-
     /**
-     * MAXチェック（値→Integer、MAX→Integer）
+     * 最大チェック（値→String、MAX→Integer）
      *
      * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
-     * @param limit    MAX文字数
-     * @param msgFull  エラーメッセージ全文
+     * @param name 変数名
+     * @param value 値
+     * @param max 最大値
+     * @param errorMsg エラーメッセージ
      */
-    public static void maxCheck(ValidateHelper validate, Integer value, String name, Integer limit, String msgFull) {
+    public static void maxCheck(ValidateHelper validate, String name, String value, Integer max, String errorMsg) {
+        doMaxCheck(validate, name, value, max, errorMsg);
+    }
+
+    /**
+     * 最大チェック（値→Integer、MAX→Integer）
+     *
+     * @param validate バリデートクラス
+     * @param name 変数名
+     * @param value 値
+     * @param max 最大値
+     * @param errorMsg エラーメッセージ
+     */
+    public static void maxCheck(ValidateHelper validate, String name, Integer value, Integer max, String errorMsg) {
+        doMaxCheck(validate, name, value, max, errorMsg);
+    }
+
+    /**
+     * 最大チェック（値→Float、MAX→Integer）
+     *
+     * @param validate バリデートクラス
+     * @param name 変数名
+     * @param value 値
+     * @param max 最大値
+     * @param errorMsg エラーメッセージ
+     */
+    public static void maxCheck(ValidateHelper validate, String name, Float value, Integer max, String errorMsg) {
+        doMaxCheck(validate, name, value, max, errorMsg);
+    }
+
+    /**
+     * 最大チェック（値→Double、MAX→Integer）
+     *
+     * @param validate バリデートクラス
+     * @param name 変数名
+     * @param value 値
+     * @param max 最大値
+     * @param errorMsg エラーメッセージ
+     */
+    public static void maxCheck(ValidateHelper validate, String name, Double value, Integer max, String errorMsg) {
+        doMaxCheck(validate, name, value, max, errorMsg);
+    }
+
+    /**
+     * 最大チェック（値→String、MAX→float）
+     *
+     * @param validate バリデートクラス
+     * @param name 変数名
+     * @param value 値
+     * @param max 最大値
+     * @param errorMsg エラーメッセージ
+     */
+    public static void maxCheck(ValidateHelper validate, String name, String value, float max, String errorMsg) {
+        doMaxCheck(validate, name, value, max, errorMsg);
+    }
+
+    /**
+     * 最大チェック（値→Integer、MAX→float）
+     *
+     * @param validate バリデートクラス
+     * @param name 変数名
+     * @param value 値
+     * @param max 最大値
+     * @param errorMsg エラーメッセージ
+     */
+    public static void maxCheck(ValidateHelper validate, String name, Integer value, float max, String errorMsg) {
+        doMaxCheck(validate, name, value, max, errorMsg);
+    }
+
+    /**
+     * 最大チェック（値→Float、MAX→float）
+     *
+     * @param validate バリデートクラス
+     * @param name 変数名
+     * @param value 値
+     * @param max 最大値
+     * @param errorMsg エラーメッセージ
+     */
+    public static void maxCheck(ValidateHelper validate, String name, Float value, float max, String errorMsg) {
+        doMaxCheck(validate, name, value, max, errorMsg);
+    }
+
+    /**
+     * 最大チェック（値→Double、MAX→float）
+     *
+     * @param validate バリデートクラス
+     * @param name 変数名
+     * @param value 値
+     * @param max 最大値
+     * @param errorMsg エラーメッセージ
+     */
+    public static void maxCheck(ValidateHelper validate, String name, Double value, float max, String errorMsg) {
+        doMaxCheck(validate, name, value, max, errorMsg);
+    }
+
+    /**
+     * 最大チェック（値→String、MAX→double）
+     *
+     * @param validate バリデートクラス
+     * @param name 変数名
+     * @param value 値
+     * @param max 最大値
+     * @param errorMsg エラーメッセージ
+     */
+    public static void maxCheck(ValidateHelper validate, String name, String value, double max, String errorMsg) {
+        doMaxCheck(validate, name, value, max, errorMsg);
+    }
+
+    /**
+     * 最大チェック（値→Integer、MAX→double）
+     *
+     * @param validate バリデートクラス
+     * @param name 変数名
+     * @param value 値
+     * @param max 最大値
+     * @param errorMsg エラーメッセージ全文
+     */
+    public static void maxCheck(ValidateHelper validate, String name, Integer value, double max, String errorMsg) {
+        doMaxCheck(validate, name, value, max, errorMsg);
+    }
+
+    /**
+     * 最大チェック（値→Float、MAX→double）
+     *
+     * @param validate バリデートクラス
+     * @param name 変数名
+     * @param value 値
+     * @param max 最大値
+     * @param errorMsg エラーメッセージ
+     */
+    public static void maxCheck(ValidateHelper validate, String name, Float value, double max, String errorMsg) {
+        doMaxCheck(validate, name, value, max, errorMsg);
+    }
+
+    /**
+     * 最大チェック（値→Double、MAX→double）
+     *
+     * @param validate バリデートクラス
+     * @param name 変数名
+     * @param value 値
+     * @param max 最大値
+     * @param errorMsg エラーメッセージ
+     */
+    public static void maxCheck(ValidateHelper validate, String name, Double value, double max, String errorMsg) {
+        doMaxCheck(validate, name, value, max, errorMsg);
+    }
+
+
+
+
+    /**
+     * 最小チェック（値→String、MAX→Integer）
+     *
+     * @param validate バリデートクラス
+     * @param name 変数名
+     * @param value 値
+     * @param min 最小値
+     * @param errorMsg エラーメッセージ
+     */
+    public static void minCheck(ValidateHelper validate, String name, String value, Integer min, String errorMsg) {
+        doMinCheck(validate, name, value, min, errorMsg);
+    }
+
+    /**
+     * 最小チェック（値→Integer、MAX→Integer）
+     *
+     * @param validate バリデートクラス
+     * @param name 変数名
+     * @param value 値
+     * @param min 最小値
+     * @param errorMsg エラーメッセージ
+     */
+    public static void minCheck(ValidateHelper validate, String name, Integer value, Integer min, String errorMsg) {
+        doMinCheck(validate, name, value, min, errorMsg);
+    }
+
+    /**
+     * 最小チェック（値→Float、MAX→Integer）
+     *
+     * @param validate バリデートクラス
+     * @param name 変数名
+     * @param value 値
+     * @param min 最小値
+     * @param errorMsg エラーメッセージ
+     */
+    public static void minCheck(ValidateHelper validate, String name, Float value, Integer min, String errorMsg) {
+        doMinCheck(validate, name, value, min, errorMsg);
+    }
+
+    /**
+     * 最小チェック（値→Double、MAX→Integer）
+     *
+     * @param validate バリデートクラス
+     * @param name 変数名
+     * @param value 値
+     * @param min 最小値
+     * @param errorMsg エラーメッセージ
+     */
+    public static void minCheck(ValidateHelper validate, String name, Double value, Integer min, String errorMsg) {
+        doMinCheck(validate, name, value, min, errorMsg);
+    }
+
+    /**
+     * 最小チェック（値→String、MAX→float）
+     *
+     * @param validate バリデートクラス
+     * @param name 変数名
+     * @param value 値
+     * @param min 最小値
+     * @param errorMsg エラーメッセージ
+     */
+    public static void minCheck(ValidateHelper validate, String name, String value, float min, String errorMsg) {
+        doMinCheck(validate, name, value, min, errorMsg);
+    }
+
+    /**
+     * 最小チェック（値→Integer、MAX→float）
+     *
+     * @param validate バリデートクラス
+     * @param name 変数名
+     * @param value 値
+     * @param min 最小値
+     * @param errorMsg エラーメッセージ
+     */
+    public static void minCheck(ValidateHelper validate, String name, Integer value, float min, String errorMsg) {
+        doMinCheck(validate, name, value, min, errorMsg);
+    }
+
+    /**
+     * 最小チェック（値→Float、MAX→float）
+     *
+     * @param validate バリデートクラス
+     * @param name 変数名
+     * @param value 値
+     * @param min 最小値
+     * @param errorMsg エラーメッセージ
+     */
+    public static void minCheck(ValidateHelper validate, String name, Float value, float min, String errorMsg) {
+        doMinCheck(validate, name, value, min, errorMsg);
+    }
+
+    /**
+     * 最小チェック（値→Double、MAX→float）
+     *
+     * @param validate バリデートクラス
+     * @param name 変数名
+     * @param value 値
+     * @param min 最小値
+     * @param errorMsg エラーメッセージ
+     */
+    public static void minCheck(ValidateHelper validate, String name, Double value, float min, String errorMsg) {
+        doMinCheck(validate, name, value, min, errorMsg);
+    }
+
+    /**
+     * 最小チェック（値→String、MAX→double）
+     *
+     * @param validate バリデートクラス
+     * @param name 変数名
+     * @param value 値
+     * @param min 最小値
+     * @param errorMsg エラーメッセージ
+     */
+    public static void minCheck(ValidateHelper validate, String name, String value, double min, String errorMsg) {
+        doMinCheck(validate, name, value, min, errorMsg);
+    }
+
+    /**
+     * 最小チェック（値→Integer、MAX→double）
+     *
+     * @param validate バリデートクラス
+     * @param name 変数名
+     * @param value 値
+     * @param min 最小値
+     * @param errorMsg エラーメッセージ
+     */
+    public static void minCheck(ValidateHelper validate, String name, Integer value, double min, String errorMsg) {
+        doMinCheck(validate, name, value, min, errorMsg);
+    }
+
+    /**
+     * 最小チェック（値→Float、MAX→double）
+     *
+     * @param validate バリデートクラス
+     * @param name 変数名
+     * @param value 値
+     * @param min 最小値
+     * @param errorMsg エラーメッセージ
+     */
+    public static void minCheck(ValidateHelper validate, String name, Float value, double min, String errorMsg) {
+        doMinCheck(validate, name, value, min, errorMsg);
+    }
+
+    /**
+     * 最小チェック（値→Double、MAX→double）
+     *
+     * @param validate バリデートクラス
+     * @param name 変数名
+     * @param value 値
+     * @param min 最小値
+     * @param errorMsg エラーメッセージ
+     */
+    public static void minCheck(ValidateHelper validate, String name, Double value, double min, String errorMsg) {
+        doMinCheck(validate, name, value, min, errorMsg);
+    }
+
+
+
+
+    /**
+     * 最大チェック
+     *
+     * @param validate バリデートクラス
+     * @param name 変数名
+     * @param value 値
+     * @param max 最大値
+     * @param errorMsg エラーメッセージ
+     */
+    private static void doMaxCheck(ValidateHelper validate, String name, Object value, Object max, String errorMsg) {
         if (!validate.getResult(name)) {
             return;
         }
+
         if (value == null) {
             return;
         }
 
-        if (Double.valueOf(limit) < Double.valueOf(value)) {
-            setErrorMsgMax(validate, name, msgFull, String.valueOf(limit));
+        String valueStr = String.valueOf(value);
+        String maxStr = String.valueOf(max);
+
+        if (Double.valueOf(maxStr) < Double.valueOf(valueStr)) {
+            validate.error(name, errorMsg);
         }
     }
 
     /**
-     * MAXチェック（値→Integer、MAX→Integer）
+     * 最小チェック
      *
      * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
-     * @param limit    MAX文字数
+     * @param name 変数名
+     * @param value 値
+     * @param min 最小値
+     * @param errorMsg エラーメッセージ
      */
-    public static void maxCheck(ValidateHelper validate, Integer value, String name, Integer limit) {
-        maxCheck(validate, value, name, limit, null);
-    }
-
-    /**
-     * MAXチェック（値→Integer、MAX→Float）
-     *
-     * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
-     * @param limit    MAX文字数
-     * @param msgFull  エラーメッセージ全文
-     */
-    public static void maxCheck(ValidateHelper validate, Integer value, String name, Float limit, String msgFull) {
+    private static void doMinCheck(ValidateHelper validate, String name, Object value, Object min, String errorMsg) {
         if (!validate.getResult(name)) {
             return;
         }
+
         if (value == null) {
             return;
         }
 
-        if (Double.valueOf(limit) < Double.valueOf(value)) {
-            setErrorMsgMax(validate, name, msgFull, String.valueOf(limit));
-        }
-    }
+        String valueStr = String.valueOf(value);
+        String minStr = String.valueOf(min);
 
-    /**
-     * MAXチェック（値→Integer、MAX→Float）
-     *
-     * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
-     * @param limit    MAX文字数
-     */
-    public static void maxCheck(ValidateHelper validate, Integer value, String name, Float limit) {
-        maxCheck(validate, value, name, limit, null);
-    }
-
-    /**
-     * MAXチェック（値→Integer、MAX→Double）
-     *
-     * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
-     * @param limit    MAX文字数
-     * @param msgFull  エラーメッセージ全文
-     */
-    public static void maxCheck(ValidateHelper validate, Integer value, String name, Double limit, String msgFull) {
-        if (!validate.getResult(name)) {
-            return;
-        }
-        if (value == null) {
-            return;
-        }
-
-        if (limit < Double.valueOf(value)) {
-            setErrorMsgMax(validate, name, msgFull, String.valueOf(limit));
-        }
-    }
-
-    /**
-     * MAXチェック（値→Integer、MAX→Double）
-     *
-     * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
-     * @param limit    MAX文字数
-     */
-    public static void maxCheck(ValidateHelper validate, Integer value, String name, Double limit) {
-        maxCheck(validate, value, name, limit, null);
-    }
-
-    /**
-     * MAXチェック（値→String、MAX→Integer）
-     *
-     * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
-     * @param limit    MAX文字数
-     * @param msgFull  エラーメッセージ全文
-     */
-    public static void maxCheck(ValidateHelper validate, String value, String name, Integer limit, String msgFull) {
-        if (!validate.getResult(name)) {
-            return;
-        }
-        if (value == null || value.length() == 0) {
-            return;
-        }
-
-        if (Double.valueOf(limit) < Double.valueOf(value)) {
-            setErrorMsgMax(validate, name, msgFull, String.valueOf(limit));
-        }
-    }
-
-    /**
-     * MAXチェック（値→String、MAX→Integer）
-     *
-     * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
-     * @param limit    MAX文字数
-     */
-    public static void maxCheck(ValidateHelper validate, String value, String name, Integer limit) {
-        maxCheck(validate, value, name, limit, null);
-    }
-
-    /**
-     * MAXチェック（値→String、MAX→Float）
-     *
-     * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
-     * @param limit    MAX文字数
-     * @param msgFull  エラーメッセージ全文
-     */
-    public static void maxCheck(ValidateHelper validate, String value, String name, Float limit, String msgFull) {
-        if (!validate.getResult(name)) {
-            return;
-        }
-        if (value == null || value.length() == 0) {
-            return;
-        }
-
-        if (Double.valueOf(limit) < Double.valueOf(value)) {
-            setErrorMsgMax(validate, name, msgFull, String.valueOf(limit));
-        }
-    }
-
-    /**
-     * MAXチェック（値→String、MAX→Float）
-     *
-     * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
-     * @param limit    MAX文字数
-     */
-    public static void maxCheck(ValidateHelper validate, String value, String name, Float limit) {
-        maxCheck(validate, value, name, limit, null);
-    }
-
-    /**
-     * MAXチェック（値→String、MAX→Double）
-     *
-     * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
-     * @param limit    MAX文字数
-     * @param msgFull  エラーメッセージ全文
-     */
-    public static void maxCheck(ValidateHelper validate, String value, String name, Double limit, String msgFull) {
-        if (!validate.getResult(name)) {
-            return;
-        }
-        if (value == null || value.length() == 0) {
-            return;
-        }
-
-        if (limit < Double.valueOf(value)) {
-            setErrorMsgMax(validate, name, msgFull, String.valueOf(limit));
-        }
-    }
-
-    /**
-     * MAXチェック（値→String、MAX→Double）
-     *
-     * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
-     * @param limit    MAX文字数
-     */
-    public static void maxCheck(ValidateHelper validate, String value, String name, Double limit) {
-        maxCheck(validate, value, name, limit, null);
-    }
-
-    /**
-     * MAXチェック（値→Double、MAX→Integer）
-     *
-     * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
-     * @param limit    MAX文字数
-     * @param msgFull  エラーメッセージ全文
-     */
-    public static void maxCheck(ValidateHelper validate, Double value, String name, Integer limit, String msgFull) {
-        if (!validate.getResult(name)) {
-            return;
-        }
-        if (value == null) {
-            return;
-        }
-
-        if (Double.valueOf(limit) < value) {
-            setErrorMsgMax(validate, name, msgFull, String.valueOf(limit));
-        }
-    }
-
-    /**
-     * MAXチェック（値→Double、MAX→Integer）
-     *
-     * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
-     * @param limit    MAX文字数
-     */
-    public static void maxCheck(ValidateHelper validate, Double value, String name, Integer limit) {
-        maxCheck(validate, value, name, limit, null);
-    }
-
-    /**
-     * MAXチェック（値→Double、MAX→Float）
-     *
-     * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
-     * @param limit    MAX文字数
-     * @param msgFull  エラーメッセージ全文
-     */
-    public static void maxCheck(ValidateHelper validate, Double value, String name, Float limit, String msgFull) {
-        if (!validate.getResult(name)) {
-            return;
-        }
-        if (value == null) {
-            return;
-        }
-
-        if (Double.valueOf(limit) < value) {
-            setErrorMsgMax(validate, name, msgFull, String.valueOf(limit));
-        }
-    }
-
-    /**
-     * MAXチェック（値→Double、MAX→Float）
-     *
-     * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
-     * @param limit    MAX文字数
-     */
-    public static void maxCheck(ValidateHelper validate, Double value, String name, Float limit) {
-        maxCheck(validate, value, name, limit, null);
-    }
-
-    /**
-     * MAXチェック（値→Double、MAX→Double）
-     *
-     * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
-     * @param limit    MAX文字数
-     * @param msgFull  エラーメッセージ全文
-     */
-    public static void maxCheck(ValidateHelper validate, Double value, String name, Double limit, String msgFull) {
-        if (!validate.getResult(name)) {
-            return;
-        }
-        if (value == null) {
-            return;
-        }
-
-        if (limit < value) {
-            setErrorMsgMax(validate, name, msgFull, String.valueOf(limit));
-        }
-    }
-
-    /**
-     * MAXチェック（値→Double、MAX→Double）
-     *
-     * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
-     * @param limit    MAX文字数
-     */
-    public static void maxCheck(ValidateHelper validate, Double value, String name, Double limit) {
-        maxCheck(validate, value, name, limit, null);
-    }
-
-    /**
-     * MINチェック（値→Integer、MIN→Integer）
-     *
-     * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
-     * @param limit    MIN文字数
-     * @param msgFull  エラーメッセージ全文
-     */
-    public static void minCheck(ValidateHelper validate, Integer value, String name, Integer limit, String msgFull) {
-        if (!validate.getResult(name)) {
-            return;
-        }
-        if (value == null) {
-            return;
-        }
-
-        if (Double.valueOf(value) < Double.valueOf(limit)) {
-            setErrorMsgMin(validate, name, msgFull, String.valueOf(limit));
-        }
-    }
-
-    /**
-     * MINチェック（値→Integer、MIN→Integer）
-     *
-     * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
-     * @param limit    MIN文字数
-     */
-    public static void minCheck(ValidateHelper validate, Integer value, String name, Integer limit) {
-        minCheck(validate, value, name, limit, null);
-    }
-
-    /**
-     * MINチェック（値→Integer、MIN→Float）
-     *
-     * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
-     * @param limit    MIN文字数
-     * @param msgFull  エラーメッセージ全文
-     */
-    public static void minCheck(ValidateHelper validate, Integer value, String name, Float limit, String msgFull) {
-        if (!validate.getResult(name)) {
-            return;
-        }
-        if (value == null) {
-            return;
-        }
-
-        if (Double.valueOf(value) < Double.valueOf(limit)) {
-            setErrorMsgMin(validate, name, msgFull, String.valueOf(limit));
-        }
-    }
-
-    /**
-     * MINチェック（値→Integer、MIN→Float）
-     *
-     * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
-     * @param limit    MIN文字数
-     */
-    public static void minCheck(ValidateHelper validate, Integer value, String name, Float limit) {
-        minCheck(validate, value, name, limit, null);
-    }
-
-    /**
-     * MINチェック（値→Integer、MIN→Double）
-     *
-     * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
-     * @param limit    MIN文字数
-     * @param msgFull  エラーメッセージ全文
-     */
-    public static void minCheck(ValidateHelper validate, Integer value, String name, Double limit, String msgFull) {
-        if (!validate.getResult(name)) {
-            return;
-        }
-        if (value == null) {
-            return;
-        }
-
-        if (Double.valueOf(value) < limit) {
-            setErrorMsgMin(validate, name, msgFull, String.valueOf(limit));
-        }
-    }
-
-    /**
-     * MINチェック（値→Integer、MIN→Double）
-     *
-     * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
-     * @param limit    MIN文字数
-     */
-    public static void minCheck(ValidateHelper validate, Integer value, String name, Double limit) {
-        minCheck(validate, value, name, limit, null);
-    }
-
-    /**
-     * MINチェック（値→String、MIN→Integer）
-     *
-     * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
-     * @param limit    MIN文字数
-     * @param msgFull  エラーメッセージ全文
-     */
-    public static void minCheck(ValidateHelper validate, String value, String name, Integer limit, String msgFull) {
-        if (!validate.getResult(name)) {
-            return;
-        }
-        if (value == null || value.length() == 0) {
-            return;
-        }
-
-        if (Double.valueOf(value) < Double.valueOf(limit)) {
-            setErrorMsgMin(validate, name, msgFull, String.valueOf(limit));
-        }
-    }
-
-    /**
-     * MINチェック（値→String、MIN→Integer）
-     *
-     * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
-     * @param limit    MIN文字数
-     */
-    public static void minCheck(ValidateHelper validate, String value, String name, Integer limit) {
-        minCheck(validate, value, name, limit, null);
-    }
-
-    /**
-     * MINチェック（値→String、MIN→Float）
-     *
-     * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
-     * @param limit    MIN文字数
-     * @param msgFull  エラーメッセージ全文
-     */
-    public static void minCheck(ValidateHelper validate, String value, String name, Float limit, String msgFull) {
-        if (!validate.getResult(name)) {
-            return;
-        }
-        if (value == null || value.length() == 0) {
-            return;
-        }
-
-        if (Double.valueOf(value) < Double.valueOf(limit)) {
-            setErrorMsgMin(validate, name, msgFull, String.valueOf(limit));
-        }
-    }
-
-    /**
-     * MINチェック（値→String、MIN→Float）
-     *
-     * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
-     * @param limit    MIN文字数
-     */
-    public static void minCheck(ValidateHelper validate, String value, String name, Float limit) {
-        minCheck(validate, value, name, limit, null);
-    }
-
-    /**
-     * MINチェック（値→String、MIN→Double）
-     *
-     * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
-     * @param limit    MIN文字数
-     * @param msgFull  エラーメッセージ全文
-     */
-    public static void minCheck(ValidateHelper validate, String value, String name, Double limit, String msgFull) {
-        if (!validate.getResult(name)) {
-            return;
-        }
-        if (value == null || value.length() == 0) {
-            return;
-        }
-
-        if (Double.valueOf(value) < limit) {
-            setErrorMsgMin(validate, name, msgFull, String.valueOf(limit));
-        }
-    }
-
-    /**
-     * MINチェック（値→String、MIN→Double）
-     *
-     * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
-     * @param limit    MIN文字数
-     */
-    public static void minCheck(ValidateHelper validate, String value, String name, Double limit) {
-        minCheck(validate, value, name, limit, null);
-    }
-
-    /**
-     * MINチェック（値→Double、MIN→Integer）
-     *
-     * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
-     * @param limit    MIN文字数
-     * @param msgFull  エラーメッセージ全文
-     */
-    public static void minCheck(ValidateHelper validate, Double value, String name, Integer limit, String msgFull) {
-        if (!validate.getResult(name)) {
-            return;
-        }
-        if (value == null) {
-            return;
-        }
-
-        if (value < Double.valueOf(limit)) {
-            setErrorMsgMin(validate, name, msgFull, String.valueOf(limit));
-        }
-    }
-
-    /**
-     * MINチェック（値→Double、MIN→Integer）
-     *
-     * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
-     * @param limit    MIN文字数
-     */
-    public static void minCheck(ValidateHelper validate, Double value, String name, Integer limit) {
-        minCheck(validate, value, name, limit, null);
-    }
-
-    /**
-     * MINチェック（値→Double、MIN→Float）
-     *
-     * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
-     * @param limit    MIN文字数
-     * @param msgFull  エラーメッセージ全文
-     */
-    public static void minCheck(ValidateHelper validate, Double value, String name, Float limit, String msgFull) {
-        if (!validate.getResult(name)) {
-            return;
-        }
-        if (value == null) {
-            return;
-        }
-
-        if (value < Double.valueOf(limit)) {
-            setErrorMsgMin(validate, name, msgFull, String.valueOf(limit));
-        }
-    }
-
-    /**
-     * MINチェック（値→Double、MIN→Float）
-     *
-     * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
-     * @param limit    MIN文字数
-     */
-    public static void minCheck(ValidateHelper validate, Double value, String name, Float limit) {
-        minCheck(validate, value, name, limit, null);
-    }
-
-    /**
-     * MINチェック（値→Double、MIN→Double）
-     *
-     * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
-     * @param limit    MIN文字数
-     * @param msgFull  エラーメッセージ全文
-     */
-    public static void minCheck(ValidateHelper validate, Double value, String name, Double limit, String msgFull) {
-        if (!validate.getResult(name)) {
-            return;
-        }
-        if (value == null) {
-            return;
-        }
-
-        if (value < limit) {
-            setErrorMsgMin(validate, name, msgFull, String.valueOf(limit));
-        }
-    }
-
-    /**
-     * MINチェック（値→Double、MIN→Double）
-     *
-     * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
-     * @param limit    MIN文字数
-     */
-    public static void minCheck(ValidateHelper validate, Double value, String name, Double limit) {
-        minCheck(validate, value, name, limit, null);
-    }
-
-    /**
-     * MAXエラーメッセージセット
-     *
-     * @param validate バリデートクラス
-     * @param name     変数名
-     * @param msgFull  エラーメッセージ全文
-     * @param limit    何文字
-     */
-    private static void setErrorMsgMax(ValidateHelper validate, String name, String msgFull, String limit) {
-        if (msgFull != null) {
-            validate.error(name, msgFull);
-        } else {
-            validate.error(name, String.format(ERROR_MSG_SIZE_MAX, name, limit));
-        }
-    }
-
-    /**
-     * MINエラーメッセージセット
-     *
-     * @param validate バリデートクラス
-     * @param name     変数名
-     * @param msgFull  エラーメッセージ全文
-     * @param limit    何文字
-     */
-    private static void setErrorMsgMin(ValidateHelper validate, String name, String msgFull, String limit) {
-        if (msgFull != null) {
-            validate.error(name, msgFull);
-        } else {
-            validate.error(name, String.format(ERROR_MSG_SIZE_MIN, name, limit));
+        if (Double.valueOf(valueStr) < Double.valueOf(minStr)) {
+            validate.error(name, errorMsg);
         }
     }
 }

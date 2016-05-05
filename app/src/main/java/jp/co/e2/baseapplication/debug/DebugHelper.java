@@ -22,11 +22,11 @@ import jp.co.e2.baseapplication.config.EnvConfig;
  * 意図的にキャッチした例外もメールで送信したい場合は、すべてのcatch節でsaveメソッドを呼んでおけばOK
  */
 public class DebugHelper {
-    public static final boolean DEBUG_FLG = EnvConfig.DEBUG_FLG;                //このフラグで例外を報告するかどうか決められる、リリース時には0にすること
+    public static final boolean DEBUG_FLG = EnvConfig.DEBUG_FLG;    //このフラグで例外を報告するかどうか決められる、リリース時には0にすること
 
-    public static final String KEY = "exception";                               //一時的にプリファレンスに例外を保存しておくための名前
-    public static final String SUBJECT = "例外報告";                            //例外報告メールタイトル
-    public static final String[] TO = {"tamura@e-2.co.jp"};                     //例外報告メール送信先
+    public static final String KEY = "exception";                   //一時的にプリファレンスに例外を保存しておくための名前
+    public static final String SUBJECT = "例外報告";                 //例外報告メールタイトル
+    public static final String[] TO = {"tamura@e-2.co.jp"};         //例外報告メール送信先
 
     /**
      * 例外をハンドリングする処理を仕込む

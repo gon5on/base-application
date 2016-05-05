@@ -4,7 +4,10 @@ package jp.co.e2.baseapplication.config;
  * 設定情報クラス
  */
 public class Config {
-    public final static int SAMPLE1 = 1;
-    public final static int SAMPLE2 = EnvConfig.SAMPLE2;
-    public final static int SAMPLE3 = EnvConfig.SAMPLE3;
+    public static final String PREF_FILE_NAME = "pref_file_name";
+    public static final String PREF_PUBLIC_KEY = "public_key";
+    public static final String PREF_PRIVATE_KEY = "private_key";
+    public static final String PREF_IV = "iv";
+
+    public static final String KEY_ALIAS = "key_alias";
 }

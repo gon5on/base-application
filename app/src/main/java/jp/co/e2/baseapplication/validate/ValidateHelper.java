@@ -11,16 +11,15 @@ import java.util.LinkedHashMap;
  * 各バリデートへの引数は、各バリデートクラス参照。
  *
  * Validate v = new Validate();
+ * ValidateRequire.check(v, "name", value, "名前は必須入力項目です。");
+ * ValidateLength.max(v, "name", value, 30, "名前は30文字以内で入力してください。");
  *
- * ValidateRequire.check(v, value, "名前");
- * ValidateLength.max(v, value, "名前", 30);
- *
- * if(v.getResult() == false){
- * .....
+ * if(!v.getResult()){
+ *     .....
  * }
  */
 public class ValidateHelper {
-    private Boolean mResult = true;                         //バリデート結果
+    private boolean mResult = true;                         //バリデート結果
     private LinkedHashMap<String, String> mErrorMsg;        //エラーメッセージ
 
     /**
@@ -28,14 +27,14 @@ public class ValidateHelper {
      */
     public ValidateHelper() {
         mResult = true;
-        mErrorMsg = new LinkedHashMap<String, String>();
+        mErrorMsg = new LinkedHashMap<>();
     }
 
     /**
      * バリデート結果がエラーのため、エラーメッセージを追加する
      *
      * @param name 変数名
-     * @param msg  エラーメッセージ
+     * @param msg エラーメッセージ
      */
     public void error(String name, String msg) {
         mResult = false;
@@ -56,27 +55,27 @@ public class ValidateHelper {
     /**
      * バリデート結果を返す
      *
-     * @return boolean result バリデート結果
+     * @return result バリデート結果
      */
     public Boolean getResult() {
         return mResult;
     }
 
     /**
-     * エラ―文言を返す（マップ）
+     * エラ―文言を返す（ハッシュマップ形式）
      *
-     * @return HashMap<String, String> mErrorMsg
+     * @return mErrorMsg
      */
     public HashMap<String, String> getErrorMsgMap() {
         return mErrorMsg;
     }
 
     /**
-     * エラ―文言を返す（リスト）
+     * エラ―文言を返す（リスト形式）
      *
      * @return ArrayList<String>
      */
     public ArrayList<String> getErrorMsgList() {
-        return new ArrayList<String>(mErrorMsg.values());
+        return new ArrayList<>(mErrorMsg.values());
     }
 }

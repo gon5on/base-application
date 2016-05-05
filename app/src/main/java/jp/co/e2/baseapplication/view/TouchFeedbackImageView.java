@@ -41,7 +41,7 @@ public class TouchFeedbackImageView extends ImageView implements OnTouchListener
      *
      * @param context コンテキスト
      * @param attrs 指定した属性値
-     * @param defStyle
+     * @param defStyle デフォルトスタイル
      */
     public TouchFeedbackImageView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);

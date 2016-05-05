@@ -3,6 +3,7 @@ package jp.co.e2.baseapplication.validate;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import jp.co.e2.baseapplication.common.DateHelper;
 
@@ -10,101 +11,36 @@ import jp.co.e2.baseapplication.common.DateHelper;
  * 日付系バリデーションクラス
  */
 public class ValidateDate {
-    public static final String ERROR_MSG_FORMAT = "%sは正しい形式ではありません。";
-    public static final String ERROR_MSG_FUTURE = "%sに未来の日付は指定できません。";
-    public static final String ERROR_MSG_PAST = "%sに過去の日付は指定できません。";
-
-    public static final Integer OLDEST_DATE = 19000101;
-    public static final Integer NEWEST_DATE = 22001231;
-
     /**
      * 正しい日付かどうかチェック
      *
      * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
-     * @param format   フォーマット
-     * @param msgFull  エラーメッセージ全文
+     * @param name 変数名
+     * @param value 値
+     * @param format フォーマット
+     * @param errorMsg エラーメッセージ
      */
-    public static void check(ValidateHelper validate, String value, String name, String format, String msgFull) {
+    public static void check(ValidateHelper validate, String name, String value, String format, String errorMsg) {
         if (!validate.getResult(name)) {
             return;
         }
+
         if (value == null || value.length() == 0) {
             return;
         }
 
         try {
             //日付形式に変換できるかどうか
-            SimpleDateFormat sdf = new SimpleDateFormat(format);
+            SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.getDefault());
             sdf.setLenient(false);
             Date tmp = sdf.parse(value);
 
-            SimpleDateFormat sdf2 = new SimpleDateFormat(DateHelper.FMT_DATE_NO_UNIT);
+            SimpleDateFormat sdf2 = new SimpleDateFormat(DateHelper.FMT_DATE_NO_UNIT, Locale.getDefault());
             Integer date = Integer.parseInt(sdf2.format(tmp.getTime()));
-
-            //指定された日付が過去未来数百年間に収まっているか
-            if (date < OLDEST_DATE) {
-                if (msgFull != null) {
-                    validate.error(name, msgFull);
-                } else {
-                    validate.error(name, String.format(ERROR_MSG_FORMAT, name));
-                }
-            }
-            if (NEWEST_DATE < date) {
-                if (msgFull != null) {
-                    validate.error(name, msgFull);
-                } else {
-                    validate.error(name, String.format(ERROR_MSG_FORMAT, name));
-                }
-            }
-        } catch (ParseException e) {
+        }
+        catch (ParseException e) {
             //日付形式に変換失敗
-            if (msgFull != null) {
-                validate.error(name, msgFull);
-            } else {
-                validate.error(name, String.format(ERROR_MSG_FORMAT, name));
-            }
-        }
-    }
-
-    /**
-     * 正しい日付かどうかチェック
-     *
-     * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
-     * @param format   フォーマット
-     */
-    public static void check(ValidateHelper validate, String value, String name, String format) {
-        check(validate, value, name, format, null);
-    }
-
-    /**
-     * 未来日かどうかチェック
-     *
-     * ※今日を指定されたらエラー
-     *
-     * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
-     * @param format   フォーマット
-     * @param msgFull  エラーメッセージ全文
-     */
-    public static void isFuture(ValidateHelper validate, String value, String name, String format, String msgFull) {
-        if (!validate.getResult(name)) {
-            return;
-        }
-        if (value == null || value.length() == 0) {
-            return;
-        }
-
-        if (compareTo(value, format) >= 0) {
-            if (msgFull != null) {
-                validate.error(name, msgFull);
-            } else {
-                validate.error(name, String.format(ERROR_MSG_PAST, name));
-            }
+            validate.error(name, errorMsg);
         }
     }
 
@@ -112,40 +48,25 @@ public class ValidateDate {
      * 未来日かどうかチェック
      *
      * ※今日を指定されたらエラー
+     * ※必ず日付形式かどうかをチェックしてから使用すること
      *
      * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
+     * @param name 変数名
+     * @param value 値
+     * @param format フォーマット
+     * @param errorMsg エラーメッセージ
      */
-    public static void isFuture(ValidateHelper validate, String value, String name) {
-        isFuture(validate, value, name, DateHelper.FMT_DATE, null);
-    }
-
-    /**
-     * 未来日かどうかチェック
-     *
-     * ※今日を指定されてもエラーにしない
-     *
-     * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
-     * @param format   フォーマット
-     * @param msgFull  エラーメッセージ全文
-     */
-    public static void isFutureAllowToday(ValidateHelper validate, String value, String name, String format, String msgFull) {
+    public static void isFuture(ValidateHelper validate, String name, String value, String format, String errorMsg) {
         if (!validate.getResult(name)) {
             return;
         }
+
         if (value == null || value.length() == 0) {
             return;
         }
 
-        if (compareTo(value, format) > 0) {
-            if (msgFull != null) {
-                validate.error(name, msgFull);
-            } else {
-                validate.error(name, String.format(ERROR_MSG_PAST, name));
-            }
+        if (0 <= compareTo(value, format)) {
+            validate.error(name, errorMsg);
         }
     }
 
@@ -153,95 +74,78 @@ public class ValidateDate {
      * 未来日かどうかチェック
      *
      * ※今日を指定されてもエラーにしない
+     * ※必ず日付形式かどうかをチェックしてから使用すること
      *
      * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
+     * @param name 変数名
+     * @param value 値
+     * @param format フォーマット
+     * @param errorMsg エラーメッセージ
      */
-    public static void isFutureAllowToday(ValidateHelper validate, String value, String name) {
-        isFutureAllowToday(validate, value, name, DateHelper.FMT_DATE, null);
+    public static void isFutureAllowToday(ValidateHelper validate, String name, String value, String format, String errorMsg) {
+        if (!validate.getResult(name)) {
+            return;
+        }
+
+        if (value == null || value.length() == 0) {
+            return;
+        }
+
+        if (0 <= compareTo(value, format)) {
+            validate.error(name, errorMsg);
+        }
     }
 
     /**
      * 過去日かどうかチェック
      *
      * ※今日を指定されたらエラー
+     * ※必ず日付形式かどうかをチェックしてから使用すること
      *
      * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
-     * @param format   フォーマット
-     * @param msgFull  エラーメッセージ全文
+     * @param name 変数名
+     * @param value 値
+     * @param format フォーマット
+     * @param errorMsg エラーメッセージ
      */
-    public static void isPast(ValidateHelper validate, String value, String name, String format, String msgFull) {
+    public static void isPast(ValidateHelper validate, String name, String value, String format, String errorMsg) {
         if (!validate.getResult(name)) {
             return;
         }
+
         if (value == null || value.length() == 0) {
             return;
         }
 
         if (compareTo(value, format) <= 0) {
-            if (msgFull != null) {
-                validate.error(name, msgFull);
-            } else {
-                validate.error(name, String.format(ERROR_MSG_FUTURE, name));
-            }
+            validate.error(name, errorMsg);
         }
-    }
-
-    /**
-     * 過去日かどうかチェック
-     *
-     * ※今日を指定されたらエラー
-     *
-     * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
-     */
-    public static void isPast(ValidateHelper validate, String value, String name) {
-        isPast(validate, value, name, DateHelper.FMT_DATE, null);
     }
 
     /**
      * 過去日かどうかチェック
      *
      * ※今日を指定されてもエラーではない
+     * ※必ず日付形式かどうかをチェックしてから使用すること
      *
      * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
-     * @param format   フォーマット
-     * @param msgFull  エラーメッセージ全文
+     * @param name 変数名
+     * @param value 値
+     * @param format フォーマット
+     * @param errorMsg エラーメッセージ
      */
-    public static void isPastAllowToday(ValidateHelper validate, String value, String name, String format, String msgFull) {
-        if (!validate.getResult(name) ) {
+    public static void isPastAllowToday(ValidateHelper validate, String name, String value, String format, String errorMsg) {
+        if (!validate.getResult(name)) {
             return;
         }
+
         if (value == null || value.length() == 0) {
             return;
         }
 
         if (compareTo(value, format) < 0) {
-            if (msgFull != null) {
-                validate.error(name, msgFull);
-            } else {
-                validate.error(name, String.format(ERROR_MSG_FUTURE, name));
-            }
+            validate.error(name, errorMsg);
         }
-    }
-
-    /**
-     * 過去日かどうかチェック
-     *
-     * ※今日を指定されてもエラーではない
-     *
-     * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
-     */
-    public static void isPastAllowToday(ValidateHelper validate, String value, String name) {
-        isPastAllowToday(validate, value, name, DateHelper.FMT_DATE, null);
     }
 
     /**

@@ -116,13 +116,13 @@ public abstract class BaseAsyncTask<Params, Progress, Result> extends AsyncTask<
      * @param <Progress>
      * @param <Result>
      */
-    public static interface AsyncTaskCallbackListener<Progress, Result> {
+    public interface AsyncTaskCallbackListener<Progress, Result> {
         /**
          * 非同期処理前処理
          *
          * @param tag タグ
          */
-        public void onPreExecute(int tag);
+        void onPreExecute(int tag);
 
         /**
          * 非同期処理中更新
@@ -130,14 +130,14 @@ public abstract class BaseAsyncTask<Params, Progress, Result> extends AsyncTask<
          * @param tag タグ
          * @param values 呼び出し元に返したいもの
          */
-        public void onProgressUpdate(int tag, Progress... values);
+        void onProgressUpdate(int tag, Progress... values);
 
         /**
          * 非同期処理キャンセル
          *
          * @param tag タグ
          */
-        public void onCancelled(int tag);
+        void onCancelled(int tag);
 
         /**
          * 非同期処理後
@@ -145,6 +145,6 @@ public abstract class BaseAsyncTask<Params, Progress, Result> extends AsyncTask<
          * @param tag タグ
          * @param result 呼び出し元に返却したいもの
          */
-        public void onPostExecute(int tag, Result result);
+        void onPostExecute(int tag, Result result);
     }
 }

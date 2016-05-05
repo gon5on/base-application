@@ -52,7 +52,7 @@ public class DecimalPointEditText extends EditText {
      *
      * @param context コンテキスト
      * @param attrs 属性
-     * @param defStyle
+     * @param defStyle スタイル
      */
     public DecimalPointEditText(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);

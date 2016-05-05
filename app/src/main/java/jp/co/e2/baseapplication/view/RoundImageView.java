@@ -72,7 +72,7 @@ public class RoundImageView extends TouchFeedbackImageView implements View.OnTou
      * ${inheritDoc}
      */
     @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+    protected void onSizeChanged(int w, int h, int oldWidth, int oldHeight) {
         mBounds = new Rect(0, 0, w, h);
         mBoundsF = new RectF(mBounds);
     }

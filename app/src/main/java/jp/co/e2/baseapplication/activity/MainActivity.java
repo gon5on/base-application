@@ -1,121 +1,146 @@
 package jp.co.e2.baseapplication.activity;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
+import android.content.res.Configuration;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.view.Gravity;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-
-import java.util.ArrayList;
 
 import jp.co.e2.baseapplication.R;
-import jp.co.e2.baseapplication.entity.SampleEntity;
-import jp.co.e2.baseapplication.model.BaseSQLiteOpenHelper;
-import jp.co.e2.baseapplication.model.SampleDao;
+import jp.co.e2.baseapplication.fragment.AsynkTaskFragment;
+import jp.co.e2.baseapplication.fragment.CameraGalleryFragment;
+import jp.co.e2.baseapplication.fragment.DbFragment;
+import jp.co.e2.baseapplication.fragment.EncryptFragment;
+import jp.co.e2.baseapplication.fragment.ViewFragment;
 
 /**
  * メインアクテビティ
  */
 public class MainActivity extends BaseActivity {
-    /**
-     * ファクトリーメソッドもどき
-     *
-     * @param activity アクテビティ
-     * @return Intent intent
-     */
-    public static Intent newIntent(Activity activity) {
-        return new Intent(activity, MainActivity.class);
-    }
+    private DrawerLayout mDrawerLayout;
+    private ActionBarDrawerToggle mDrawerToggle;
 
     /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    /**
-     * {@inheritDoc}
+     * ${inheritDoc}
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_common);
 
         //ツールバーセット
         setToolbar();
 
         //ドロワーセット
-        setDrawer(false);
+        setDrawer();
 
-        //フラグメントを呼び出す
-        getFragmentManager().beginTransaction().add(R.id.container, PlaceholderFragment.newInstance()).commit();
+        if (savedInstanceState == null) {
+            //初期フラグメントセット
+            getFragmentManager().beginTransaction().add(R.id.container, ViewFragment.newInstance()).commit();
+        }
     }
 
     /**
-     * PlaceholderFragment
+     * ${inheritDoc}
      */
-    public static class PlaceholderFragment extends Fragment {
-        private View mView;
-
-        /**
-         * ファクトリーメソッド
-         */
-        public static PlaceholderFragment newInstance() {
-            Bundle args = new Bundle();
-
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            fragment.setArguments(args);
-
-            return fragment;
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (mDrawerToggle != null) {
+            return mDrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
+        } else {
+            return super.onOptionsItemSelected(item);
         }
+    }
 
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            mView = inflater.inflate(R.layout.fragment_main, container, false);
+    /**
+     * ${inheritDoc}
+     */
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
 
-            return mView;
+        if (mDrawerToggle != null) {
+            mDrawerToggle.syncState();
         }
+    }
 
-        /**
-         * サンプルデータ一覧を取得
-         *
-         * @return ArrayList<SampleEntity>
-         */
-        private ArrayList<SampleEntity> getSampleData() {
-            ArrayList<SampleEntity> data = null;
-            SQLiteDatabase db = null;
+    /**
+     * ${inheritDoc}
+     */
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
 
-            try {
-                BaseSQLiteOpenHelper helper = new BaseSQLiteOpenHelper(getActivity());
-                db = helper.getWritableDatabase();
+        if (mDrawerToggle != null) {
+            mDrawerToggle.onConfigurationChanged(newConfig);
+        }
+    }
 
-                SampleDao petDao = new SampleDao(getActivity());
-                data = petDao.findAll(db);
+    /**
+     * ${inheritDoc}
+     */
+    @Override
+    public void onBackPressed(){
+        //ドロワーが開いていたら、バックキーでドロワーを閉じる
+        if (mDrawerLayout != null && mDrawerLayout.isDrawerOpen(Gravity.START)) {
+            mDrawerLayout.closeDrawers();
+        } else {
+            super.onBackPressed();
+        }
+    }
 
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                if (db != null) {
-                    db.close();
+    /**
+     * ドロワーセット
+     */
+    protected void setDrawer() {
+        NavigationView navigationView = (NavigationView)findViewById(R.id.navigationView);
+
+        if (navigationView != null) {
+            navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected(MenuItem menuItem) {
+                    switch (menuItem.getItemId()) {
+                        case R.id.menu_view:
+                            getFragmentManager().beginTransaction().replace(R.id.container, ViewFragment.newInstance()).commit();
+                            mDrawerLayout.closeDrawers();
+                            break;
+                        case R.id.menu_db:
+                            getFragmentManager().beginTransaction().replace(R.id.container, DbFragment.newInstance()).commit();
+                            mDrawerLayout.closeDrawers();
+                            break;
+                        case R.id.menu_asynk_task:
+                            getFragmentManager().beginTransaction().replace(R.id.container, AsynkTaskFragment.newInstance()).commit();
+                            mDrawerLayout.closeDrawers();
+                            break;
+                        case R.id.menu_camera_gallery:
+                            getFragmentManager().beginTransaction().replace(R.id.container, CameraGalleryFragment.newInstance()).commit();
+                            mDrawerLayout.closeDrawers();
+                            break;
+                        case R.id.menu_encrypt:
+                            getFragmentManager().beginTransaction().replace(R.id.container, EncryptFragment.newInstance()).commit();
+                            mDrawerLayout.closeDrawers();
+                            break;
+                    }
+
+                    return false;
                 }
-            }
+            });
+        }
 
-            return data;
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+
+        if (mDrawerLayout != null) {
+            mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.app_name, R.string.app_name);
+            mDrawerToggle.setDrawerIndicatorEnabled(true);
+            mDrawerLayout.setDrawerListener(mDrawerToggle);
+        }
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
     }
 }

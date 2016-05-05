@@ -4,9 +4,6 @@ package jp.co.e2.baseapplication.validate;
  * 少数バリデーションクラス
  */
 public class ValidateDecimal {
-    public static final String ERROR_MSG_DOUBLE = "%sは小数で入力してください。";
-    public static final String ERROR_MSG_DOUBLE_POINT = "%sは小数点第%s位までで入力してください。";
-
     public static final String MATCH_DOUBLE = "^([0-9]\\d*|0)(\\.\\d+)?$";
     public static final String MATCH_DOUBLE_POINT = "^([0-9]\\d*|0)(\\.\\d{0,POINT})?$";
 
@@ -14,291 +11,140 @@ public class ValidateDecimal {
      * 少数形式チェック（String）
      *
      * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
-     * @param msgFull  エラーメッセージ全文
+     * @param name 変数名
+     * @param value 値
+     * @param errorMsg エラーメッセージ
      */
-    public static void check(ValidateHelper validate, String value, String name, String msgFull) {
-        if (!validate.getResult(name)) {
-            return;
-        }
-        if (value == null || value.length() == 0) {
-            return;
-        }
-
-        check(validate, value, name, msgFull, MATCH_DOUBLE, ERROR_MSG_DOUBLE);
-    }
-
-    /**
-     * 少数形式チェック（String）
-     *
-     * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
-     */
-    public static void check(ValidateHelper validate, String value, String name) {
-        check(validate, value, name, null);
+    public static void check(ValidateHelper validate, String name, String value, String errorMsg) {
+        doCheck(validate, name, value, errorMsg, MATCH_DOUBLE);
     }
 
     /**
      * 少数形式チェック（Int）
      *
      * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
-     * @param msgFull  エラーメッセージ全文
+     * @param name 変数名
+     * @param value 値
+     * @param errorMsg エラーメッセージ
      */
-    public static void check(ValidateHelper validate, Integer value, String name, String msgFull) {
-        if (!validate.getResult(name)) {
-            return;
-        }
-        if (value == null) {
-            return;
-        }
-
-        check(validate, String.valueOf(value), name, msgFull, MATCH_DOUBLE, ERROR_MSG_DOUBLE);
-    }
-
-    /**
-     * 少数形式チェック（Int）
-     *
-     * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
-     */
-    public static void check(ValidateHelper validate, Integer value, String name) {
-        check(validate, value, name, null);
+    public static void check(ValidateHelper validate, String name, Integer value, String errorMsg) {
+        doCheck(validate, name, value, errorMsg, MATCH_DOUBLE);
     }
 
     /**
      * 少数形式チェック（Float）
      *
      * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
-     * @param msgFull  エラーメッセージ全文
+     * @param name 変数名
+     * @param value 値
+     * @param errorMsg エラーメッセージ
      */
-    public static void check(ValidateHelper validate, Float value, String name, String msgFull) {
-        if (!validate.getResult(name)) {
-            return;
-        }
-        if (value == null) {
-            return;
-        }
-
-        check(validate, String.valueOf(value), name, msgFull, MATCH_DOUBLE, ERROR_MSG_DOUBLE);
-    }
-
-    /**
-     * 少数形式チェック（Float）
-     *
-     * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
-     */
-    public static void check(ValidateHelper validate, Float value, String name) {
-        check(validate, value, name, null);
+    public static void check(ValidateHelper validate, String name, Float value, String errorMsg) {
+        doCheck(validate, name, value, errorMsg, MATCH_DOUBLE);
     }
 
     /**
      * 少数形式チェック（Double）
      *
      * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
-     * @param msgFull  エラーメッセージ全文
+     * @param name 変数名
+     * @param value 値
+     * @param errorMsg エラーメッセージ
      */
-    public static void check(ValidateHelper validate, Double value, String name, String msgFull) {
-        if (!validate.getResult(name)) {
-            return;
-        }
-        if (value == null) {
-            return;
-        }
-
-        check(validate, String.valueOf(value), name, msgFull, MATCH_DOUBLE, ERROR_MSG_DOUBLE);
-    }
-
-    /**
-     * 少数形式チェック（Double）
-     *
-     * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
-     */
-    public static void check(ValidateHelper validate, Double value, String name) {
-        check(validate, value, name, null);
-    }
-
-    /**
-     * 正規表現でチェック
-     *
-     * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
-     * @param msgFull  エラーメッセージ全文
-     * @param pattern  正規表現パターン
-     * @param msg      デフォルトエラーメッセージ
-     */
-    private static void check(ValidateHelper validate, String value, String name, String msgFull, String pattern, String msg) {
-        if (!value.matches(pattern)) {
-            if (msgFull != null) {
-                validate.error(name, msgFull);
-            } else {
-                validate.error(name, String.format(msg, name));
-            }
-        }
+    public static void check(ValidateHelper validate, String name, Double value, String errorMsg) {
+        doCheck(validate, name, value, errorMsg, MATCH_DOUBLE);
     }
 
     /**
      * 少数形式と桁数チェック（String）
      *
      * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
-     * @param point    小数点第何位
-     * @param msgFull  エラーメッセージ全文
+     * @param name 変数名
+     * @param value 値
+     * @param point 小数点以下MAX桁数
+     * @param errorMsg エラーメッセージ
      */
-    public static void checkPoint(ValidateHelper validate, String value, String name, Integer point, String msgFull) {
-        if (!validate.getResult(name)) {
-            return;
-        }
-        if (value == null || value.length() == 0) {
-            return;
-        }
-
-        checkPoint(validate, value, name, point, msgFull, MATCH_DOUBLE_POINT, ERROR_MSG_DOUBLE_POINT);
-    }
-
-    /**
-     * 少数形式と桁数チェック（String）
-     *
-     * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
-     * @param point    小数点第何位
-     */
-    public static void checkPoint(ValidateHelper validate, String value, String name, Integer point) {
-        checkPoint(validate, value, name, point, null);
-    }
-
-    /**
-     * 少数形式と桁数チェック（Int）
-     *
-     * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
-     * @param point    小数点第何位
-     * @param msgFull  エラーメッセージ全文
-     */
-    public static void checkPoint(ValidateHelper validate, Integer value, String name, Integer point, String msgFull) {
-        if (!validate.getResult(name)) {
-            return;
-        }
-        if (value == null) {
-            return;
-        }
-
-        checkPoint(validate, String.valueOf(value), name, point, msgFull, MATCH_DOUBLE_POINT, ERROR_MSG_DOUBLE_POINT);
-    }
-
-    /**
-     * 少数形式と桁数チェック（Int）
-     *
-     * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
-     * @param point    小数点第何位
-     */
-    public static void checkPoint(ValidateHelper validate, Integer value, String name, Integer point) {
-        checkPoint(validate, value, name, point, null);
-    }
-
-    /**
-     * 少数形式と桁数チェック（Float）
-     *
-     * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
-     * @param point    小数点第何位
-     * @param msgFull  エラーメッセージ全文
-     */
-    public static void checkPoint(ValidateHelper validate, Float value, String name, Integer point, String msgFull) {
-        if (!validate.getResult(name)) {
-            return;
-        }
-        if (value == null) {
-            return;
-        }
-
-        checkPoint(validate, String.valueOf(value), name, point, msgFull, MATCH_DOUBLE_POINT, ERROR_MSG_DOUBLE_POINT);
-    }
-
-    /**
-     * 少数形式と桁数チェック（Float）
-     *
-     * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
-     * @param point    小数点第何位
-     */
-    public static void checkPoint(ValidateHelper validate, Float value, String name, Integer point) {
-        checkPoint(validate, value, name, point, null);
-    }
-
-    /**
-     * 少数形式と桁数チェック（Double）
-     *
-     * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
-     * @param point    小数点第何位
-     * @param msgFull  エラーメッセージ全文
-     */
-    public static void checkPoint(ValidateHelper validate, Double value, String name, Integer point, String msgFull) {
-        if (!validate.getResult(name)) {
-            return;
-        }
-        if (value == null) {
-            return;
-        }
-
-        checkPoint(validate, String.valueOf(value), name, point, msgFull, MATCH_DOUBLE_POINT, ERROR_MSG_DOUBLE_POINT);
-    }
-
-    /**
-     * 少数形式と桁数チェック（Double）
-     *
-     * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
-     * @param point    小数点第何位
-     */
-    public static void checkPoint(ValidateHelper validate, Double value, String name, Integer point) {
-        checkPoint(validate, value, name, point, null);
-    }
-
-    /**
-     * 正規表現でチェック
-     *
-     * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
-     * @param point    小数点第何位
-     * @param msgFull  エラーメッセージ全文
-     * @param pattern  正規表現パターン
-     * @param msg      デフォルトエラーメッセージ
-     */
-    private static void checkPoint(ValidateHelper validate, String value, String name, Integer point, String msgFull, String pattern, String msg) {
+    public static void checkPoint(ValidateHelper validate, String name, String value, int point, String errorMsg) {
         //正規表現の小数点部分を置換しておく
-        pattern = pattern.replaceAll("POINT", String.valueOf(point));
+        String pattern = MATCH_DOUBLE_POINT.replaceAll("POINT", String.valueOf(point));
 
-        if (!value.matches(pattern)) {
-            if (msgFull != null) {
-                validate.error(name, msgFull);
-            } else {
-                validate.error(name, String.format(msg, name, point));
-            }
+        doCheck(validate, name, value, errorMsg, pattern);
+    }
+
+    /**
+     * 少数形式と桁数チェック（Int）
+     *
+     * @param validate バリデートクラス
+     * @param name 変数名
+     * @param value 値
+     * @param point 小数点以下MAX桁数
+     * @param errorMsg エラーメッセージ
+     */
+    public static void checkPoint(ValidateHelper validate, String name, Integer value, int point, String errorMsg) {
+        //正規表現の小数点部分を置換しておく
+        String pattern = MATCH_DOUBLE_POINT.replaceAll("POINT", String.valueOf(point));
+
+        doCheck(validate, name, value, errorMsg, pattern);
+    }
+
+    /**
+     * 少数形式と桁数チェック（Float）
+     *
+     * @param validate バリデートクラス
+     * @param name 変数名
+     * @param value 値
+     * @param point 小数点以下MAX桁数
+     * @param errorMsg エラーメッセージ
+     */
+    public static void checkPoint(ValidateHelper validate, String name, Float value, int point, String errorMsg) {
+        //正規表現の小数点部分を置換しておく
+        String pattern = MATCH_DOUBLE_POINT.replaceAll("POINT", String.valueOf(point));
+
+        doCheck(validate, name, value, errorMsg, pattern);
+    }
+
+    /**
+     * 少数形式と桁数チェック（Double）
+     *
+     * @param validate バリデートクラス
+     * @param name 変数名
+     * @param value 値
+     * @param point 小数点以下MAX桁数
+     * @param errorMsg エラーメッセージ
+     */
+    public static void checkPoint(ValidateHelper validate, String name, Double value, int point, String errorMsg) {
+        //正規表現の小数点部分を置換しておく
+        String pattern = MATCH_DOUBLE_POINT.replaceAll("POINT", String.valueOf(point));
+
+        doCheck(validate, name, value, errorMsg, pattern);
+    }
+
+    /**
+     * 少数形式チェック
+     *
+     * @param validate バリデートクラス
+     * @param name 変数名
+     * @param value 値
+     * @param errorMsg エラーメッセージ
+     * @param pattern エラーメッセージ
+     */
+    private static void doCheck(ValidateHelper validate, String name, Object value, String errorMsg, String pattern) {
+        if (!validate.getResult(name)) {
+            return;
+        }
+
+        if (value == null) {
+            return;
+        }
+
+        String valueStr = String.valueOf(value);
+
+        if (valueStr.length() == 0) {
+            return;
+        }
+
+        if (!valueStr.matches(pattern)) {
+            validate.error(name, errorMsg);
         }
     }
 }

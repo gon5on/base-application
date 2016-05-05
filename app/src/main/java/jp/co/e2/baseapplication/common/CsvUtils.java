@@ -22,7 +22,7 @@ public class CsvUtils {
      * @param context コンテキスト
      * @param resId 読み込み元リソースID
      * @param headerFlg ヘッダの有無フラグ
-     * @return List<String[]> 内容
+     * @return 内容
      * @throws IOException
      */
     public static List<String[]> readFromRaw(Context context, int resId, boolean headerFlg) throws IOException {
@@ -37,7 +37,7 @@ public class CsvUtils {
      * @param context コンテキスト
      * @param filename 読み込み元ファイル名
      * @param headerFlg ヘッダの生むフラグ
-     * @return List<String[]> 内容
+     * @return 内容
      * @throws IOException
      */
     public static List<String[]> readFromAssets(Context context, String filename, boolean headerFlg) throws IOException {
@@ -52,10 +52,10 @@ public class CsvUtils {
      *
      * @param inputStream インプットストリーム
      * @param headerFlg ヘッダの生むフラグ
-     * @return List<String[]> 内容
+     * @return 内容
      */
     public static List<String[]> readFromInputStream(InputStream inputStream, boolean headerFlg) throws IOException {
-        List<String[]> data = new ArrayList< String [] >();
+        List<String[]> data = new ArrayList<>();
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 

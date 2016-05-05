@@ -2,75 +2,61 @@ package jp.co.e2.baseapplication.validate;
 
 /**
  * 整数バリデーションクラス
+ *
+ * 整数なのでプラスマイナスが付いていてもOK
  */
 public class ValidateInt {
-    public static final String ERROR_MSG_INT = "%sは整数で入力してください。";
-
     public static final String MATCH_INT = "^[+-]?[0-9]+$";
 
     /**
      * 整数チェック（String）
      *
      * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
-     * @param msgFull  エラーメッセージ全文
+     * @param name 変数名
+     * @param value 値
+     * @param errorMsg エラーメッセージ
      */
-    public static void check(ValidateHelper validate, String value, String name, String msgFull) {
-        if (!validate.getResult()) {
-            return;
-        }
-        if (value == null || value.length() == 0) {
-            return;
-        }
-
-        if (!value.matches(MATCH_INT)) {
-            if (msgFull != null) {
-                validate.error(name, msgFull);
-            } else {
-                validate.error(name, String.format(ERROR_MSG_INT, name));
-            }
-        }
-    }
-
-    /**
-     * 整数チェック（String）
-     *
-     * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
-     */
-    public static void check(ValidateHelper validate, String value, String name) {
-        check(validate, value, name, null);
+    public static void check(ValidateHelper validate, String name, String value, String errorMsg) {
+        doCheck(validate, value, name, errorMsg);
     }
 
     /**
      * 整数チェック（Int）
      *
      * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
-     * @param msgFull  エラーメッセージ全文
+     * @param name 変数名
+     * @param value 値
+     * @param errorMsg エラーメッセージ
      */
-    public static void check(ValidateHelper validate, Integer value, String name, String msgFull) {
-        if (!validate.getResult()) {
-            return;
-        }
-        if (value == null || String.valueOf(value).length() == 0) {
-            return;
-        }
-
-        check(validate, String.valueOf(value), name, msgFull);
+    public static void check(ValidateHelper validate, String name, Integer value, String errorMsg) {
+        doCheck(validate, name, value, errorMsg);
     }
 
     /**
-     * 整数チェック（Int）
+     * 整数チェック
      *
      * @param validate バリデートクラス
-     * @param value    値
-     * @param name     変数名
+     * @param name 変数名
+     * @param value 値
+     * @param errorMsg エラーメッセージ
      */
-    public static void check(ValidateHelper validate, Integer value, String name) {
-        check(validate, value, name, null);
+    private static void doCheck(ValidateHelper validate, String name, Object value, String errorMsg) {
+        if (!validate.getResult()) {
+            return;
+        }
+
+        if (value == null) {
+            return;
+        }
+
+        String valueStr = String.valueOf(value);
+
+        if (valueStr.length() == 0) {
+            return;
+        }
+
+        if (!valueStr.matches(MATCH_INT)) {
+            validate.error(name, errorMsg);
+        }
     }
 }

@@ -6,7 +6,6 @@ import jp.co.e2.baseapplication.common.DateHelper;
 import jp.co.e2.baseapplication.entity.SampleEntity;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -34,17 +33,6 @@ public class SampleDao extends BaseDao {
             COLUMN_CREATED + "          TEXT                NOT NULL," +
             COLUMN_MODIFIED + "         TEXT                NOT NULL" +
             ")";
-
-    private Context mContext;
-
-    /**
-     * コンストラクタ
-     *
-     * @param context コンテキスト
-     */
-    public SampleDao(Context context) {
-        mContext = context;
-    }
 
     /**
      * インサート・アップデート
@@ -112,7 +100,7 @@ public class SampleDao extends BaseDao {
      * @return ArrayList<SampleEntity> data
      */
     public ArrayList<SampleEntity> findAll(SQLiteDatabase db) {
-        ArrayList<SampleEntity> data = new ArrayList<SampleEntity>();
+        ArrayList<SampleEntity> data = new ArrayList<>();
 
         String sql = String.format("SELECT * FROM %s ", TABLE_NAME);
 

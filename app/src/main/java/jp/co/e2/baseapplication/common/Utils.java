@@ -157,7 +157,7 @@ public class Utils {
      * @throws IOException
      */
     public static String readTextFile(Context context, Integer resId) throws IOException {
-        InputStream is = null;
+        InputStream is;
         BufferedReader br = null;
 
         StringBuilder sb = new StringBuilder();
