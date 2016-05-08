@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <!-- ボタンを押された時 -->
+    <item android:state_pressed="true" android:state_enabled="true">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/buttonSolidPress" />
+            <corners android:radius="@dimen/buttonRadius" />
+            <stroke android:width="@dimen/buttonStroke" android:color="@color/buttonStrokePress" />
+        </shape>
+    </item>
+
+    <!-- ボタンにフォーカスがあたった時 -->
+    <item android:state_focused="true" android:state_enabled="true">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/buttonSolidFocus" />
+            <corners android:radius="@dimen/buttonRadius" />
+            <stroke android:width="@dimen/buttonStroke" android:color="@color/buttonStrokeFocus" />
+        </shape>
+    </item>
+
+    <!-- ボタンが非活性の時 -->
+    <item android:state_enabled="false">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/buttonSolidDisable" />
+            <corners android:radius="@dimen/buttonRadius" />
+            <stroke android:width="@dimen/buttonStroke" android:color="@color/buttonStrokeDisable" />
+        </shape>
+    </item>
+
+    <!-- 通常時 -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/buttonSolid" />
+            <corners android:radius="@dimen/buttonRadius" />
+            <stroke android:width="@dimen/buttonStroke" android:color="@color/buttonStroke" />
+        </shape>
+    </item>
+</selector>
