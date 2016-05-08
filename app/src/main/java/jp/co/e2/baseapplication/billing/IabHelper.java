@@ -38,9 +38,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import jp.co.e2.baseapplication.common.AndroidUtils;
-import jp.co.e2.baseapplication.common.LogUtils;
-
 
 /**
  * Provides convenience methods for in-app billing. You can create one instance of this

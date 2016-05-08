@@ -9,6 +9,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
 import android.provider.BaseColumns;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
@@ -17,6 +18,9 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.IOError;
+import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -253,5 +257,105 @@ public class AndroidUtils {
         }
 
         return uri;
+    }
+
+    /**
+     * アプリ専用の外部領域のパスを取得する
+     *
+     * @param context コンテキスト
+     * @param dirName フォルダ名
+     * @return パス
+     */
+    public static String getExternalFilesDirPath(Context context, String dirName) throws IOException {
+        File file = context.getExternalFilesDir(dirName);
+
+        if (file == null || !file.exists()) {
+            throw new IOException();
+        }
+
+        return file.getPath();
+    }
+
+    /**
+     * アプリ専用の外部領域のパスを取得する（.nomediaあり）
+     *
+     * @param context コンテキスト
+     * @param dirName フォルダ名
+     * @return パス
+     */
+    public static String getExternalFilesDirPathWithNoMedia(Context context, String dirName) throws IOException {
+        File file = context.getExternalFilesDir(dirName);
+
+        if (file == null || !file.exists()) {
+            throw new IOException();
+        }
+
+        File noMediaFile = new File(file.getPath() + "/.nomedia");
+
+        if (!noMediaFile.exists()) {
+            if (!noMediaFile.createNewFile()) {
+                throw new IOException();
+            }
+        }
+
+        return file.getPath();
+    }
+
+    /**
+     * アンインストールで消えない外部領域のパスを取得する
+     *
+     * @param context コンテキスト
+     * @param dirName フォルダ名
+     * @return パス
+     */
+    public static String getExternalStorageDirPath(Context context, String dirName) throws IOException {
+        String status = Environment.getExternalStorageState();
+
+        if (!Environment.MEDIA_MOUNTED.equals(status)) {
+            throw new IOException();
+        }
+
+        File file = new File(Environment.getExternalStorageDirectory(), dirName);
+
+        if (!file.exists()) {
+            if (!file.mkdirs()) {
+                throw new IOException();
+            }
+        }
+
+        return file.getPath();
+    }
+
+    /**
+     * アンインストールで消えない外部領域のパスを取得する（.nomediaあり）
+     *
+     * @param context コンテキスト
+     * @param dirName フォルダ名
+     * @return パス
+     */
+    public static String getExternalStorageDirPathWithNoMedia(Context context, String dirName) throws IOException {
+        String status = Environment.getExternalStorageState();
+
+        if (!Environment.MEDIA_MOUNTED.equals(status)) {
+            throw new IOException();
+        }
+
+        File file = new File(Environment.getExternalStorageDirectory(), dirName);
+
+        if (!file.exists()) {
+            if (!file.mkdirs()) {
+                throw new IOException();
+            }
+        }
+
+        File noMediaFile = new File(file.getPath() + "/.nomedia");
+
+        if (!noMediaFile.exists()) {
+            if (!noMediaFile.createNewFile()) {
+                throw new IOException();
+            }
+        }
+
+        return file.getPath();
     }
 }

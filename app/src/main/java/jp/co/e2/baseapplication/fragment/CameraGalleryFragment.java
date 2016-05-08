@@ -35,6 +35,7 @@ import java.io.IOException;
 import jp.co.e2.baseapplication.R;
 import jp.co.e2.baseapplication.common.AndroidUtils;
 import jp.co.e2.baseapplication.common.ImgHelper;
+import jp.co.e2.baseapplication.common.LogUtils;
 
 /**
  * カメラ・ギャラリーフラグメント
@@ -218,54 +219,57 @@ public class CameraGalleryFragment extends Fragment {
         try {
             mPhotoUri = (data != null && data.getData() != null) ? data.getData() : mPhotoUri;
 
+            LogUtils.d("########## Photo URI", mPhotoUri);
+
             //URIが取れなかった
             if (mPhotoUri == null) {
                 throw new NullPointerException();
-            }
-
-            //カメラの場合はギャラリーをスキャン
-            if (requestCode == REQUEST_CODE_CAMERA) {
-                String path[] = new String[]{ mPhotoUri.getPath() };
-                String type[] = new String[]{ "image/jpeg" };
-                MediaScannerConnection.scanFile(getActivity(), path, type, null);
             }
 
             //URIをパスに変換
             boolean newMethod = (requestCode == REQUEST_CODE_GALLERY);
             String orgPath = AndroidUtils.getPathFromUri(getActivity(), mPhotoUri, newMethod);
 
+            LogUtils.d("########## Photo Path", orgPath);
+
             //パスが取れなかった
             if (orgPath == null) {
                 throw new NullPointerException();
             }
 
+            //カメラの場合はギャラリーをスキャン
+            if (requestCode == REQUEST_CODE_CAMERA) {
+                String path[] = new String[]{ orgPath };
+                String type[] = new String[]{ "image/jpeg" };
+                MediaScannerConnection.scanFile(getActivity(), path, type, null);
+            }
+
             //回転を考慮して画像を保存し直す
-            String tmpPath = getSaveTmpPath();
             ImgHelper imgHelper = new ImgHelper(orgPath);
-            imgHelper.getRotatedResizedImage(1500, 1500);
-            imgHelper.saveImg(getActivity(), tmpPath);
+            imgHelper.getRotatedResizedImage(800, 800);
+            imgHelper.saveImg(getActivity(), getSaveTmpPath());
 
             //トリミングアプリ呼び出し
-            String savePath = getSavePath();
             Intent intent = new Intent("com.android.camera.action.CROP");
-            intent.setData(AndroidUtils.path2contentUri(getActivity(), tmpPath));
-            intent.putExtra("outputX", 500);
-            intent.putExtra("outputY", 500);
+            intent.setData(AndroidUtils.path2contentUri(getActivity(), orgPath));
+            intent.putExtra("outputX", 800);
+            intent.putExtra("outputY", 800);
             intent.putExtra("aspectX", 1);
             intent.putExtra("aspectY", 1);
             intent.putExtra("scale", true);
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(savePath)));
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(getSavePath())));
             startActivityForResult(intent, REQUEST_CODE_TRIMMING);
+
+            LogUtils.d("########## Tmp Path", getSaveTmpPath());
+            LogUtils.d("########## Save Path", getSavePath());
+
+            LogUtils.d(AndroidUtils.path2contentUri(getActivity(), orgPath));
+            LogUtils.d(AndroidUtils.path2contentUri(getActivity(), getSaveTmpPath()));
+
         }
         catch (Exception e) {
             e.printStackTrace();
             AndroidUtils.showToastS(getActivity(), getString(R.string.errorMsgSomethingError));
-
-            //回転を考慮して保存した画像が存在していたら削除する
-            File file = new File(getSaveTmpPath());
-            if (file.exists()) {
-                file.delete();
-            }
         }
     }
 
@@ -303,21 +307,15 @@ public class CameraGalleryFragment extends Fragment {
     /**
      * 画像の保存パスを取得
      */
-    public static String getSavePath() {
-        String path = Environment.getExternalStorageDirectory().getPath() + "/";
-        path += "tmp.jpg";
-
-        return path;
+    public String getSavePath() throws IOException {
+        return AndroidUtils.getExternalFilesDirPathWithNoMedia(getActivity(), "img") + "/image.jpg";
     }
 
     /**
      * 画像の一時保存パスを取得
      */
-    public static String getSaveTmpPath() {
-        String path = Environment.getExternalStorageDirectory().getPath() + "/";
-        path += "image.jpg";
-
-        return path;
+    public String getSaveTmpPath() throws IOException {
+        return AndroidUtils.getExternalFilesDirPathWithNoMedia(getActivity(), "img") + "/tmp.jpg";
     }
 
     /**

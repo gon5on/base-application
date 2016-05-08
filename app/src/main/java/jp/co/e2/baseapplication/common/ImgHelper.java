@@ -45,7 +45,7 @@ public class ImgHelper {
 
         //回転と読み込みサイズを計算
         Matrix matrix = new Matrix();
-        matrix = getResizedMatrix(file, matrix);
+        matrix = getResizedMatrix(file, matrix, height, width);
         matrix = getRotatedMatrix(file, matrix);
 
         // 元画像の取得
@@ -67,6 +67,10 @@ public class ImgHelper {
      * @throws IOException
      */
     public void saveImg(Context context, String savePath) throws IOException {
+        if (mBitmap == null) {
+            throw new NullPointerException();
+        }
+
         //保存
         File destination = new File(savePath);
         FileOutputStream outputStream = new FileOutputStream(destination);
@@ -93,9 +97,11 @@ public class ImgHelper {
      *
      * @param file 入力画像
      * @param matrix 元のマトリクス
+     * @param reHeight リサイズ後の高さ
+     * @param reWidth リサイズ後の幅
      * @return matrix リサイズ後のマトリクス
      */
-    private Matrix getResizedMatrix(File file, Matrix matrix) {
+    private Matrix getResizedMatrix(File file, Matrix matrix, int reHeight, int reWidth) {
         // リサイズチェック用にメタデータ読み込み
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
@@ -104,7 +110,7 @@ public class ImgHelper {
         int width = options.outWidth;
 
         // リサイズ比の取得
-        float scale = Math.max((float) 500 / width, (float) 500 / height);
+        float scale = Math.max((float) reWidth / width, (float) reHeight / height);
 
         // 縮小のみのため、scaleは1.0未満の場合のみマトリクス設定
         if (scale < 1.0) {
@@ -219,12 +225,12 @@ public class ImgHelper {
      * @return Integer inSampleSize 縮小比率
      */
     private int calcScale(BitmapFactory.Options options, Integer reHeight, Integer reWidth) {
-        Integer oriHeight = options.outHeight;
-        Integer oriWidth = options.outWidth;
-        Integer scale = 1;
+        final int oriHeight = options.outHeight;
+        final int oriWidth = options.outWidth;
+        int scale = 1;
 
         if (oriHeight > reHeight || oriWidth > reWidth) {
-            if (oriHeight > oriWidth) {
+            if (oriWidth > oriHeight) {
                 scale = Math.round((float) oriHeight / (float) reHeight);
             } else {
                 scale = Math.round((float) oriWidth / (float) reWidth);

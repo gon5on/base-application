@@ -1,5 +1,6 @@
 package jp.co.e2.baseapplication.common;
 
+import android.net.Uri;
 import android.util.Log;
 
 import jp.co.e2.baseapplication.config.EnvConfig;
@@ -109,6 +110,10 @@ public class LogUtils {
         errorLog(TAG, value);
     }
 
+
+
+
+
     /**
      * verboseログ
      *
@@ -203,6 +208,11 @@ public class LogUtils {
     public static void e(Integer value) {
         errorLog(TAG, value);
     }
+
+
+
+
+
 
     /**
      * verboseログ
@@ -299,6 +309,10 @@ public class LogUtils {
         errorLog(TAG, value);
     }
 
+
+
+
+
     /**
      * verboseログ
      *
@@ -316,7 +330,7 @@ public class LogUtils {
      * @param value 値
      */
     public static void d(String tag, long value) {
-        debugLog(tag, String.valueOf(value));
+        debugLog(tag, value);
     }
 
     /**
@@ -393,6 +407,11 @@ public class LogUtils {
     public static void e(long value) {
         errorLog(TAG, value);
     }
+
+
+
+
+
 
     /**
      * verboseログ
@@ -489,6 +508,11 @@ public class LogUtils {
         errorLog(TAG, value);
     }
 
+
+
+
+
+
     /**
      * verboseログ
      *
@@ -584,13 +608,18 @@ public class LogUtils {
         errorLog(TAG, value);
     }
 
+
+
+
+
+
     /**
      * verboseログ
      *
      * @param tag タグ
      * @param value 値
      */
-    public static void v(String tag, Object value) {
+    public static void v(String tag, Uri value) {
         verboseLog(tag, value);
     }
 
@@ -600,8 +629,8 @@ public class LogUtils {
      * @param tag タグ
      * @param value 値
      */
-    public static void d(String tag, Object value) {
-        debugLog(TAG, value);
+    public static void d(String tag, Uri value) {
+        debugLog(tag, value);
     }
 
     /**
@@ -610,7 +639,7 @@ public class LogUtils {
      * @param tag タグ
      * @param value 値
      */
-    public static void i(String tag, Object value) {
+    public static void i(String tag, Uri value) {
         infoLog(tag, value);
     }
 
@@ -620,7 +649,7 @@ public class LogUtils {
      * @param tag タグ
      * @param value 値
      */
-    public static void w(String tag, Object value) {
+    public static void w(String tag, Uri value) {
         warnLog(tag, value);
     }
 
@@ -630,7 +659,7 @@ public class LogUtils {
      * @param tag タグ
      * @param value 値
      */
-    public static void e(String tag, Object value) {
+    public static void e(String tag, Uri value) {
         errorLog(tag, value);
     }
 
@@ -639,7 +668,7 @@ public class LogUtils {
      *
      * @param value 値
      */
-    public static void v(Object value) {
+    public static void v(Uri value) {
         verboseLog(TAG, value);
     }
 
@@ -648,7 +677,7 @@ public class LogUtils {
      *
      * @param value 値
      */
-    public static void d(Object value) {
+    public static void d(Uri value) {
         debugLog(TAG, value);
     }
 
@@ -657,7 +686,7 @@ public class LogUtils {
      *
      * @param value 値
      */
-    public static void i(Object value) {
+    public static void i(Uri value) {
         infoLog(TAG, value);
     }
 
@@ -666,7 +695,7 @@ public class LogUtils {
      *
      * @param value 値
      */
-    public static void w(Object value) {
+    public static void w(Uri value) {
         warnLog(TAG, value);
     }
 
@@ -675,9 +704,14 @@ public class LogUtils {
      *
      * @param value 値
      */
-    public static void e(Object value) {
+    public static void e(Uri value) {
         errorLog(TAG, value);
     }
+
+
+
+
+
 
     /**
      * verboseログ
