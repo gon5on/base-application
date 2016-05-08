@@ -51,7 +51,7 @@ public class DbFragment extends Fragment {
         }
         catch (Exception e) {
             e.printStackTrace();
-            AndroidUtils.showToastS(getActivity(), "エラーが発生しました。");
+            AndroidUtils.showToastS(getActivity(), getString(R.string.errorMsgSomethingError));
         }
 
         return mView;

@@ -2,6 +2,7 @@ package jp.co.e2.baseapplication.fragment;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +17,11 @@ import jp.co.e2.baseapplication.dialog.AppProgressDialog;
  * 非同期通信フラグメント
  *
  * 非同期通信を行うサンプル
+ * 画面回転にも対応したサンプルにもなっている
  */
-public class AsynkTaskFragment extends Fragment {
+public class AsynkTaskFragment extends Fragment implements SampleAsyncTask.AsyncTaskCallbackListener<Integer, String> {
     private static final int TAG_ASYNK_TASK = 101;
+    private static final String BUNDLE_RESULT = "bundle_result";
     private static final String URL = "http://google.com";
 
     private View mView;
@@ -49,72 +52,31 @@ public class AsynkTaskFragment extends Fragment {
         mView.findViewById(R.id.buttonConnect).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                connectServer();
+                SampleAsyncTask sampleAsyncTask = new SampleAsyncTask(TAG_ASYNK_TASK, getActivity());
+                sampleAsyncTask.setCallbackListener(AsynkTaskFragment.this);
+                sampleAsyncTask.execute(URL);
             }
         });
+
+        //再生成が走ったら、保管していた値を取り出す
+        if (savedInstanceState != null) {
+            TextView textViewResult = (TextView) mView.findViewById(R.id.textViewResult);
+            textViewResult.setText(savedInstanceState.getString(BUNDLE_RESULT));
+        }
 
         return mView;
     }
 
     /**
-     * サーバに接続する
+     * {@inheritDoc}
      */
-    private void connectServer() {
-        SampleAsyncTask sampleAsyncTask = new SampleAsyncTask(TAG_ASYNK_TASK, getActivity());
-        sampleAsyncTask.setCallbackListener(new SampleAsyncTask.AsyncTaskCallbackListener<Integer, String>() {
-            @Override
-            public void onPreExecute(int tag) {
-                AndroidUtils.showToastS(getActivity(), "onPreExecute!");
-                prepareConnect();
-            }
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
 
-            @Override
-            public void onProgressUpdate(int tag, Integer... values) {
-                AndroidUtils.showToastS(getActivity(), "onProgressUpdate!");
-            }
-
-            @Override
-            public void onCancelled(int tag) {
-                AndroidUtils.showToastS(getActivity(), "onCancelled!");
-                closeProgressDialog();
-            }
-
-            @Override
-            public void onPostExecute(int tag, String result) {
-                AndroidUtils.showToastS(getActivity(), "onPostExecute!");
-                showResult(result);
-            }
-        });
-        sampleAsyncTask.execute(URL);
-    }
-
-    /**
-     * 接続前準備
-     */
-    private void prepareConnect() {
-        mAppProgressDialog = AppProgressDialog.getInstance("通信中");
-        mAppProgressDialog.show(getFragmentManager(), "dialog");
-        mAppProgressDialog.setCancelable(false);
-
+        //再生成が走る前に値を保管しておく
         TextView textViewResult = (TextView) mView.findViewById(R.id.textViewResult);
-        textViewResult.setText(null);
-    }
-
-    /**
-     * 通信結果を表示する
-     *
-     * @param result レスポンスボディ
-     */
-    private void showResult(String result) {
-        if (getActivity().isFinishing()) {
-            return;
-        }
-
-        //レスポンスボディを適当に頭から500文字表示
-        TextView textViewResult = (TextView) mView.findViewById(R.id.textViewResult);
-        textViewResult.setText(result.substring(0, 500));
-
-        closeProgressDialog();
+        outState.putString(BUNDLE_RESULT, textViewResult.getText().toString());
     }
 
     /**
@@ -124,5 +86,58 @@ public class AsynkTaskFragment extends Fragment {
         if (mAppProgressDialog != null) {
             mAppProgressDialog.dismiss();
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void onPreExecute(int tag) {
+        AndroidUtils.showToastS(getActivity(), "onPreExecute!");
+
+        mAppProgressDialog = AppProgressDialog.getInstance(getString(R.string.connecting));
+        mAppProgressDialog.show(getFragmentManager(), "dialog");
+        mAppProgressDialog.setCancelable(false);
+
+        TextView textViewResult = (TextView) mView.findViewById(R.id.textViewResult);
+        textViewResult.setText(null);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void onProgressUpdate(int tag, Integer... values) {
+        AndroidUtils.showToastS(getActivity(), "onProgressUpdate!");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void onCancelled(int tag) {
+        AndroidUtils.showToastS(getActivity(), "onCancelled!");
+
+        //プログレスダイアログを閉じる
+        closeProgressDialog();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void onPostExecute(int tag, String result) {
+        if (!isAdded()) {
+            return;
+        }
+
+        AndroidUtils.showToastS(getActivity(), "onPostExecute!");
+
+        //レスポンスボディを適当に頭から500文字表示
+        TextView textViewResult = (TextView) mView.findViewById(R.id.textViewResult);
+        textViewResult.setText(result.substring(0, 500));
+
+        //プログレスダイアログを閉じる
+        closeProgressDialog();
     }
 }

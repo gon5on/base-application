@@ -1,7 +1,7 @@
 package jp.co.e2.baseapplication.activity;
 
-import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -24,13 +24,13 @@ public class SubActivity extends BaseActivity {
     /**
      * ファクトリーメソッドもどき
      *
-     * @param activity アクテビティ
+     * @param context コンテキスト
      * @param param1 パラメータ1
      * @param param2 パラメータ2
      * @return intent インテント
      */
-    public static Intent newInstance(Activity activity, String param1, Integer param2) {
-        Intent intent = new Intent(activity, SubActivity.class);
+    public static Intent newInstance(Context context, String param1, Integer param2) {
+        Intent intent = new Intent(context, SubActivity.class);
         intent.putExtra(PARAM1, param1);
         intent.putExtra(PARAM2, param2);
 

@@ -1,8 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- 基本カラー -->
     <color name="colorPrimary">#ff5252</color>
     <color name="colorPrimaryDark">#b71c1c</color>
     <color name="colorAccent">#1d7e9e</color>
     <color name="bg">#ffffff</color>
     <color name="text">#666666</color>
+    <color name="textDisable">#99999999</color>
+    <color name="textLight">#ffffff</color>
+
+    <!-- ボタン -->
+    <color name="buttonStroke">@color/colorPrimaryDark</color>
+    <color name="buttonSolid">@color/colorPrimary</color>
+    <color name="buttonText">#ffffff</color>
+
+    <color name="buttonStrokePress">#ad1457</color>
+    <color name="buttonSolidPress">#e91e63</color>
+    <color name="buttonTextPress">#ffdddd</color>
+
+    <color name="buttonStrokeFocus">#bf360c</color>
+    <color name="buttonSolidFocus">#ff5722</color>
+    <color name="buttonTextFocus">#ffffff</color>
+
+    <color name="buttonStrokeDisable">#cccccc</color>
+    <color name="buttonSolidDisable">#bdbdbd</color>
+    <color name="buttonTextDisable">#eeeeee</color>
+
+    <!-- スイッチ -->
+    <color name="switchOn">@color/colorAccent</color>
+    <color name="switchOff">#777777</color>
+    <color name="switchBar">#888888</color>
+
+    <!-- 入力欄 -->
+    <color name="editText">@color/text</color>
+    <color name="editTextHint">#959595</color>
+    <color name="editTextDisable">@color/textDisable</color>
+
 </resources>

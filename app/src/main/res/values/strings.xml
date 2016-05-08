@@ -2,5 +2,34 @@
 <resources>
 
     <string name="app_name">BaseApplication</string>
-
+    <string name="connect">接続！</string>
+    <string name="selectImage">画像選択！</string>
+    <string name="planeText">平文</string>
+    <string name="encryptText">暗号化文字列</string>
+    <string name="decryptText">復号化文字列</string>
+    <string name="prevActivityValue">前のアクテビティから渡された値</string>
+    <string name="button">アイコン付きの通常ボタン\n2行のボタン</string>
+    <string name="buttonDisable">非活性ボタン</string>
+    <string name="openActivity">アクテビティを開く</string>
+    <string name="openDialog">ダイアログを開く</string>
+    <string name="radio1">ラジオボタン①</string>
+    <string name="radio2">ラジオボタン②</string>
+    <string name="radioDisable">非活性ラジオボタン</string>
+    <string name="checkbox">チェックボックス</string>
+    <string name="checkboxDisable">非活性チェックボックス</string>
+    <string name="switchText">スイッチ</string>
+    <string name="switchDisable">非活性スイッチ</string>
+    <string name="textSample">普通のテキスト。\n改行テスト改行テスト改行テスト。</string>
+    <string name="editTextHint">入力欄ヒント</string>
+    <string name="editTextDisableHint">非活性入力欄ヒント</string>
+    <string name="editTextInputted">入力済の入力欄</string>
+    <string name="sample">サンプル</string>
+    <string name="sampleDialog">サンプルダイアログです</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="connecting">通信中</string>
+    <string name="attention">Attention!</string>
+    <string name="errorMsgPermissionDenied">許可してくれなかったから写真を選べないよ～</string>
+    <string name="errorMsgPermissionRequest">写真を選ぶにはパーミッション許可をしてね～</string>
+    <string name="errorMsgSomethingError">エラーが発生しました。</string>
 </resources>

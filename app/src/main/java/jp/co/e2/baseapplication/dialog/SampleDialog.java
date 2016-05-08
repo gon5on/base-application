@@ -1,11 +1,12 @@
 package jp.co.e2.baseapplication.dialog;
 
-import jp.co.e2.baseapplication.dialog.SampleDialog.CallbackListener;
-
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
+
+import jp.co.e2.baseapplication.R;
+import jp.co.e2.baseapplication.dialog.SampleDialog.CallbackListener;
 
 /**
  * サンプルダイアログ
@@ -46,12 +47,12 @@ public class SampleDialog extends BaseDialog<CallbackListener> {
         String msg = getArguments().getString(MSG);
 
         //ダイアログ生成
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.AppDialogStyle);
         builder.setTitle(title);
         builder.setMessage(msg);
 
         //ボタンにイベントをセット
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (mCallbackListener != null) {
@@ -61,7 +62,7 @@ public class SampleDialog extends BaseDialog<CallbackListener> {
             }
         });
 
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (mCallbackListener != null) {

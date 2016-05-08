@@ -3,19 +3,19 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="@dimen/doubleBlock"
-    android:paddingRight="@dimen/doubleBlock"
-    android:paddingTop="@dimen/doubleBlock"
-    android:paddingBottom="@dimen/doubleBlock"
+    android:paddingLeft="@dimen/twoBlock"
+    android:paddingRight="@dimen/twoBlock"
+    android:paddingTop="@dimen/twoBlock"
+    android:paddingBottom="@dimen/twoBlock"
     android:orientation="vertical"
     >
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="画像選択"
+        android:text="@string/selectImage"
         android:id="@+id/buttonSelect"
-        android:layout_marginBottom="@dimen/doubleBlock"
+        android:layout_marginBottom="@dimen/twoBlock"
         />
 
     <ImageView

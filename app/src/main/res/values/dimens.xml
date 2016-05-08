@@ -1,7 +1,21 @@
 <resources>
+    <!-- 基本幅・高さ -->
     <dimen name="halfBlock">4dp</dimen>
-    <dimen name="singleBlock">8dp</dimen>
-    <dimen name="doubleBlock">16dp</dimen>
-    <dimen name="tripleBlock">24dp</dimen>
-    <dimen name="quadBlock">32dp</dimen>
+    <dimen name="oneBlock">8dp</dimen>
+    <dimen name="twoBlock">16dp</dimen>
+    <dimen name="threeBlock">24dp</dimen>
+    <dimen name="fourBlock">32dp</dimen>
+    <dimen name="fiveBlock">40dp</dimen>
+    <dimen name="sixBlock">48dp</dimen>
+    <dimen name="sevenBlock">56dp</dimen>
+    <dimen name="eightBlock">64dp</dimen>
+    <dimen name="nineBlock">72dp</dimen>
+    <dimen name="tenBlock">80dp</dimen>
+
+    <!--フォントサイズ -->
+    <dimen name="fontSize">14sp</dimen>
+
+    <!-- ボタン -->
+    <dimen name="buttonStroke">2dp</dimen>
+    <dimen name="buttonRadius">4dp</dimen>
 </resources>

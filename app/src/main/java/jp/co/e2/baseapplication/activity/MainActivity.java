@@ -7,6 +7,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Gravity;
 import android.view.MenuItem;
+import android.view.WindowManager;
 
 import jp.co.e2.baseapplication.R;
 import jp.co.e2.baseapplication.fragment.AsynkTaskFragment;
@@ -28,6 +29,9 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //キーボードを最初は出さない
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         setContentView(R.layout.activity_common);
 
@@ -85,7 +89,7 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onBackPressed(){
         //ドロワーが開いていたら、バックキーでドロワーを閉じる
-        if (mDrawerLayout != null && mDrawerLayout.isDrawerOpen(Gravity.START)) {
+        if (mDrawerLayout != null && mDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
             mDrawerLayout.closeDrawers();
         } else {
             super.onBackPressed();
@@ -135,7 +139,7 @@ public class MainActivity extends BaseActivity {
         if (mDrawerLayout != null) {
             mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.app_name, R.string.app_name);
             mDrawerToggle.setDrawerIndicatorEnabled(true);
-            mDrawerLayout.setDrawerListener(mDrawerToggle);
+            mDrawerLayout.addDrawerListener(mDrawerToggle);
         }
 
         if (getSupportActionBar() != null) {

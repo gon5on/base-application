@@ -1,16 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- アプリテーマ -->
     <style name="AppTheme" parent="AppTheme.Base">
-        <item name="android:textColor">@color/text</item>
+        <item name="android:textColor">@xml/color_text</item>
+        <item name="android:textSize">@dimen/fontSize</item>
+        <item name="android:buttonStyle">@style/AppButtonStyle</item>
+        <item name="android:radioButtonStyle">@style/AppRadioStyle</item>
+        <item name="android:checkboxStyle">@style/AppCheckboxStyle</item>
+        <item name="android:editTextStyle">@style/AppEditTextStyle</item>
+        <item name="buttonStyle">@style/AppButtonStyle</item>
+        <item name="radioButtonStyle">@style/AppRadioStyle</item>
+        <item name="checkboxStyle">@style/AppCheckboxStyle</item>
+        <item name="editTextStyle">@style/AppEditTextStyle</item>
+
+        <item name="colorControlActivated">@color/switchOn</item> <!--スイッチONの色 -->
+        <item name="colorSwitchThumbNormal">@color/switchOff</item> <!--スイッチOFFの色 -->
     </style>
 
+    <!--基底テーマ -->
     <style name="AppTheme.Base" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="android:windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
+    </style>
+
+    <!-- ボタン -->
+    <style name="AppButtonStyle" parent="android:Widget.Button">
+        <item name="android:textColor">@xml/color_button_text</item>
+        <item name="android:textSize">@dimen/fontSize</item>
+        <item name="android:background">@xml/bg_button</item>
+        <item name="android:paddingTop">@dimen/oneBlock</item>
+        <item name="android:paddingBottom">@dimen/oneBlock</item>
+        <item name="android:paddingLeft">@dimen/twoBlock</item>
+        <item name="android:paddingRight">@dimen/twoBlock</item>
+        <item name="android:minHeight">@dimen/fiveBlock</item>
+        <item name="android:minWidth">@dimen/fiveBlock</item>
+    </style>
+
+    <!-- ラジオボタン -->
+    <style name="AppRadioStyle" parent="android:Widget.CompoundButton.RadioButton">
+        <item name="android:textColor">@xml/color_text</item>
+        <item name="android:textSize">@dimen/fontSize</item>
+        <item name="android:background">@null</item>
+    </style>
+
+    <!-- チェックボックス -->
+    <style name="AppCheckboxStyle" parent="android:Widget.CompoundButton.CheckBox">
+        <item name="android:textColor">@xml/color_text</item>
+        <item name="android:textSize">@dimen/fontSize</item>
+        <item name="android:background">@null</item>
+    </style>
+
+    <!-- 入力欄 -->
+    <style name="AppEditTextStyle" parent="Widget.AppCompat.EditText">
+        <item name="android:textColor">@xml/color_edit_text</item>
+        <item name="android:textColorHint">@xml/color_edit_text_hint</item>
+        <item name="android:textSize">@dimen/fontSize</item>
+    </style>
+
+    <!-- ダイアログ-->
+    <!-- メッセージ部分のフォントサイズとかカスタムしたいんだったら独自ビューセットしろってことかと解釈 -->
+    <style name="AppDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">@color/colorAccent</item> <!-- ボタンの文字色 -->
+        <item name="android:textColorPrimary">@xml/color_text</item> <!-- テキスト文字色 -->
+        <item name="android:textSize">@dimen/fontSize</item> <!-- ボタンとタイトルのフォントサイズ -->
+        <item name="android:background">@color/bg</item>
     </style>
 
 </resources>

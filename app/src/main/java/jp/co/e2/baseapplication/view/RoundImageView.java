@@ -8,6 +8,7 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -19,11 +20,11 @@ import jp.co.e2.baseapplication.R;
  * 円形の元となる、shape_circle.xmlも必要になる
  */
 public class RoundImageView extends TouchFeedbackImageView implements View.OnTouchListener {
-    Paint mMaskedPaint;
-    Paint mCopyPaint;
-    Drawable mMaskDrawable;
-    Rect mBounds;
-    RectF mBoundsF;
+    private Paint mMaskedPaint;
+    private Paint mCopyPaint;
+    private Drawable mMaskDrawable;
+    private Rect mBounds;
+    private RectF mBoundsF;
 
     /**
      * コンテキスト
@@ -48,7 +49,7 @@ public class RoundImageView extends TouchFeedbackImageView implements View.OnTou
         mMaskedPaint = new Paint();
         mMaskedPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_ATOP));
         mCopyPaint = new Paint();
-        mMaskDrawable = getResources().getDrawable(R.drawable.shape_circle);
+        mMaskDrawable = ContextCompat.getDrawable(getContext(), R.drawable.shape_circle);
     }
 
     /**

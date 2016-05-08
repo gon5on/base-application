@@ -1,22 +1,16 @@
 package jp.co.e2.baseapplication.fragment;
 
 import android.app.Fragment;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-
 import jp.co.e2.baseapplication.R;
 import jp.co.e2.baseapplication.common.AndroidUtils;
 import jp.co.e2.baseapplication.common.EncryptHelper;
 import jp.co.e2.baseapplication.config.Config;
-import jp.co.e2.baseapplication.entity.SampleEntity;
-import jp.co.e2.baseapplication.model.BaseSQLiteOpenHelper;
-import jp.co.e2.baseapplication.model.SampleDao;
 
 /**
  * 暗号化フラグメント
@@ -74,7 +68,7 @@ public class EncryptFragment extends Fragment {
         }
         catch (Exception e) {
             e.printStackTrace();
-            AndroidUtils.showToastS(getActivity(), "エラーが発生しました。");
+            AndroidUtils.showToastS(getActivity(), getString(R.string.errorMsgSomethingError));
         }
 
         return mView;

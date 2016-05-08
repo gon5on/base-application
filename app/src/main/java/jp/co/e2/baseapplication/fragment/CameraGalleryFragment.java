@@ -125,9 +125,9 @@ public class CameraGalleryFragment extends Fragment {
                 showPopupMenu();
             } else {
                 AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
-                alert.setTitle("使えないよ");
-                alert.setMessage("許可してくれなかったから写真を選べないよ～");
-                alert.setPositiveButton("OK", null);
+                alert.setTitle(getString(R.string.attention));
+                alert.setMessage(getString(R.string.errorMsgPermissionDenied));
+                alert.setPositiveButton(getString(R.string.ok), null);
                 alert.show();
             }
         }
@@ -177,7 +177,7 @@ public class CameraGalleryFragment extends Fragment {
         }
         catch(Exception e) {
             e.printStackTrace();
-            AndroidUtils.showToastS(getActivity(), "エラーが発生しました。");
+            AndroidUtils.showToastS(getActivity(), getString(R.string.errorMsgSomethingError));
         }
     }
 
@@ -204,7 +204,7 @@ public class CameraGalleryFragment extends Fragment {
         }
         catch(Exception e) {
             e.printStackTrace();
-            AndroidUtils.showToastS(getActivity(), "エラーが発生しました。");
+            AndroidUtils.showToastS(getActivity(), getString(R.string.errorMsgSomethingError));
         }
     }
 
@@ -242,7 +242,7 @@ public class CameraGalleryFragment extends Fragment {
             //回転を考慮して画像を保存し直す
             String tmpPath = getSaveTmpPath();
             ImgHelper imgHelper = new ImgHelper(orgPath);
-            imgHelper.getRotatedResizedImage(500, 500);
+            imgHelper.getRotatedResizedImage(1500, 1500);
             imgHelper.saveImg(getActivity(), tmpPath);
 
             //トリミングアプリ呼び出し
@@ -259,7 +259,13 @@ public class CameraGalleryFragment extends Fragment {
         }
         catch (Exception e) {
             e.printStackTrace();
-            AndroidUtils.showToastS(getActivity(), "エラーが発生しました。");
+            AndroidUtils.showToastS(getActivity(), getString(R.string.errorMsgSomethingError));
+
+            //回転を考慮して保存した画像が存在していたら削除する
+            File file = new File(getSaveTmpPath());
+            if (file.exists()) {
+                file.delete();
+            }
         }
     }
 
@@ -274,10 +280,10 @@ public class CameraGalleryFragment extends Fragment {
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), android.Manifest.permission.CAMERA)) {
                 AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
-                alert.setTitle("おねがい");
-                alert.setMessage("次に出てくるダイアログで許可を押してね～");
+                alert.setTitle(getString(R.string.attention));
+                alert.setMessage(getString(R.string.errorMsgPermissionRequest));
                 alert.setCancelable(false);
-                alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                alert.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         requestPermissions(new String[]{ Manifest.permission.WRITE_EXTERNAL_STORAGE }, REQUEST_CODE_WRITE_EXTERNAL_STORAGE);
@@ -328,7 +334,7 @@ public class CameraGalleryFragment extends Fragment {
         }
         catch (IOException e){
             e.printStackTrace();
-            AndroidUtils.showToastS(getActivity(), "エラーが発生しました。");
+            AndroidUtils.showToastS(getActivity(), getString(R.string.errorMsgSomethingError));
         }
     }
 }

@@ -3,10 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="@dimen/doubleBlock"
-    android:paddingRight="@dimen/doubleBlock"
-    android:paddingTop="@dimen/doubleBlock"
-    android:paddingBottom="@dimen/doubleBlock"
+    android:paddingLeft="@dimen/twoBlock"
+    android:paddingRight="@dimen/twoBlock"
+    android:paddingTop="@dimen/twoBlock"
+    android:paddingBottom="@dimen/twoBlock"
     android:orientation="vertical"
     >
 
