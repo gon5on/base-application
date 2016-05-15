@@ -1,16 +1,24 @@
 package jp.co.e2.baseapplication.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 /**
  * サンプルエンティティクラス
  */
 public class SampleEntity implements Serializable {
+    @SerializedName("id")
     private Integer mId;                                        //ID
+    @SerializedName("sample1")
     private String mSample1;                                    //サンプル1
+    @SerializedName("sample2")
     private String mSample2;                                    //サンプル2
+    @SerializedName("sample3")
     private String mSample3;                                    //サンプル3
+    @SerializedName("created")
     private String mCreated;                                    //作成日時
+    @SerializedName("modified")
     private String mModified;                                   //更新日時
 
     /**

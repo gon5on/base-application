@@ -1,30 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingLeft="@dimen/twoBlock"
-    android:paddingRight="@dimen/twoBlock"
-    android:paddingTop="@dimen/twoBlock"
-    android:paddingBottom="@dimen/twoBlock"
-    android:orientation="vertical"
+    android:layout_height="wrap_content"
+    android:id="@+id/scrollView"
     >
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/prevActivityValue"
-        android:textStyle="bold"/>
+        android:paddingLeft="@dimen/twoBlock"
+        android:paddingRight="@dimen/twoBlock"
+        android:paddingTop="@dimen/twoBlock"
+        android:paddingBottom="@dimen/twoBlock"
+        android:orientation="vertical"
+        >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textViewParam1"
-        />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/prevActivityValue"
+            android:textStyle="bold"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textViewParam2"
-        />
-</LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textViewParam1"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textViewParam2"
+            />
+    </LinearLayout>
+
+</ScrollView>

@@ -21,12 +21,12 @@ import jp.co.e2.baseapplication.dialog.SampleDialog;
  */
 public class ViewFragment extends Fragment implements SampleDialog.CallbackListener {
     private static final int TAG_DIALOG = 101;
+
     private static final String BUNDLE_EDIT_TEXT1 = "bundle_edit_text1";
     private static final String BUNDLE_EDIT_TEXT2 = "bundle_edit_text2";
     private static final String BUNDLE_RADIO = "bundle_radio";
     private static final String BUNDLE_CHECKBOX = "bundle_checkbox";
     private static final String BUNDLE_SWITCH = "bundle_switch";
-
 
     private View mView;
 

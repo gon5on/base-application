@@ -2,16 +2,18 @@ package jp.co.e2.baseapplication.asynctask;
 
 import android.content.Context;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import com.google.gson.Gson;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
+
+import jp.co.e2.baseapplication.common.LogUtils;
+import jp.co.e2.baseapplication.entity.SampleApiEntity;
 
 /**
- * サンプル非同期処理
+ * サンプル非同期HTTP通信処理
  */
-public class SampleAsyncTask extends BaseAsyncTask<String, Integer, String> {
+public class SampleAsyncTask extends BaseAsyncTask<String, Integer, SampleApiEntity> {
     /**
      * コンストラクタ
      *
@@ -25,31 +27,32 @@ public class SampleAsyncTask extends BaseAsyncTask<String, Integer, String> {
      * ${inheritDoc}
      */
     @Override
-    protected String doInBackground(String... params) {
-        String result = null;
+    protected SampleApiEntity doInBackground(String... params) {
+        SampleApiEntity result = null;
 
-        //適当にスリープ
         try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            LogUtils.d("URL : " + params[0]);
+
+            //リクエスト生成
+            Request request = new Request.Builder().url(params[0]).get().build();
+
+            //通信を行う
+            OkHttpClient okHttpClient = new OkHttpClient();
+            Response response = okHttpClient.newCall(request).execute();
+            int httpStatus = response.code();
+            String body = response.body().string();
+
+            LogUtils.d("HttpStatus : " + httpStatus);
+            LogUtils.d("body : " + body);
+
+            //JSONパースを行う
+            Gson gson = new Gson();
+            result = gson.fromJson(body, SampleApiEntity.class);
         }
-
-        //引数として渡されたURLにアクセスして、レスポンスボディを結果として返す
-        //本来は例外をキャッチしたら何らかの処理が必要
-        try {
-            URL url = new URL(params[0]);
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-
-            BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
-            StringBuilder sb = new StringBuilder();
-            String line;
-            while ((line = br.readLine()) != null) {
-                sb.append(line);
-            }
-            br.close();
-            result =  sb.toString();
-        } catch (IOException e) {
+        catch (Exception e) {
+            //SampleApiEntityの形じゃないとonPostExecuteに処理を返せないので、
+            //例外内容を返したい場合、セッターを設けるなどしてSampleApiEntityに例外を入れて返す必要がある
+            //もしくはAsyncTaskを拡張して例外を返せるコールバックを作るとか…
             e.printStackTrace();
         }
 

@@ -10,10 +10,11 @@ import android.view.MenuItem;
 import android.view.WindowManager;
 
 import jp.co.e2.baseapplication.R;
-import jp.co.e2.baseapplication.fragment.AsynkTaskFragment;
+import jp.co.e2.baseapplication.fragment.HttpAsyncTaskFragment;
 import jp.co.e2.baseapplication.fragment.CameraGalleryFragment;
 import jp.co.e2.baseapplication.fragment.DbFragment;
 import jp.co.e2.baseapplication.fragment.EncryptFragment;
+import jp.co.e2.baseapplication.fragment.HttpRxAndroidFragment;
 import jp.co.e2.baseapplication.fragment.ViewFragment;
 
 /**
@@ -100,7 +101,7 @@ public class MainActivity extends BaseActivity {
      * ドロワーセット
      */
     protected void setDrawer() {
-        NavigationView navigationView = (NavigationView)findViewById(R.id.navigationView);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
 
         if (navigationView != null) {
             navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -115,8 +116,12 @@ public class MainActivity extends BaseActivity {
                             getFragmentManager().beginTransaction().replace(R.id.container, DbFragment.newInstance()).commit();
                             mDrawerLayout.closeDrawers();
                             break;
-                        case R.id.menu_asynk_task:
-                            getFragmentManager().beginTransaction().replace(R.id.container, AsynkTaskFragment.newInstance()).commit();
+                        case R.id.menu_http_rx_android:
+                            getFragmentManager().beginTransaction().replace(R.id.container, HttpRxAndroidFragment.newInstance()).commit();
+                            mDrawerLayout.closeDrawers();
+                            break;
+                        case R.id.menu_http_async_task:
+                            getFragmentManager().beginTransaction().replace(R.id.container, HttpAsyncTaskFragment.newInstance()).commit();
                             mDrawerLayout.closeDrawers();
                             break;
                         case R.id.menu_camera_gallery:

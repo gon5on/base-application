@@ -1,8 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="menu_view">ビューとスタイル</string>
+    <string name="menu_db">データベース</string>
+    <string name="menu_http_async_task">AsyncTask非同期通信</string>
+    <string name="menu_http_rx_android">RxAndroid非同期通信</string>
+    <string name="menu_camera_gallery">カメラ・ギャラリー</string>
+    <string name="menu_billing">課金</string>
+    <string name="menu_encrypt">鍵・暗号化</string>
+    <string name="menu_setting">設定</string>
+    <string name="menu_logout">ログアウト</string>
 
-    <string name="app_name">BaseApplication</string>
-    <string name="connect">接続！</string>
+    <string name="connect">接続（成功）</string>
+    <string name="connectError">接続（レスポンス内エラーコード返却）</string>
+    <string name="connectDisconnect">接続（404エラー）</string>
     <string name="selectImage">画像選択！</string>
     <string name="planeText">平文</string>
     <string name="encryptText">暗号化文字列</string>
@@ -29,7 +39,8 @@
     <string name="cancel">Cancel</string>
     <string name="connecting">通信中</string>
     <string name="attention">Attention!</string>
-    <string name="errorMsgPermissionDenied">許可してくれなかったから写真を選べないよ～</string>
-    <string name="errorMsgPermissionRequest">写真を選ぶにはパーミッション許可をしてね～</string>
+    <string name="errorMsgPermissionDenied">許可してくれなかったから写真を選べないよ</string>
+    <string name="errorMsgPermissionRequest">写真を選ぶにはパーミッション許可をしてね</string>
     <string name="errorMsgSomethingError">エラーが発生しました。</string>
+
 </resources>

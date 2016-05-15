@@ -54,7 +54,7 @@ public class CsvUtils {
      * @param headerFlg ヘッダの生むフラグ
      * @return 内容
      */
-    public static List<String[]> readFromInputStream(InputStream inputStream, boolean headerFlg) throws IOException {
+    private static List<String[]> readFromInputStream(InputStream inputStream, boolean headerFlg) throws IOException {
         List<String[]> data = new ArrayList<>();
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));

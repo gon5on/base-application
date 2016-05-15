@@ -18,4 +18,8 @@
     <!-- ボタン -->
     <dimen name="buttonStroke">2dp</dimen>
     <dimen name="buttonRadius">4dp</dimen>
+
+    <!-- 画像 -->
+    <dimen name="imgSize">280dp</dimen>
+
 </resources>

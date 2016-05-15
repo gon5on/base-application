@@ -43,7 +43,6 @@ public class AppProgressDialog extends BaseDialog<CallbackListener> {
             mDialog = new ProgressDialog(getActivity());
             mDialog.setMessage(title);
             mDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            mDialog.setCancelable(true);
         }
 
         return mDialog;

@@ -25,8 +25,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Android独自の便利なものまとめたクラス
- *
- * newしなくても使える
  */
 public class AndroidUtils {
     /**
@@ -178,19 +176,18 @@ public class AndroidUtils {
     }
 
     /**
-     * URIからパスを取得する
+     * バージョンを見てURIからパスを取得する
      *
      * @param context コンテキスト
      * @param uri URI
-     * @param newMethod リクエストコード
      * @return path パス
      */
     @TargetApi(Build.VERSION_CODES.KITKAT)
-    public static String getPathFromUri(Context context, Uri uri, boolean newMethod) {
+    public static String getPathFromUri(Context context, Uri uri) {
         String path = null;
 
         //キットカット以降の取得方法で取得する
-        if (newMethod) {
+        if (Build.VERSION_CODES.KITKAT <= Build.VERSION.SDK_INT) {
             String strDocId = DocumentsContract.getDocumentId(uri);
             String[] strSplitDocId = strDocId.split(":");
             String strId = strSplitDocId[strSplitDocId.length - 1];
@@ -210,14 +207,29 @@ public class AndroidUtils {
         }
         //キットカットより前の取得方法で取得
         else {
-            String[] strColumns = { MediaStore.Images.Media.DATA };
-            Cursor crsCursor = context.getContentResolver().query(uri, strColumns, null, null, null);
-            if(crsCursor != null && crsCursor.moveToFirst()) {
-                path = crsCursor.getString(0);
-            }
-            if (crsCursor != null) {
-                crsCursor.close();
-            }
+            path = getPathFromUriUnderKitKat(context, uri);
+        }
+
+        return path;
+    }
+
+    /**
+     * 【KitKat以前】URIからパスを取得する
+     *
+     * @param context コンテキスト
+     * @param uri URI
+     * @return path パス
+     */
+    public static String getPathFromUriUnderKitKat(Context context, Uri uri) {
+        String path = null;
+
+        String[] strColumns = { MediaStore.Images.Media.DATA };
+        Cursor crsCursor = context.getContentResolver().query(uri, strColumns, null, null, null);
+        if(crsCursor != null && crsCursor.moveToFirst()) {
+            path = crsCursor.getString(0);
+        }
+        if (crsCursor != null) {
+            crsCursor.close();
         }
 
         return path;

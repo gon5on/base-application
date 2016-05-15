@@ -1,28 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingLeft="@dimen/twoBlock"
-    android:paddingRight="@dimen/twoBlock"
-    android:paddingTop="@dimen/twoBlock"
-    android:paddingBottom="@dimen/twoBlock"
-    android:orientation="vertical"
+    android:layout_height="wrap_content"
+    android:id="@+id/scrollView"
     >
 
-    <Button
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/selectImage"
-        android:id="@+id/buttonSelect"
-        android:layout_marginBottom="@dimen/twoBlock"
-        />
+        android:paddingLeft="@dimen/twoBlock"
+        android:paddingRight="@dimen/twoBlock"
+        android:paddingTop="@dimen/twoBlock"
+        android:paddingBottom="@dimen/twoBlock"
+        android:orientation="vertical"
+        >
 
-    <ImageView
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:id="@+id/imageView"
-        android:layout_gravity="center_horizontal"
-        android:scaleType="fitXY"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/selectImage"
+            android:id="@+id/buttonSelect"
+            android:layout_marginBottom="@dimen/twoBlock"
+            />
 
-</LinearLayout>
+        <ImageView
+            android:layout_width="@dimen/imgSize"
+            android:layout_height="@dimen/imgSize"
+            android:id="@+id/imageView"
+            android:layout_gravity="center_horizontal"
+            android:scaleType="fitXY"/>
+
+    </LinearLayout>
+
+</ScrollView>

@@ -6,32 +6,37 @@
 
         <item
             android:id="@+id/menu_view"
-            android:title="ビューとスタイル"
+            android:title="@string/menu_view"
             android:icon="@android:drawable/ic_menu_edit"
             />
         <item
             android:id="@+id/menu_db"
-            android:title="データベース"
+            android:title="@string/menu_db"
             android:icon="@android:drawable/ic_menu_add"
             />
         <item
-            android:id="@+id/menu_asynk_task"
-            android:title="非同期処理"
+            android:id="@+id/menu_http_rx_android"
+            android:title="@string/menu_http_rx_android"
+            android:icon="@android:drawable/ic_menu_agenda"
+            />
+        <item
+            android:id="@+id/menu_http_async_task"
+            android:title="@string/menu_http_async_task"
             android:icon="@android:drawable/ic_menu_agenda"
             />
         <item
             android:id="@+id/menu_camera_gallery"
-            android:title="カメラ・ギャラリー"
+            android:title="@string/menu_camera_gallery"
             android:icon="@android:drawable/ic_menu_camera"
             />
         <item
             android:id="@+id/menu_billing"
-            android:title="課金"
+            android:title="@string/menu_billing"
             android:icon="@android:drawable/ic_menu_compass"
             />
         <item
             android:id="@+id/menu_encrypt"
-            android:title="鍵・暗号化"
+            android:title="@string/menu_encrypt"
             android:icon="@android:drawable/ic_menu_call"
             />
     </group>
@@ -43,11 +48,11 @@
 
         <item
             android:id="@+id/menu_setting"
-            android:title="設定"
+            android:title="@string/menu_setting"
             />
         <item
             android:id="@+id/menu_logout"
-            android:title="ログアウト"
+            android:title="@string/menu_logout"
             />
     </group>
 </menu>

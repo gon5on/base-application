@@ -16,45 +16,35 @@
         android:orientation="vertical"
         >
 
-        <TextView
+        <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/planeText"
-            android:textStyle="bold"
+            android:text="@string/connect"
+            android:id="@+id/buttonConnect"
+            android:layout_marginBottom="@dimen/oneBlock"
             />
 
-        <TextView
-            android:id="@+id/textViewPlane"
+        <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/connectError"
+            android:id="@+id/buttonConnectError"
+            android:layout_marginBottom="@dimen/oneBlock"
+            />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/connectDisconnect"
+            android:id="@+id/buttonDisconnect"
             android:layout_marginBottom="@dimen/oneBlock"
             />
 
         <TextView
+            android:id="@+id/textViewResult"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/encryptText"
-            android:textStyle="bold"
-            />
-
-        <TextView
-            android:id="@+id/textViewEncrypt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/oneBlock"
-            />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/decryptText"
-            android:textStyle="bold"
-            />
-
-        <TextView
-            android:id="@+id/textViewDecrypt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:text=""
             />
 
     </LinearLayout>

@@ -11,11 +11,11 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -36,6 +36,7 @@ import jp.co.e2.baseapplication.R;
 import jp.co.e2.baseapplication.common.AndroidUtils;
 import jp.co.e2.baseapplication.common.ImgHelper;
 import jp.co.e2.baseapplication.common.LogUtils;
+import jp.co.e2.baseapplication.config.Config;
 
 /**
  * カメラ・ギャラリーフラグメント
@@ -51,6 +52,8 @@ public class CameraGalleryFragment extends Fragment {
     private static final int REQUEST_CODE_GALLERY = 103;
     private static final int REQUEST_CODE_GALLERY_UNDER_KITKAT = 104;
     private static final int REQUEST_CODE_WRITE_EXTERNAL_STORAGE = 105;
+
+    private static final String BUNDLE_IMG = "bundle_img";
 
     private View mView;
     private Uri mPhotoUri;
@@ -88,7 +91,28 @@ public class CameraGalleryFragment extends Fragment {
             }
         });
 
+        //再生成が走ったら、保管していた値を取り出す
+        if (savedInstanceState != null) {
+            Bitmap bitmap = savedInstanceState.getParcelable(BUNDLE_IMG);
+            ImageView imageView = (ImageView) mView.findViewById(R.id.imageView);
+            imageView.setImageBitmap(bitmap);
+        }
+
         return mView;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        //再生成が走る前に値を保管しておく
+        ImageView imageView = (ImageView) mView.findViewById(R.id.imageView);
+        if (imageView.getDrawable() != null) {
+            outState.putParcelable(BUNDLE_IMG, ((BitmapDrawable) imageView.getDrawable()).getBitmap());
+        }
     }
 
     /**
@@ -227,9 +251,12 @@ public class CameraGalleryFragment extends Fragment {
             }
 
             //URIをパスに変換
-            boolean newMethod = (requestCode == REQUEST_CODE_GALLERY);
-            String orgPath = AndroidUtils.getPathFromUri(getActivity(), mPhotoUri, newMethod);
-
+            String orgPath;
+            if (requestCode == REQUEST_CODE_GALLERY) {
+                orgPath = AndroidUtils.getPathFromUri(getActivity(), mPhotoUri);
+            } else {
+                orgPath = AndroidUtils.getPathFromUriUnderKitKat(getActivity(), mPhotoUri);
+            }
             LogUtils.d("########## Photo Path", orgPath);
 
             //パスが取れなかった
@@ -246,14 +273,14 @@ public class CameraGalleryFragment extends Fragment {
 
             //回転を考慮して画像を保存し直す
             ImgHelper imgHelper = new ImgHelper(orgPath);
-            imgHelper.getRotatedResizedImage(800, 800);
+            imgHelper.getRotatedResizedImage(Config.IMG_SAVE_SIZE, Config.IMG_SAVE_SIZE);
             imgHelper.saveImg(getActivity(), getSaveTmpPath());
 
             //トリミングアプリ呼び出し
             Intent intent = new Intent("com.android.camera.action.CROP");
             intent.setData(AndroidUtils.path2contentUri(getActivity(), orgPath));
-            intent.putExtra("outputX", 800);
-            intent.putExtra("outputY", 800);
+            intent.putExtra("outputX", Config.IMG_SAVE_SIZE);
+            intent.putExtra("outputY", Config.IMG_SAVE_SIZE);
             intent.putExtra("aspectX", 1);
             intent.putExtra("aspectY", 1);
             intent.putExtra("scale", true);
@@ -308,14 +335,20 @@ public class CameraGalleryFragment extends Fragment {
      * 画像の保存パスを取得
      */
     public String getSavePath() throws IOException {
-        return AndroidUtils.getExternalFilesDirPathWithNoMedia(getActivity(), "img") + "/image.jpg";
+        String path =  AndroidUtils.getExternalFilesDirPathWithNoMedia(getActivity(), Config.IMG_DIR);
+        path += "/" + Config.IMG_SAVE_FILE_NAME;
+
+        return path;
     }
 
     /**
      * 画像の一時保存パスを取得
      */
     public String getSaveTmpPath() throws IOException {
-        return AndroidUtils.getExternalFilesDirPathWithNoMedia(getActivity(), "img") + "/tmp.jpg";
+        String path =  AndroidUtils.getExternalFilesDirPathWithNoMedia(getActivity(), Config.IMG_DIR);
+        path += "/" + Config.IMG_TMP_FILE_NAME;
+
+        return path;
     }
 
     /**
