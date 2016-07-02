@@ -2,8 +2,7 @@
 <resources>
     <string name="menu_view">ビューとスタイル</string>
     <string name="menu_db">データベース</string>
-    <string name="menu_http_async_task">AsyncTask非同期通信</string>
-    <string name="menu_http_rx_android">RxAndroid非同期通信</string>
+    <string name="menu_http">非同期通信</string>
     <string name="menu_camera_gallery">カメラ・ギャラリー</string>
     <string name="menu_billing">課金</string>
     <string name="menu_encrypt">鍵・暗号化</string>

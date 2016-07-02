@@ -29,7 +29,9 @@
             android:layout_height="@dimen/imgSize"
             android:id="@+id/imageView"
             android:layout_gravity="center_horizontal"
-            android:scaleType="fitXY"/>
+            android:contentDescription="@null"
+            android:scaleType="fitXY"
+            />
 
     </LinearLayout>
 

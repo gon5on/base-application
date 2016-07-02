@@ -2,15 +2,15 @@ apply plugin: 'com.android.application'
 
 def VERSION_CODE = 1
 def VERSION_NAME = "1.00.00"
-def PACKAGE_NAME = "jp.co.e2.baseapplication"
+def APPLICATION_ID = "jp.co.e2.baseapplication"
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    compileSdkVersion 24
+    buildToolsVersion "24.0.0"
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 23
+        targetSdkVersion 24
         versionCode VERSION_CODE
     }
 
@@ -20,7 +20,7 @@ android {
             debuggable true
             //apk最適化
             zipAlignEnabled true
-            //パッケージ名のサフィックス
+            //アプリケーションIDのサフィックス
             applicationIdSuffix ".debug"
             // Version名につけるサフィックス
             versionNameSuffix '-debug'
@@ -32,7 +32,7 @@ android {
             zipAlignEnabled true
             //難読化
             minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-project.txt'
         }
     }
 
@@ -44,15 +44,15 @@ android {
 
     productFlavors {
         develop {
-            applicationId "${PACKAGE_NAME}.develop"
+            applicationId "${APPLICATION_ID}.develop"
             versionName "${VERSION_NAME}-develop"
         }
         staging {
-            applicationId "${PACKAGE_NAME}.staging"
+            applicationId "${APPLICATION_ID}.staging"
             versionName "${VERSION_NAME}-staging"
         }
         production {
-            applicationId PACKAGE_NAME
+            applicationId APPLICATION_ID
             versionName VERSION_NAME
         }
     }
@@ -60,11 +60,12 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
-    compile 'com.android.support:support-v4:23.3.0'
-    compile 'com.android.support:appcompat-v7:23.3.0'
-    compile 'com.android.support:design:23.3.0'
+    compile 'com.android.support:support-v4:24.0.0'
+    compile 'com.android.support:appcompat-v7:24.0.0'
+    compile 'com.android.support:design:24.0.0'
+    compile 'com.google.android.gms:play-services-analytics:9.0.2'
     compile 'com.google.code.gson:gson:2.4'
-    compile 'com.squareup.okhttp:okhttp:2.4.0'
-    compile 'io.reactivex:rxjava:1.1.5'
-    compile 'io.reactivex:rxandroid:1.2.0'
+    compile 'com.squareup.okhttp:okhttp:2.7.0'
+    compile 'com.squareup.okhttp:logging-interceptor:2.7.0'
+    compile 'org.greenrobot:eventbus:3.0.0'
 }

@@ -185,7 +185,7 @@ public class Utils {
      * @return String
      */
     public static String hiragana2katakana(String s) {
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
 
         for (int i = 0; i < s.length(); i++) {
             char code = s.charAt(i);

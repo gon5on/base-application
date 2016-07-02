@@ -15,13 +15,8 @@
             android:icon="@android:drawable/ic_menu_add"
             />
         <item
-            android:id="@+id/menu_http_rx_android"
-            android:title="@string/menu_http_rx_android"
-            android:icon="@android:drawable/ic_menu_agenda"
-            />
-        <item
-            android:id="@+id/menu_http_async_task"
-            android:title="@string/menu_http_async_task"
+            android:id="@+id/menu_http"
+            android:title="@string/menu_http"
             android:icon="@android:drawable/ic_menu_agenda"
             />
         <item

@@ -87,7 +87,7 @@ public class DbFragment extends Fragment {
         //DBからデータ取得
         ArrayList<SampleEntity> data = getSampleData();
 
-        if (data.size() == 0) {
+        if (data == null) {
             //DBにデータインサート
             insertSampleData();
 

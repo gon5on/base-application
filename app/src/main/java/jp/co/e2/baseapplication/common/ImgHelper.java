@@ -40,7 +40,7 @@ public class ImgHelper {
 
         //ファイルが存在しない
         if (!file.exists()) {
-            throw new NullPointerException();
+            throw new FileNotFoundException();
         }
 
         //回転と読み込みサイズを計算
@@ -48,12 +48,12 @@ public class ImgHelper {
         matrix = getResizedMatrix(file, matrix, height, width);
         matrix = getRotatedMatrix(file, matrix);
 
-        // 元画像の取得
+        //ある程度縮小した元画像を取得
         Bitmap originalBitmap = getPreResizeBitmap(height, width);
-        int origHeight = originalBitmap.getHeight();
-        int origWidth = originalBitmap.getWidth();
 
         // マトリクスをつけることで縮小、向きを反映した画像を生成
+        int origHeight = originalBitmap.getHeight();
+        int origWidth = originalBitmap.getWidth();
         mBitmap =  Bitmap.createBitmap(originalBitmap, 0, 0, origWidth, origHeight, matrix, true);
 
         return mBitmap;

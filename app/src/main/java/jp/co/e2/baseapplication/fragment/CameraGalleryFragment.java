@@ -35,7 +35,7 @@ import java.io.IOException;
 import jp.co.e2.baseapplication.R;
 import jp.co.e2.baseapplication.common.AndroidUtils;
 import jp.co.e2.baseapplication.common.ImgHelper;
-import jp.co.e2.baseapplication.common.LogUtils;
+import jp.co.e2.baseapplication.common.StorageUtils;
 import jp.co.e2.baseapplication.config.Config;
 
 /**
@@ -243,8 +243,6 @@ public class CameraGalleryFragment extends Fragment {
         try {
             mPhotoUri = (data != null && data.getData() != null) ? data.getData() : mPhotoUri;
 
-            LogUtils.d("########## Photo URI", mPhotoUri);
-
             //URIが取れなかった
             if (mPhotoUri == null) {
                 throw new NullPointerException();
@@ -257,7 +255,6 @@ public class CameraGalleryFragment extends Fragment {
             } else {
                 orgPath = AndroidUtils.getPathFromUriUnderKitKat(getActivity(), mPhotoUri);
             }
-            LogUtils.d("########## Photo Path", orgPath);
 
             //パスが取れなかった
             if (orgPath == null) {
@@ -286,13 +283,6 @@ public class CameraGalleryFragment extends Fragment {
             intent.putExtra("scale", true);
             intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(getSavePath())));
             startActivityForResult(intent, REQUEST_CODE_TRIMMING);
-
-            LogUtils.d("########## Tmp Path", getSaveTmpPath());
-            LogUtils.d("########## Save Path", getSavePath());
-
-            LogUtils.d(AndroidUtils.path2contentUri(getActivity(), orgPath));
-            LogUtils.d(AndroidUtils.path2contentUri(getActivity(), getSaveTmpPath()));
-
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -335,7 +325,7 @@ public class CameraGalleryFragment extends Fragment {
      * 画像の保存パスを取得
      */
     public String getSavePath() throws IOException {
-        String path =  AndroidUtils.getExternalFilesDirPathWithNoMedia(getActivity(), Config.IMG_DIR);
+        String path =  StorageUtils.getExternalFilesDirPath(getActivity(), Config.IMG_DIR);
         path += "/" + Config.IMG_SAVE_FILE_NAME;
 
         return path;
@@ -345,7 +335,7 @@ public class CameraGalleryFragment extends Fragment {
      * 画像の一時保存パスを取得
      */
     public String getSaveTmpPath() throws IOException {
-        String path =  AndroidUtils.getExternalFilesDirPathWithNoMedia(getActivity(), Config.IMG_DIR);
+        String path =  StorageUtils.getExternalCacheDirPath(getActivity(), Config.IMG_DIR);
         path += "/" + Config.IMG_TMP_FILE_NAME;
 
         return path;

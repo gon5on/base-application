@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- タイムアウト -->
+    <integer name="ga_sessionTimeout">300</integer>
+
+    <!-- 自動アクティビティ計測 -->
+    <bool name="ga_autoActivityTracking">false</bool>
+
+    <!-- トラッキングID -->
+    <string name="ga_trackingId">@string/ga_trackingId</string>
+
+    <!-- 例外 -->
+    <bool name="ga_reportUncaughtExceptions">true</bool>
+</resources>

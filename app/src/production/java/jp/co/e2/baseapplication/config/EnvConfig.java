@@ -6,7 +6,4 @@ package jp.co.e2.baseapplication.config;
 public class EnvConfig {
     public final static boolean DEBUG_FLG = false;
     public final static boolean LOG_FLG = false;
-
-    public final static int SAMPLE2 = 2;
-    public final static int SAMPLE3 = 3;
 }

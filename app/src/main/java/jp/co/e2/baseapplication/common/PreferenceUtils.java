@@ -15,12 +15,36 @@ public class PreferenceUtils {
      *
      * @param context コンテキスト
      * @param name 名前
+     * @return Integer
+     */
+    public static Integer getInt(Context context, String name) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        return (sp.contains(name)) ? sp.getInt(name, 0) : null;
+    }
+
+    /**
+     * プリファレンスからInt型の値を取得
+     *
+     * @param context コンテキスト
+     * @param name 名前
      * @param def デフォルト値
      * @return Integer
      */
-    public static Integer get(Context context, String name, Integer def) {
+    public static Integer getInt(Context context, String name, Integer def) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         return sp.getInt(name, def);
+    }
+
+    /**
+     * プリファレンスからString型の値を取得
+     *
+     * @param context コンテキスト
+     * @param name 名前
+     * @return String
+     */
+    public static String getString(Context context, String name) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        return (sp.contains(name)) ? sp.getString(name, "") : null;
     }
 
     /**
@@ -31,7 +55,7 @@ public class PreferenceUtils {
      * @param def デフォルト値
      * @return String
      */
-    public static String get(Context context, String name, String def) {
+    public static String getString(Context context, String name, String def) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         return sp.getString(name, def);
     }
@@ -41,12 +65,36 @@ public class PreferenceUtils {
      *
      * @param context コンテキスト
      * @param name 名前
-     * @param def デフォルト値
-     * @return Long
+     * @return Float
      */
-    public static Float get(Context context, String name, Float def) {
+    public static Float getFloat(Context context, String name) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        return (sp.contains(name)) ? sp.getFloat(name, 0) : null;
+    }
+
+    /**
+     * プリファレンスからFloat型の値を取得
+     *
+     * @param context コンテキスト
+     * @param name 名前
+     * @param def デフォルト値
+     * @return Float
+     */
+    public static Float getFloat(Context context, String name, Float def) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         return sp.getFloat(name, def);
+    }
+
+    /**
+     * プリファレンスからLong型の値を取得
+     *
+     * @param context コンテキスト
+     * @param name 名前
+     * @return Long
+     */
+    public static Long getLong(Context context, String name) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        return (sp.contains(name)) ? sp.getLong(name, 0) : null;
     }
 
     /**
@@ -67,13 +115,29 @@ public class PreferenceUtils {
      *
      * @param context コンテキスト
      * @param name 名前
+     * @return Boolean
+     */
+    public static Boolean getBoolean(Context context, String name) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        return (sp.contains(name)) ? sp.getBoolean(name, false) : null;
+    }
+
+    /**
+     * プリファレンスからBoolean型の値を取得
+     *
+     * @param context コンテキスト
+     * @param name 名前
      * @param def デフォルト値
      * @return Boolean
      */
-    public static Boolean get(Context context, String name, boolean def) {
+    public static Boolean getBoolean(Context context, String name, boolean def) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         return sp.getBoolean(name, def);
     }
+
+
+
+
 
     /**
      * プリファレンスにInt型の値を保存
@@ -134,6 +198,11 @@ public class PreferenceUtils {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         sp.edit().putBoolean(name, value).apply();
     }
+
+
+
+
+
 
     /**
      * プリファレンスの値を消す

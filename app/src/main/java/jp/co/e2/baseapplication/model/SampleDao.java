@@ -69,7 +69,7 @@ public class SampleDao extends BaseDao {
      * @return SampleEntity values
      */
     public SampleEntity findById(SQLiteDatabase db, Integer id) {
-        SampleEntity data = new SampleEntity();
+        SampleEntity data = null;
 
         String sql = String.format("SELECT * FROM %s ", TABLE_NAME);
         sql += String.format("WHERE %s = ?", COLUMN_ID);
@@ -80,12 +80,7 @@ public class SampleDao extends BaseDao {
 
         if (cursor.moveToFirst()) {
             do {
-                data.setId(getInteger(cursor, COLUMN_ID));
-                data.setSample1(getString(cursor, COLUMN_SAMPLE1));
-                data.setSample2(getString(cursor, COLUMN_SAMPLE2));
-                data.setSample3(getString(cursor, COLUMN_SAMPLE3));
-                data.setCreated(getString(cursor, COLUMN_CREATED));
-                data.setModified(getString(cursor, COLUMN_MODIFIED));
+                data = push(cursor);
             } while (cursor.moveToNext());
         }
         cursor.close();
@@ -100,23 +95,16 @@ public class SampleDao extends BaseDao {
      * @return ArrayList<SampleEntity> data
      */
     public ArrayList<SampleEntity> findAll(SQLiteDatabase db) {
-        ArrayList<SampleEntity> data = new ArrayList<>();
+        ArrayList<SampleEntity> data = null;
 
         String sql = String.format("SELECT * FROM %s ", TABLE_NAME);
 
         Cursor cursor = db.rawQuery(sql, null);
 
         if (cursor.moveToFirst()) {
+            data = new ArrayList<>();
             do {
-                SampleEntity values = new SampleEntity();
-                values.setId(getInteger(cursor, COLUMN_ID));
-                values.setSample1(getString(cursor, COLUMN_SAMPLE1));
-                values.setSample2(getString(cursor, COLUMN_SAMPLE2));
-                values.setSample3(getString(cursor, COLUMN_SAMPLE3));
-                values.setCreated(getString(cursor, COLUMN_CREATED));
-                values.setModified(getString(cursor, COLUMN_MODIFIED));
-                data.add(values);
-
+                data.add(push(cursor));
             } while (cursor.moveToNext());
         }
         cursor.close();
@@ -146,5 +134,24 @@ public class SampleDao extends BaseDao {
         Integer ret = db.delete(TABLE_NAME, COLUMN_ID + " = ?", param);
 
         return (ret != -1);
+    }
+
+    /**
+     * カーソルの中身をエンティティに詰める
+     *
+     * @param cursor カーソル
+     * @return entity
+     */
+    private SampleEntity push(Cursor cursor) {
+        SampleEntity entity = new SampleEntity();
+
+        entity.setId(getInteger(cursor, COLUMN_ID));
+        entity.setSample1(getString(cursor, COLUMN_SAMPLE1));
+        entity.setSample2(getString(cursor, COLUMN_SAMPLE2));
+        entity.setSample3(getString(cursor, COLUMN_SAMPLE3));
+        entity.setCreated(getString(cursor, COLUMN_CREATED));
+        entity.setModified(getString(cursor, COLUMN_MODIFIED));
+
+        return entity;
     }
 }
