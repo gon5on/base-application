@@ -24,12 +24,15 @@ import jp.co.e2.baseapplication.http.SampleHttp;
  * 非同期通信フラグメント
  *
  * 非同期通信を行うサンプル
+ * イベントバスを使用しているので、画面回転に対応しているが、
+ * イベントバスの登録と解除をonStartとonStopで行っているので、
+ * 画面がバックグラウンドにいるときなどは、イベントバスからの通知を受け取れないので注意！
  */
 public class HttpFragment extends Fragment {
     private static final String BUNDLE_RESULT = "bundle_result";
 
     private View mView;
-    private static AppProgressDialog mAppProgressDialog = null;
+    private static AppProgressDialog mAppProgressDialog = null;     //画面回転に対応するために仕方なくstatic
 
     /**
      * ファクトリーメソッド
@@ -155,6 +158,8 @@ public class HttpFragment extends Fragment {
 
     /**
      * イベントバスのコールバックメソッド
+     *
+     * イベントバスは引数の型を見て、一致する型のコールバックメソッドに処理が戻る
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(SampleHttp.SampleEvent result) {
