@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.media.MediaScannerConnection;
+import android.net.Uri;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -18,6 +19,7 @@ import java.io.IOException;
 public class ImgHelper {
     private String mPath;
     private Bitmap mBitmap;
+    private CallbackListener mListener;
 
     /**
      * コンストラクタ
@@ -29,13 +31,37 @@ public class ImgHelper {
     }
 
     /**
+     * コールバックリスナーをセットする
+     *
+     * @param listener コールバックリスナー
+     */
+    public void setCallbackListener(CallbackListener listener) {
+        mListener = listener;
+    }
+
+    /**
      * 回転を考慮して、リサイズした画像を返す
      *
-     * @param height 読み込む高さ
-     * @param width 読み込む幅
+     * 画像の縦横長い辺が、引数のsizeを超えないように比率を保ってリサイズする
+     *
+     * @param reSize リサイズしたいの縦横長い方どちらかの長さ
      * @throws IOException
      */
-    public Bitmap getRotatedResizedImage(int height, int width) throws IOException {
+    public Bitmap getRotatedResizedImage(int reSize) throws IOException {
+        return getRotatedResizedImage(reSize, reSize);
+    }
+
+    /**
+     * 回転を考慮して、リサイズした画像を返す
+     *
+     * 画像の縦が長い辺であれば、引数のreHeightを、
+     * 画像の横が長い辺であれば、引数のreWidthを、超えないように比率を保ってリサイズする
+     *
+     * @param reHeight リサイズしたい高さ
+     * @param reWidth リサイズしたい幅
+     * @throws IOException
+     */
+    public Bitmap getRotatedResizedImage(int reHeight, int reWidth) throws IOException {
         File file = new File(mPath);
 
         //ファイルが存在しない
@@ -43,18 +69,23 @@ public class ImgHelper {
             throw new FileNotFoundException();
         }
 
-        //回転と読み込みサイズを計算
-        Matrix matrix = new Matrix();
-        matrix = getResizedMatrix(file, matrix, height, width);
-        matrix = getRotatedMatrix(file, matrix);
-
         //ある程度縮小した元画像を取得
-        Bitmap originalBitmap = getPreResizeBitmap(height, width);
+        Bitmap originalBitmap = getPreResizeBitmap(reHeight, reWidth);
 
-        // マトリクスをつけることで縮小、向きを反映した画像を生成
+        //読み込みサイズを考慮したマトリクスを作成
+        Matrix matrix = new Matrix();
         int origHeight = originalBitmap.getHeight();
         int origWidth = originalBitmap.getWidth();
+        matrix = getResizedMatrix(matrix, origHeight, origWidth, reHeight, reWidth);
+
+        //回転を考慮したマトリクスを作成
+        matrix = getRotatedMatrix(matrix);
+
+        // マトリクスをつけることで縮小、向きを反映した画像を生成
         mBitmap =  Bitmap.createBitmap(originalBitmap, 0, 0, origWidth, origHeight, matrix, true);
+
+        LogUtils.d(mBitmap.getHeight());
+        LogUtils.d(mBitmap.getWidth());
 
         return mBitmap;
     }
@@ -81,13 +112,22 @@ public class ImgHelper {
         //ギャラリーのスキャン
         String path[] = new String[]{ savePath };
         String type[] = new String[]{ "image/jpeg" };
-        MediaScannerConnection.scanFile(context, path, type, null);
+        MediaScannerConnection.scanFile(context, path, type, new MediaScannerConnection.OnScanCompletedListener() {
+            @Override
+            public void onScanCompleted(String path, Uri uri) {
+                if (mListener != null) {
+                    mListener.onScanCompleted(uri);
+                }
+            }
+        });
+    }
 
-        //ギャラリーのスキャンに微妙に時間がかかる場合があるので、スリープさせる
-        try{
-            Thread.sleep(300);
-        } catch (InterruptedException e){
-            //何もしない
+    /**
+     * bitmapをリサイクルする
+     */
+    public void bitmapRecycle() {
+        if (mBitmap != null) {
+            mBitmap.recycle();
         }
     }
 
@@ -95,22 +135,19 @@ public class ImgHelper {
      * リサイズするマトリクスを取得
      * 縮小の場合のみ、縮小のマトリクスをセットして返す
      *
-     * @param file 入力画像
-     * @param matrix 元のマトリクス
-     * @param reHeight リサイズ後の高さ
-     * @param reWidth リサイズ後の幅
+     * 画像の縦が長い辺であれば、引数のreHeightを、
+     * 画像の横が長い辺であれば、引数のreWidthを、超えないように比率を保ってマトリクスを計算する
+     *
+     * @param matrix のマトリクス
+     * @param orgHeight 元の高さ
+     * @param orgWidth 元の幅
+     * @param reHeight リサイズしたい高さ
+     * @param reWidth リサイズしたい幅
      * @return matrix リサイズ後のマトリクス
      */
-    private Matrix getResizedMatrix(File file, Matrix matrix, int reHeight, int reWidth) {
-        // リサイズチェック用にメタデータ読み込み
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(file.getPath(), options);
-        int height = options.outHeight;
-        int width = options.outWidth;
-
+    private Matrix getResizedMatrix(Matrix matrix, int orgHeight, int orgWidth, int reHeight, int reWidth) {
         // リサイズ比の取得
-        float scale = Math.max((float) reWidth / width, (float) reHeight / height);
+        float scale = Math.min((float) reWidth / orgWidth, (float) reHeight / orgHeight);
 
         // 縮小のみのため、scaleは1.0未満の場合のみマトリクス設定
         if (scale < 1.0) {
@@ -123,15 +160,14 @@ public class ImgHelper {
     /**
      * 画像の回転後のマトリクスを取得
      *
-     * @param file 入力画像
      * @param matrix 元のマトリクス
      * @return matrix 回転後のマトリクス
      */
-    private Matrix getRotatedMatrix(File file, Matrix matrix){
+    private Matrix getRotatedMatrix(Matrix matrix){
         ExifInterface exifInterface;
 
         try {
-            exifInterface = new ExifInterface(file.getPath());
+            exifInterface = new ExifInterface(mPath);
         } catch (IOException e) {
             e.printStackTrace();
             return matrix;
@@ -185,24 +221,22 @@ public class ImgHelper {
      * リサイズしたいサイズに一番近い2のべき乗で読み込んだビットマップ画像を返す
      * （out of memory対策）
      *
-     * @param height 高さピクセル
-     * @param width  幅ピクセル
+     * @param reHeight リサイズしたい高さピクセル
+     * @param reWidth  リサイズしたい幅ピクセル
      * @return Bitmap
      * @throws IOException
      */
-    private Bitmap getPreResizeBitmap(int height, int width) throws IOException {
+    private Bitmap getPreResizeBitmap(int reHeight, int reWidth) throws IOException {
         //ファイルが存在しない
         if (!new File(mPath).exists()) {
             throw new FileNotFoundException();
         }
 
         //画像ファイル自体は読み込まずに、高さなどのプロパティのみを取得する
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(mPath, options);
+        BitmapFactory.Options options = getImgProperty();
 
         //縮小比率を取得する
-        options.inSampleSize = calcScale(options, height, width);
+        options.inSampleSize = calcScale(options, reHeight, reWidth);
 
         //リサイズしたビットマップを作成
         options.inJustDecodeBounds = false;
@@ -220,23 +254,50 @@ public class ImgHelper {
      * オリジナルとリサイズ後の画像高さ・幅から縮小比率を取得する
      *
      * @param options オリジナル画像の縦横幅セット
-     * @param reHeight リサイズ後の高さ
-     * @param reWidth リサイズ後の幅
-     * @return Integer inSampleSize 縮小比率
+     * @param reHeight リサイズしたいの高さ
+     * @param reWidth リサイズしたいの幅
+     * @return Integer scale 縮小比率
      */
     private int calcScale(BitmapFactory.Options options, Integer reHeight, Integer reWidth) {
-        final int oriHeight = options.outHeight;
-        final int oriWidth = options.outWidth;
+        final int orgHeight = options.outHeight;
+        final int orgWidth = options.outWidth;
         int scale = 1;
 
-        if (oriHeight > reHeight || oriWidth > reWidth) {
-            if (oriWidth > oriHeight) {
-                scale = Math.round((float) oriHeight / (float) reHeight);
+        if (orgHeight > reHeight || orgWidth > reWidth) {
+            if (orgWidth > orgHeight) {
+                scale = Math.round((float) orgHeight / (float) reHeight);
             } else {
-                scale = Math.round((float) oriWidth / (float) reWidth);
+                scale = Math.round((float) orgWidth / (float) reWidth);
             }
         }
 
         return scale;
+    }
+
+    /**
+     * 画像のプロパティを取得する
+     *
+     * 画像ファイル自体は読み込まずに、プロパティのみ取得する
+     *
+     * @return options プロパティ
+     */
+    private BitmapFactory.Options getImgProperty() {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(mPath, options);
+
+        return options;
+    }
+
+    /**
+     * コールバックリスナー
+     */
+    public interface CallbackListener {
+        /**
+         * ギャラリーのスキャンが完了した
+         *
+         * @param uri 保存した画像のURI
+         */
+        void onScanCompleted(Uri uri);
     }
 }

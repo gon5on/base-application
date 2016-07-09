@@ -3,10 +3,8 @@ package jp.co.e2.baseapplication.fragment;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.ContentValues;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -37,6 +35,7 @@ import jp.co.e2.baseapplication.common.AndroidUtils;
 import jp.co.e2.baseapplication.common.ImgHelper;
 import jp.co.e2.baseapplication.common.StorageUtils;
 import jp.co.e2.baseapplication.config.Config;
+import jp.co.e2.baseapplication.dialog.SampleDialog;
 
 /**
  * カメラ・ギャラリーフラグメント
@@ -45,15 +44,19 @@ import jp.co.e2.baseapplication.config.Config;
  * 回転を考慮してトリミングも行う
  * 4.4以降とそれ以前両方のギャラリーからの選択に対応
  * 6.0以降のパーミッションにも対応
+ *
+ * ただし、オンライン上の画像は取得できない
  */
-public class CameraGalleryFragment extends Fragment {
+public class CameraGalleryFragment extends Fragment implements ImgHelper.CallbackListener, SampleDialog.CallbackListener {
     private static final int REQUEST_CODE_CAMERA = 101;
     private static final int REQUEST_CODE_TRIMMING = 102;
     private static final int REQUEST_CODE_GALLERY = 103;
     private static final int REQUEST_CODE_GALLERY_UNDER_KITKAT = 104;
     private static final int REQUEST_CODE_WRITE_EXTERNAL_STORAGE = 105;
+    private static final int TAG_DIALOG = 111;
 
-    private static final String BUNDLE_IMG = "bundle_img";
+    private static final String BUNDLE_BITMAP = "bundle_bitmap";
+    private static final String BUNDLE_IMG_URI = "bundle_img_uri";
 
     private View mView;
     private Uri mPhotoUri;
@@ -93,9 +96,11 @@ public class CameraGalleryFragment extends Fragment {
 
         //再生成が走ったら、保管していた値を取り出す
         if (savedInstanceState != null) {
-            Bitmap bitmap = savedInstanceState.getParcelable(BUNDLE_IMG);
+            Bitmap bitmap = savedInstanceState.getParcelable(BUNDLE_BITMAP);
             ImageView imageView = (ImageView) mView.findViewById(R.id.imageView);
             imageView.setImageBitmap(bitmap);
+
+            mPhotoUri = savedInstanceState.getParcelable(BUNDLE_IMG_URI);
         }
 
         return mView;
@@ -111,7 +116,8 @@ public class CameraGalleryFragment extends Fragment {
         //再生成が走る前に値を保管しておく
         ImageView imageView = (ImageView) mView.findViewById(R.id.imageView);
         if (imageView.getDrawable() != null) {
-            outState.putParcelable(BUNDLE_IMG, ((BitmapDrawable) imageView.getDrawable()).getBitmap());
+            outState.putParcelable(BUNDLE_BITMAP, ((BitmapDrawable) imageView.getDrawable()).getBitmap());
+            outState.putParcelable(BUNDLE_IMG_URI, mPhotoUri);
         }
     }
 
@@ -147,13 +153,11 @@ public class CameraGalleryFragment extends Fragment {
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if (REQUEST_CODE_WRITE_EXTERNAL_STORAGE == requestCode) {
             if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                //パーミッションが許可されたら、ポップアップメニューを出す
                 showPopupMenu();
             } else {
-                AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
-                alert.setTitle(getString(R.string.attention));
-                alert.setMessage(getString(R.string.errorMsgPermissionDenied));
-                alert.setPositiveButton(getString(R.string.ok), null);
-                alert.show();
+                //パーミッションが拒否されたら、カメラとギャラリーが使えない旨の表示をする
+                AndroidUtils.showToastS(getActivity(), getString(R.string.errorMsgPermissionDenied));
             }
         }
     }
@@ -256,9 +260,10 @@ public class CameraGalleryFragment extends Fragment {
                 orgPath = AndroidUtils.getPathFromUriUnderKitKat(getActivity(), mPhotoUri);
             }
 
-            //パスが取れなかった
+            //パスが取れなかった（画像がオンライン上にある場合はパスに変換できない）
             if (orgPath == null) {
-                throw new NullPointerException();
+                AndroidUtils.showToastS(getActivity(), getString(R.string.errorMsgOnlineStorageImage));
+                return;
             }
 
             //カメラの場合はギャラリーをスキャン
@@ -268,21 +273,17 @@ public class CameraGalleryFragment extends Fragment {
                 MediaScannerConnection.scanFile(getActivity(), path, type, null);
             }
 
-            //回転を考慮して画像を保存し直す
+            //回転を考慮して画像を保存し直す（コールバック関数に処理が戻ってくる）
             ImgHelper imgHelper = new ImgHelper(orgPath);
-            imgHelper.getRotatedResizedImage(Config.IMG_SAVE_SIZE, Config.IMG_SAVE_SIZE);
+            imgHelper.setCallbackListener(this);
+            imgHelper.getRotatedResizedImage(Config.IMG_TMP_SIZE);
             imgHelper.saveImg(getActivity(), getSaveTmpPath());
-
-            //トリミングアプリ呼び出し
-            Intent intent = new Intent("com.android.camera.action.CROP");
-            intent.setData(AndroidUtils.path2contentUri(getActivity(), orgPath));
-            intent.putExtra("outputX", Config.IMG_SAVE_SIZE);
-            intent.putExtra("outputY", Config.IMG_SAVE_SIZE);
-            intent.putExtra("aspectX", 1);
-            intent.putExtra("aspectY", 1);
-            intent.putExtra("scale", true);
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(getSavePath())));
-            startActivityForResult(intent, REQUEST_CODE_TRIMMING);
+            imgHelper.bitmapRecycle();
+        }
+        catch(OutOfMemoryError e){
+            System.gc();
+            e.printStackTrace();
+            AndroidUtils.showToastS(getActivity(), getString(R.string.errorMsgOutOfMemory));
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -297,22 +298,22 @@ public class CameraGalleryFragment extends Fragment {
      */
     @TargetApi(Build.VERSION_CODES.M)
     private boolean checkPermission() {
-        //パーミッションがない場合はリクエスト
-        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+        int permission = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            //パーミッションがない
             if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), android.Manifest.permission.CAMERA)) {
-                AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
-                alert.setTitle(getString(R.string.attention));
-                alert.setMessage(getString(R.string.errorMsgPermissionRequest));
-                alert.setCancelable(false);
-                alert.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        requestPermissions(new String[]{ Manifest.permission.WRITE_EXTERNAL_STORAGE }, REQUEST_CODE_WRITE_EXTERNAL_STORAGE);
-                    }
-                });
-                alert.show();
+                //2回目以降のパーミッションリクエストの場合は、
+                //許可が必要な旨を説明するダイアログを表示してからパーミッションをリクエストする
+                String title = getString(R.string.attention);
+                String msg = getString(R.string.errorMsgPermissionRequest);
+                String btn = getString(R.string.ok);
+                SampleDialog sampleDialog = SampleDialog.getInstance(TAG_DIALOG, title, msg, btn);
+                sampleDialog.setCallbackListener(this);
+                sampleDialog.setCancelable(false);
+                sampleDialog.show(getFragmentManager(), "dialog");
             } else {
-                requestPermissions(new String[]{ Manifest.permission.WRITE_EXTERNAL_STORAGE }, REQUEST_CODE_WRITE_EXTERNAL_STORAGE);
+                //初回のパーミッションリクエスト
+                requestPermission();
             }
 
             return false;
@@ -357,5 +358,53 @@ public class CameraGalleryFragment extends Fragment {
             e.printStackTrace();
             AndroidUtils.showToastS(getActivity(), getString(R.string.errorMsgSomethingError));
         }
+    }
+
+    /**
+     * パーミッションをリクエストする
+     */
+    @TargetApi(Build.VERSION_CODES.M)
+    private void requestPermission() {
+        requestPermissions(new String[]{ Manifest.permission.WRITE_EXTERNAL_STORAGE }, REQUEST_CODE_WRITE_EXTERNAL_STORAGE);
+    }
+
+    /**
+     * ${inheritDoc}
+     */
+    @Override
+    public void onScanCompleted(Uri uri) {
+        try {
+            //トリミングアプリ呼び出し
+            Intent intent = new Intent("com.android.camera.action.CROP");
+            intent.setData(uri);
+            intent.putExtra("outputX", Config.IMG_SAVE_SIZE);
+            intent.putExtra("outputY", Config.IMG_SAVE_SIZE);
+            intent.putExtra("aspectX", 1);
+            intent.putExtra("aspectY", 1);
+            intent.putExtra("scale", true);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(getSavePath())));
+            startActivityForResult(intent, REQUEST_CODE_TRIMMING);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            AndroidUtils.showToastS(getActivity(), getString(R.string.errorMsgSomethingError));
+        }
+    }
+
+    /**
+     * ${inheritDoc}
+     */
+    @Override
+    public void onClickSampleDialogOk(int tag) {
+        if (tag == TAG_DIALOG) {
+            requestPermission();
+        }
+    }
+
+    /**
+     * ${inheritDoc}
+     */
+    @Override
+    public void onClickSampleDialogCancel(int tag) {
     }
 }

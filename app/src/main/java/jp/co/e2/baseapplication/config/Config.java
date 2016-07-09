@@ -6,7 +6,8 @@ package jp.co.e2.baseapplication.config;
 public class Config {
     public static final String KEY_ALIAS = "key_alias";                                     //秘密鍵認証のキーエイリアス
 
-    public static final int IMG_SAVE_SIZE = 800;                                            //画像保存サイズ
+    public static final int IMG_TMP_SIZE = 1000;                                            //画像一時保存サイズ
+    public static final int IMG_SAVE_SIZE = 500;                                            //画像保存サイズ
     public static final String IMG_DIR = "img";                                             //画像ディレクトリ名
     public static final String IMG_SAVE_FILE_NAME = "img.jpg";                              //画像一時保存ファイル名
     public static final String IMG_TMP_FILE_NAME = "tmp.jpg";                               //画像保存ファイル名

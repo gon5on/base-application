@@ -41,6 +41,8 @@
     <string name="attention">Attention!</string>
     <string name="errorMsgPermissionDenied">許可してくれなかったから写真を選べないよ</string>
     <string name="errorMsgPermissionRequest">写真を選ぶにはパーミッション許可をしてね</string>
+    <string name="errorMsgOutOfMemory">メモリが足りないよ！</string>
+    <string name="errorMsgOnlineStorageImage">画像が読み込めないよ！オンラインストレージ上の画像は選択できないよ！</string>
     <string name="errorMsgSomethingError">エラーが発生しました。</string>
 
 </resources>

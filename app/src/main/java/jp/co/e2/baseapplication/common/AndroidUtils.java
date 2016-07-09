@@ -2,6 +2,7 @@ package jp.co.e2.baseapplication.common;
 
 import android.annotation.TargetApi;
 import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -9,7 +10,6 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Environment;
 import android.provider.BaseColumns;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
@@ -18,8 +18,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -177,32 +175,18 @@ public class AndroidUtils {
     /**
      * バージョンを見てURIからパスを取得する
      *
+     * オンライン上のファイルのURIはパスに変換できない
+     *
      * @param context コンテキスト
      * @param uri URI
      * @return path パス
      */
-    @TargetApi(Build.VERSION_CODES.KITKAT)
     public static String getPathFromUri(Context context, Uri uri) {
-        String path = null;
+        String path;
 
         //キットカット以降の取得方法で取得する
         if (Build.VERSION_CODES.KITKAT <= Build.VERSION.SDK_INT) {
-            String strDocId = DocumentsContract.getDocumentId(uri);
-            String[] strSplitDocId = strDocId.split(":");
-            String strId = strSplitDocId[strSplitDocId.length - 1];
-
-            Cursor crsCursor = context.getContentResolver().query(
-                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-                    , new String[]{ MediaStore.MediaColumns.DATA }
-                    , "_id=?"
-                    , new String[]{ strId }
-                    , null);
-            if (crsCursor != null && crsCursor.moveToFirst()) {
-                path = crsCursor.getString(0);
-            }
-            if (crsCursor != null) {
-                crsCursor.close();
-            }
+            path = getPathFromUriOverKitKat(context, uri);
         }
         //キットカットより前の取得方法で取得
         else {
@@ -213,7 +197,9 @@ public class AndroidUtils {
     }
 
     /**
-     * 【KitKat以前】URIからパスを取得する
+     * 【KitKatより前】URIからパスを取得する
+     *
+     * オンライン上のファイルのURIはパスに変換できない
      *
      * @param context コンテキスト
      * @param uri URI
@@ -229,6 +215,57 @@ public class AndroidUtils {
         }
         if (crsCursor != null) {
             crsCursor.close();
+        }
+
+        return path;
+    }
+
+    /**
+     * 【KitKat以降】URIからパスを取得する
+     *
+     * オンライン上のファイルのURIはパスに変換できない
+     *
+     * @param context コンテキスト
+     * @param uri URI
+     * @return path パス
+     */
+    @TargetApi(Build.VERSION_CODES.KITKAT)
+    public static String getPathFromUriOverKitKat(Context context, Uri uri) {
+        String path = null;
+
+        String strDocId = DocumentsContract.getDocumentId(uri);
+        String[] strSplitDocId = strDocId.split(":");
+        String strId = strSplitDocId[strSplitDocId.length - 1];
+
+        Cursor crsCursor = context.getContentResolver().query(
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                , new String[]{ MediaStore.MediaColumns.DATA }
+                , "_id=?"
+                , new String[]{ strId }
+                , null);
+        if (crsCursor != null && crsCursor.moveToFirst()) {
+            path = crsCursor.getString(0);
+        }
+        if (crsCursor != null) {
+            crsCursor.close();
+        }
+
+        //ダウンロード内のファイルの場合
+        if (path == null && "com.android.providers.downloads.documents".equals(uri.getAuthority())) {
+            Uri baseUri = Uri.parse("content://downloads/public_downloads");
+            Uri docUri = ContentUris.withAppendedId(baseUri, Long.valueOf(strDocId));
+            Cursor crsCursorDl = context.getContentResolver().query(
+                    docUri
+                    , new String[]{MediaStore.MediaColumns.DATA}
+                    , null
+                    , null
+                    , null);
+            if (crsCursorDl != null && crsCursorDl.moveToFirst()) {
+                path = crsCursorDl.getString(0);
+            }
+            if (crsCursorDl != null) {
+                crsCursorDl.close();
+            }
         }
 
         return path;

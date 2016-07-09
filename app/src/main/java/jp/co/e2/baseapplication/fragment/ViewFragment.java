@@ -102,7 +102,10 @@ public class ViewFragment extends Fragment implements SampleDialog.CallbackListe
         mView.findViewById(R.id.buttonDialog).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SampleDialog sampleDialog = SampleDialog.getInstance(TAG_DIALOG, getString(R.string.sample), getString(R.string.sampleDialog));
+                String title = getString(R.string.sample);
+                String msg = getString(R.string.sampleDialog);
+                String btn = getString(R.string.ok);
+                SampleDialog sampleDialog = SampleDialog.getInstance(TAG_DIALOG, title, msg, btn);
                 sampleDialog.show(getFragmentManager(), "dialog");
                 sampleDialog.setCallbackListener(ViewFragment.this);
             }
