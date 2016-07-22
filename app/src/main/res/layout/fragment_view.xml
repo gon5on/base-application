@@ -24,7 +24,7 @@
             >
 
             <Button
-                android:layout_width="0dp"
+                android:layout_width="@dimen/zero"
                 android:layout_height="wrap_content"
                 android:text="@string/openActivity"
                 android:id="@+id/buttonActivity"
@@ -34,12 +34,13 @@
                 />
 
             <Button
-                android:layout_width="0dp"
+                android:layout_width="@dimen/zero"
                 android:layout_height="wrap_content"
                 android:text="@string/openDialog"
                 android:id="@+id/buttonDialog"
                 android:layout_weight="1"
                 android:layout_marginLeft="@dimen/halfBlock"
+                android:layout_marginStart="@dimen/halfBlock"
                 />
         </LinearLayout>
 
@@ -141,6 +142,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/oneBlock"
             android:drawableLeft="@android:drawable/ic_menu_camera"
+            android:drawableStart="@android:drawable/ic_menu_camera"
             android:drawablePadding="@dimen/halfBlock"
             android:text="@string/button"
             />

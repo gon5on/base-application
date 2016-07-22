@@ -88,7 +88,6 @@ public class SampleDialog extends BaseDialog<CallbackListener> {
                 if (mCallbackListener != null) {
                     mCallbackListener.onClickSampleDialogOk(tag);
                 }
-                dismiss();
             }
         });
 
@@ -99,7 +98,6 @@ public class SampleDialog extends BaseDialog<CallbackListener> {
                     if (mCallbackListener != null) {
                         mCallbackListener.onClickSampleDialogCancel(tag);
                     }
-                    dismiss();
                 }
             });
         }
@@ -120,7 +118,7 @@ public class SampleDialog extends BaseDialog<CallbackListener> {
 
         /**
          * サンプルダイアログでキャンセルが押された
-         * 
+         *
          * @param tag タグ
          */
         void onClickSampleDialogCancel(int tag);

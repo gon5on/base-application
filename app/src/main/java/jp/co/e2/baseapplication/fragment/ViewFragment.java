@@ -106,8 +106,8 @@ public class ViewFragment extends Fragment implements SampleDialog.CallbackListe
                 String msg = getString(R.string.sampleDialog);
                 String btn = getString(R.string.ok);
                 SampleDialog sampleDialog = SampleDialog.getInstance(TAG_DIALOG, title, msg, btn);
-                sampleDialog.show(getFragmentManager(), "dialog");
                 sampleDialog.setCallbackListener(ViewFragment.this);
+                sampleDialog.show(getFragmentManager(), "dialog");
             }
         });
     }

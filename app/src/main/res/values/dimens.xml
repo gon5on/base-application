@@ -2,6 +2,7 @@
 <resources>
 
     <!-- 基本幅・高さ -->
+    <dimen name="zero">0dp</dimen>
     <dimen name="halfBlock">4dp</dimen>
     <dimen name="oneBlock">8dp</dimen>
     <dimen name="twoBlock">16dp</dimen>
@@ -13,6 +14,9 @@
     <dimen name="eightBlock">64dp</dimen>
     <dimen name="nineBlock">72dp</dimen>
     <dimen name="tenBlock">80dp</dimen>
+
+    <!-- ナビゲーションドロワー -->
+    <dimen name="drawerWidth">270dp</dimen>
 
     <!--フォントサイズ -->
     <dimen name="fontSize">14sp</dimen>

@@ -1,5 +1,6 @@
 package jp.co.e2.baseapplication.activity;
 
+import android.app.Fragment;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -14,6 +15,7 @@ import jp.co.e2.baseapplication.fragment.HttpFragment;
 import jp.co.e2.baseapplication.fragment.CameraGalleryFragment;
 import jp.co.e2.baseapplication.fragment.DbFragment;
 import jp.co.e2.baseapplication.fragment.EncryptFragment;
+import jp.co.e2.baseapplication.fragment.RegenerateFragment;
 import jp.co.e2.baseapplication.fragment.ViewFragment;
 
 /**
@@ -125,6 +127,13 @@ public class MainActivity extends BaseActivity {
                             break;
                         case R.id.menu_encrypt:
                             getFragmentManager().beginTransaction().replace(R.id.container, EncryptFragment.newInstance()).commit();
+                            mDrawerLayout.closeDrawers();
+                            break;
+                        case R.id.menu_regenerate:
+                            RegenerateFragment fragment = RegenerateFragment.newInstance("abcdefg");
+                            fragment.mText = "abcdefg";     //fragmentのメンバ変数に直接値を代入する良くない例
+
+                            getFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
                             mDrawerLayout.closeDrawers();
                             break;
                     }

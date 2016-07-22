@@ -99,9 +99,19 @@ public class GAUtils {
      *
      * @param application アプリケーションクラス
      * @param e 例外
+     */
+    public static void sendException(Application application, Exception e) {
+        sendException(application, e, false);
+    }
+
+    /**
+     * 例外を送る
+     *
+     * @param application アプリケーションクラス
+     * @param e 例外
      * @param fatalFlg 致命的かどうかフラグ
      */
-    public static void sendEvent(Application application, Exception e, boolean fatalFlg) {
+    public static void sendException(Application application, Exception e, boolean fatalFlg) {
         Tracker tracker = ((AppApplication)application).getTracker();
 
         tracker.send(new HitBuilders.ExceptionBuilder()

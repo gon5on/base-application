@@ -3,7 +3,9 @@ package jp.co.e2.baseapplication.fragment;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.Fragment;
+import android.content.ActivityNotFoundException;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -16,7 +18,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -46,6 +50,7 @@ import jp.co.e2.baseapplication.dialog.SampleDialog;
  * 6.0以降のパーミッションにも対応
  *
  * ただし、オンライン上の画像は取得できない
+ * トリミングアプリのresultCodeが正しく帰ってきてない端末もあるっぽくて、そういう端末では動かない
  */
 public class CameraGalleryFragment extends Fragment implements ImgHelper.CallbackListener, SampleDialog.CallbackListener {
     private static final int REQUEST_CODE_CAMERA = 101;
@@ -204,7 +209,11 @@ public class CameraGalleryFragment extends Fragment implements ImgHelper.Callbac
 
             startActivityForResult(intentCamera, REQUEST_CODE_CAMERA);
         }
-        catch(Exception e) {
+        catch (ActivityNotFoundException e) {
+            e.printStackTrace();
+            AndroidUtils.showToastS(getActivity(), getString(R.string.errorMsgActivityNotFoundError));
+        }
+        catch (Exception e) {
             e.printStackTrace();
             AndroidUtils.showToastS(getActivity(), getString(R.string.errorMsgSomethingError));
         }
@@ -231,7 +240,11 @@ public class CameraGalleryFragment extends Fragment implements ImgHelper.Callbac
                 startActivityForResult(intent, REQUEST_CODE_GALLERY);
             }
         }
-        catch(Exception e) {
+        catch (ActivityNotFoundException e) {
+            e.printStackTrace();
+            AndroidUtils.showToastS(getActivity(), getString(R.string.errorMsgActivityNotFoundError));
+        }
+        catch (Exception e) {
             e.printStackTrace();
             AndroidUtils.showToastS(getActivity(), getString(R.string.errorMsgSomethingError));
         }
@@ -384,6 +397,10 @@ public class CameraGalleryFragment extends Fragment implements ImgHelper.Callbac
             intent.putExtra("scale", true);
             intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(getSavePath())));
             startActivityForResult(intent, REQUEST_CODE_TRIMMING);
+        }
+        catch (ActivityNotFoundException e) {
+            e.printStackTrace();
+            AndroidUtils.showToastS(getActivity(), getString(R.string.errorMsgActivityNotFoundError));
         }
         catch (Exception e) {
             e.printStackTrace();

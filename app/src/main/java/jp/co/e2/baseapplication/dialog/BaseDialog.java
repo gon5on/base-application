@@ -3,6 +3,7 @@ package jp.co.e2.baseapplication.dialog;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 
 /**
@@ -19,13 +20,13 @@ public abstract class BaseDialog<Interface> extends DialogFragment {
      */
     @SuppressWarnings("unchecked")
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
+    public void onAttach(Context context) {
+        super.onAttach(context);
 
         Integer listenerType = getArguments().getInt("listenerType");
 
         if (listenerType == BaseDialog.LISTENER_ACTIVITY) {
-            mCallbackListener = (Interface) activity;
+            mCallbackListener = (Interface) context;
         } else if (listenerType == BaseDialog.LISTENER_FRAGMENT) {
             mCallbackListener = (Interface) getTargetFragment();
         }

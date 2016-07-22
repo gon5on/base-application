@@ -34,6 +34,11 @@
             android:title="@string/menu_encrypt"
             android:icon="@android:drawable/ic_menu_call"
             />
+        <item
+            android:id="@+id/menu_regenerate"
+            android:title="@string/menu_regenerate"
+            android:icon="@android:drawable/ic_menu_day"
+            />
     </group>
 
     <group

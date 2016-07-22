@@ -7,6 +7,7 @@
     <string name="menu_camera_gallery">カメラ・ギャラリー</string>
     <string name="menu_billing">課金</string>
     <string name="menu_encrypt">鍵・暗号化</string>
+    <string name="menu_regenerate">画面回転サンプル</string>
     <string name="menu_setting">設定</string>
     <string name="menu_logout">ログアウト</string>
 
@@ -29,7 +30,7 @@
     <string name="checkboxDisable">非活性チェックボックス</string>
     <string name="switchText">スイッチ</string>
     <string name="switchDisable">非活性スイッチ</string>
-    <string name="textSample">普通のテキスト。\n改行テスト改行テスト改行テスト。</string>
+    <string name="textSample">普通のテキスト。\n改行テスト1\n改行テスト2\n改行テスト3。</string>
     <string name="editTextHint">入力欄ヒント</string>
     <string name="editTextDisableHint">非活性入力欄ヒント</string>
     <string name="editTextInputted">入力済の入力欄</string>
@@ -39,10 +40,12 @@
     <string name="cancel">Cancel</string>
     <string name="connecting">通信中</string>
     <string name="attention">Attention!</string>
+
     <string name="errorMsgPermissionDenied">許可してくれなかったから写真を選べないよ</string>
     <string name="errorMsgPermissionRequest">写真を選ぶにはパーミッション許可をしてね</string>
     <string name="errorMsgOutOfMemory">メモリが足りないよ！</string>
     <string name="errorMsgOnlineStorageImage">画像が読み込めないよ！オンラインストレージ上の画像は選択できないよ！</string>
-    <string name="errorMsgSomethingError">エラーが発生しました。</string>
+    <string name="errorMsgActivityNotFoundError">反応するアクテビティがないみたいだよ！</string>
+    <string name="errorMsgSomethingError">何らかのエラーが発生しました。</string>
 
 </resources>

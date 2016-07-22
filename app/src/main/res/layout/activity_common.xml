@@ -33,7 +33,7 @@
     <!-- navigation drawer -->
     <android.support.design.widget.NavigationView
         android:id="@+id/navigationView"
-        android:layout_width="270dp"
+        android:layout_width="@dimen/drawerWidth"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:headerLayout="@layout/include_navigation_header"
