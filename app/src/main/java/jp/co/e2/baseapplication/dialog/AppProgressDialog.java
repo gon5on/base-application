@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 
 /**
  * プログレスダイアログ
@@ -34,6 +35,7 @@ public class AppProgressDialog extends BaseDialog<CallbackListener> {
     /**
      * ${inheritDoc}
      */
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         //bundleから値を取り出す

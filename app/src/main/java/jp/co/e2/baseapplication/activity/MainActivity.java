@@ -1,6 +1,6 @@
 package jp.co.e2.baseapplication.activity;
 
-import android.app.Fragment;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -35,7 +35,7 @@ public class MainActivity extends BaseActivity {
         //キーボードを最初は出さない
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
-        setContentView(R.layout.activity_common);
+        setContentView(R.layout.activity_common_navigation);
 
         //ツールバーセット
         setToolbar();
@@ -45,7 +45,7 @@ public class MainActivity extends BaseActivity {
 
         if (savedInstanceState == null) {
             //初期フラグメントセット
-            getFragmentManager().beginTransaction().add(R.id.container, ViewFragment.newInstance()).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.container, ViewFragment.newInstance()).commit();
         }
     }
 
@@ -110,7 +110,7 @@ public class MainActivity extends BaseActivity {
                 public boolean onNavigationItemSelected(MenuItem menuItem) {
                     switch (menuItem.getItemId()) {
                         case R.id.menu_view:
-                            getFragmentManager().beginTransaction().replace(R.id.container, ViewFragment.newInstance()).commit();
+                            getSupportFragmentManager().beginTransaction().replace(R.id.container, ViewFragment.newInstance()).commit();
                             mDrawerLayout.closeDrawers();
                             break;
                         case R.id.menu_db:
@@ -118,22 +118,26 @@ public class MainActivity extends BaseActivity {
                             mDrawerLayout.closeDrawers();
                             break;
                         case R.id.menu_http:
-                            getFragmentManager().beginTransaction().replace(R.id.container, HttpFragment.newInstance()).commit();
+                            getSupportFragmentManager().beginTransaction().replace(R.id.container, HttpFragment.newInstance()).commit();
                             mDrawerLayout.closeDrawers();
                             break;
                         case R.id.menu_camera_gallery:
-                            getFragmentManager().beginTransaction().replace(R.id.container, CameraGalleryFragment.newInstance()).commit();
+                            getSupportFragmentManager().beginTransaction().replace(R.id.container, CameraGalleryFragment.newInstance()).commit();
                             mDrawerLayout.closeDrawers();
                             break;
                         case R.id.menu_encrypt:
-                            getFragmentManager().beginTransaction().replace(R.id.container, EncryptFragment.newInstance()).commit();
+                            getSupportFragmentManager().beginTransaction().replace(R.id.container, EncryptFragment.newInstance()).commit();
+                            mDrawerLayout.closeDrawers();
+                            break;
+                        case R.id.menu_lifecycle:
+                            startActivity(new Intent(MainActivity.this, LifecycleActivity.class));
                             mDrawerLayout.closeDrawers();
                             break;
                         case R.id.menu_regenerate:
                             RegenerateFragment fragment = RegenerateFragment.newInstance("abcdefg");
                             fragment.mText = "abcdefg";     //fragmentのメンバ変数に直接値を代入する良くない例
 
-                            getFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
+                            getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
                             mDrawerLayout.closeDrawers();
                             break;
                     }

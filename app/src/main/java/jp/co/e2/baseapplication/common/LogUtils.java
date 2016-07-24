@@ -140,7 +140,7 @@ public class LogUtils {
             return;
         }
 
-        if (value == null) {
+        if (value == null || String.valueOf(value).length() == 0) {
             Log.d(tag, NULL);
         } else {
             Log.d(tag, String.valueOf(value));
@@ -158,7 +158,7 @@ public class LogUtils {
             return;
         }
 
-        if (value == null) {
+        if (value == null || String.valueOf(value).length() == 0) {
             Log.i(tag, NULL);
         } else {
             Log.i(tag, String.valueOf(value));
@@ -176,7 +176,7 @@ public class LogUtils {
             return;
         }
 
-        if (value == null) {
+        if (value == null || String.valueOf(value).length() == 0) {
             Log.w(tag, NULL);
         } else {
             Log.w(tag, String.valueOf(value));
@@ -194,7 +194,7 @@ public class LogUtils {
             return;
         }
 
-        if (value == null) {
+        if (value == null || String.valueOf(value).length() == 0) {
             Log.e(tag, NULL);
         } else {
             Log.e(tag, String.valueOf(value));

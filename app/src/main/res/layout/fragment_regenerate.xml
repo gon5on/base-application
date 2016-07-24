@@ -20,120 +20,34 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/twoBlock"
-            android:text="画面再生成をちゃんと考慮した場合と考慮していない場合のサンプル"
+            android:text="@string/regenerateSample"
             />
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/halfBlock"
             >
 
             <TextView
                 android:layout_width="@dimen/zero"
                 android:layout_height="wrap_content"
-                android:text="↓消える"
+                android:text="@string/disappearValue"
                 android:layout_weight="1"
+                android:layout_marginRight="@dimen/halfBlock"
+                android:layout_marginEnd="@dimen/halfBlock"
                 />
 
             <TextView
                 android:layout_width="@dimen/zero"
                 android:layout_height="wrap_content"
-                android:text="↓消えない"
+                android:text="@string/notDisappearValue"
                 android:layout_weight="1"
-                />
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/threeBlock"
-            >
-
-            <EditText
-                android:layout_width="@dimen/zero"
-                android:layout_height="wrap_content"
-                android:hint="@string/editTextHint"
-                android:id="@+id/editText1"
-                android:layout_weight="1"
+                android:layout_marginLeft="@dimen/halfBlock"
+                android:layout_marginStart="@dimen/halfBlock"
                 />
 
-            <EditText
-                android:layout_width="@dimen/zero"
-                android:layout_height="wrap_content"
-                android:hint="@string/editTextHint"
-                android:id="@+id/editText2"
-                android:layout_weight="1"
-                />
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
-
-            <TextView
-                android:layout_width="@dimen/zero"
-                android:layout_height="wrap_content"
-                android:text="↓リセットされる"
-                android:layout_weight="1"
-                />
-
-            <TextView
-                android:layout_width="@dimen/zero"
-                android:layout_height="wrap_content"
-                android:text="↓リセットされない"
-                android:layout_weight="1"
-                />
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/threeBlock"
-            >
-
-            <EditText
-                android:layout_width="@dimen/zero"
-                android:layout_height="wrap_content"
-                android:hint="@string/editTextHint"
-                android:text="リセットされちゃうよ～。"
-                android:id="@+id/editText3"
-                android:layout_weight="1"
-                />
-
-            <EditText
-                android:layout_width="@dimen/zero"
-                android:layout_height="wrap_content"
-                android:hint="@string/editTextHint"
-                android:text="リセットされないよ～。"
-                android:id="@+id/editText4"
-                android:layout_weight="1"
-                />
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/halfBlock">
-
-            <TextView
-                android:layout_width="@dimen/zero"
-                android:layout_height="wrap_content"
-                android:text="↓消える"
-                android:layout_weight="1"
-                />
-
-            <TextView
-                android:layout_width="@dimen/zero"
-                android:layout_height="wrap_content"
-                android:text="↓消えない"
-                android:layout_weight="1"
-                />
         </LinearLayout>
 
         <LinearLayout
@@ -148,94 +62,44 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/textView1"
                 android:layout_weight="1"
-                android:textSize="18sp"/>
+                android:textSize="@dimen/fontSizeBig"
+                android:textStyle="bold"/>
 
             <TextView
                 android:layout_width="@dimen/zero"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView2"
                 android:layout_weight="1"
-                android:textSize="18sp"/>
+                android:textSize="@dimen/fontSizeBig"
+                android:textStyle="bold"/>
+
         </LinearLayout>
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/threeBlock"
-            android:visibility="gone">
+            android:layout_marginBottom="@dimen/halfBlock"
+            >
 
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="0dp"
+            <TextView
+                android:layout_width="@dimen/zero"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/halfBlock"
-                android:layout_weight="1">
+                android:text="@string/notReactionRegenerate"
+                android:layout_weight="1"
+                android:layout_marginRight="@dimen/halfBlock"
+                android:layout_marginEnd="@dimen/halfBlock"
+                />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="↓保持される"
-                    />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="保持されないよ"
-                    android:id="@+id/textView3"
-                    android:textSize="18sp"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="0dp"
+            <TextView
+                android:layout_width="@dimen/zero"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/halfBlock"
-                android:layout_weight="1">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="↓保持されない"
-                    android:layout_weight="1"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="保持されるよ"
-                    android:id="@+id/textView4"
-                    android:textSize="18sp"/>
-            </LinearLayout>
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Push"
-                android:id="@+id/buttonPush"
+                android:text="@string/reactionRegenerate"
+                android:layout_weight="1"
                 android:layout_marginLeft="@dimen/halfBlock"
                 android:layout_marginStart="@dimen/halfBlock"
                 />
-        </LinearLayout>
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/halfBlock">
-
-            <TextView
-                android:layout_width="@dimen/zero"
-                android:layout_height="wrap_content"
-                android:text="↓押せなくなる"
-                android:layout_weight="1"
-                />
-
-            <TextView
-                android:layout_width="@dimen/zero"
-                android:layout_height="wrap_content"
-                android:text="↓押せる"
-                android:layout_weight="1"
-                />
         </LinearLayout>
 
         <LinearLayout
@@ -248,7 +112,7 @@
             <Button
                 android:layout_width="@dimen/zero"
                 android:layout_height="wrap_content"
-                android:text="押せなくなるよ"
+                android:text="@string/notReaction"
                 android:id="@+id/button1"
                 android:layout_weight="1"
                 android:layout_marginRight="@dimen/halfBlock"
@@ -258,33 +122,40 @@
             <Button
                 android:layout_width="@dimen/zero"
                 android:layout_height="wrap_content"
-                android:text="押せるよ"
+                android:text="@string/reaction"
                 android:id="@+id/button2"
                 android:layout_weight="1"
                 android:layout_marginLeft="@dimen/halfBlock"
                 android:layout_marginStart="@dimen/halfBlock"
                 />
+
         </LinearLayout>
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/halfBlock">
+            android:layout_marginBottom="@dimen/halfBlock"
+            >
 
             <TextView
                 android:layout_width="@dimen/zero"
                 android:layout_height="wrap_content"
-                android:text="↓ダイアログが消える"
+                android:text="@string/disappearRegenerateDialog"
                 android:layout_weight="1"
+                android:layout_marginRight="@dimen/halfBlock"
+                android:layout_marginEnd="@dimen/halfBlock"
                 />
 
             <TextView
                 android:layout_width="@dimen/zero"
                 android:layout_height="wrap_content"
-                android:text="↓ダイアログは消えない"
+                android:text="@string/notDisappearRegenerateDialog"
                 android:layout_weight="1"
+                android:layout_marginLeft="@dimen/halfBlock"
+                android:layout_marginStart="@dimen/halfBlock"
                 />
+
         </LinearLayout>
 
         <LinearLayout
@@ -297,7 +168,7 @@
             <Button
                 android:layout_width="@dimen/zero"
                 android:layout_height="wrap_content"
-                android:text="ダイアログ消えるよ"
+                android:text="@string/disappearDialog"
                 android:id="@+id/button3"
                 android:layout_weight="1"
                 android:layout_marginRight="@dimen/halfBlock"
@@ -307,70 +178,278 @@
             <Button
                 android:layout_width="@dimen/zero"
                 android:layout_height="wrap_content"
-                android:text="ダイアログ消えないよ"
+                android:text="@string/notDisappearDialog"
                 android:id="@+id/button4"
                 android:layout_weight="1"
                 android:layout_marginLeft="@dimen/halfBlock"
                 android:layout_marginStart="@dimen/halfBlock"
                 />
+
         </LinearLayout>
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/halfBlock">
+            android:layout_marginBottom="@dimen/halfBlock"
+            >
 
             <TextView
                 android:layout_width="@dimen/zero"
                 android:layout_height="wrap_content"
-                android:text="↓CallBak受け取れない"
-                android:layout_weight="1"/>
+                android:text="@string/unCatchCallbackRegenerate"
+                android:layout_weight="1"
+                android:layout_marginRight="@dimen/halfBlock"
+                android:layout_marginEnd="@dimen/halfBlock"
+                />
 
             <TextView
                 android:layout_width="@dimen/zero"
                 android:layout_height="wrap_content"
-                android:text="↓Callback受け取れる"
-                android:layout_weight="1"/>
+                android:text="@string/catchCallbackRegenerate"
+                android:layout_weight="1"
+                android:layout_marginLeft="@dimen/halfBlock"
+                android:layout_marginStart="@dimen/halfBlock"
+                />
+
         </LinearLayout>
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/threeBlock">
+            android:layout_marginBottom="@dimen/threeBlock"
+            >
 
             <Button
                 android:layout_width="@dimen/zero"
                 android:layout_height="wrap_content"
-                android:text="CallBak受け取れないよ"
+                android:text="@string/unCatchCallback"
                 android:id="@+id/button5"
                 android:layout_weight="1"
                 android:layout_marginRight="@dimen/halfBlock"
-                android:layout_marginEnd="@dimen/halfBlock"/>
+                android:layout_marginEnd="@dimen/halfBlock"
+                />
 
             <Button
                 android:layout_width="@dimen/zero"
                 android:layout_height="wrap_content"
-                android:text="CallBak受け取れるよ"
+                android:text="@string/catchCallback"
                 android:id="@+id/button6"
                 android:layout_weight="1"
                 android:layout_marginLeft="@dimen/halfBlock"
-                android:layout_marginStart="@dimen/halfBlock"/>
+                android:layout_marginStart="@dimen/halfBlock"
+                />
+
         </LinearLayout>
 
-        <Button
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="メンバ変数インクリメント"
-            android:id="@+id/button7"/>
+            android:layout_marginBottom="@dimen/threeBlock"
+            >
 
-        <TextView
-            android:layout_width="wrap_content"
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="@dimen/zero"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginRight="@dimen/halfBlock"
+                android:layout_marginEnd="@dimen/halfBlock"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/notKeepStateRegenerate"
+                    android:layout_marginBottom="@dimen/halfBlock"
+                    />
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/notKeepState"
+                    android:id="@+id/button7"
+                    android:layout_gravity="bottom"
+                    android:enabled="false"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="@dimen/zero"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginLeft="@dimen/halfBlock"
+                android:layout_marginStart="@dimen/halfBlock"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/keepStateRegenerate"
+                    android:layout_marginBottom="@dimen/halfBlock"
+                    />
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/keepState"
+                    android:id="@+id/button8"
+                    android:layout_gravity="bottom"
+                    android:enabled="false"
+                    />
+
+            </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                >
+
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/checkBoxEnable"
+                    android:checked="false"
+                    android:layout_gravity="bottom"
+                    />
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/halfBlock"
-            android:text="※画面に表示すると意味合いが変わってきてしまうので、メンバ変数の値はLogで確認せよ！"
-            />
+            android:layout_marginBottom="@dimen/threeBlock"
+            >
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="@dimen/zero"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginRight="@dimen/halfBlock"
+                android:layout_marginEnd="@dimen/halfBlock"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/notKeepMemberValue"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView3"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/fontSizeBig"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="@dimen/zero"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginLeft="@dimen/halfBlock"
+                android:layout_marginStart="@dimen/halfBlock"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/keepMemberValue"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView4"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/fontSizeBig"
+                    />
+
+            </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                >
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/plusOne"
+                    android:id="@+id/buttonPlusOne"
+                    android:layout_gravity="bottom"
+                    />
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/halfBlock"
+            >
+
+            <TextView
+                android:layout_width="@dimen/zero"
+                android:layout_height="wrap_content"
+                android:text="@string/useAsyncTask"
+                android:layout_weight="1"
+                android:layout_marginRight="@dimen/halfBlock"
+                android:layout_marginEnd="@dimen/halfBlock"
+                />
+
+            <TextView
+                android:layout_width="@dimen/zero"
+                android:layout_height="wrap_content"
+                android:text="@string/useEventBus"
+                android:layout_weight="1"
+                android:layout_marginLeft="@dimen/halfBlock"
+                android:layout_marginStart="@dimen/halfBlock"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/halfBlock"
+            >
+
+            <Button
+                android:layout_width="@dimen/zero"
+                android:layout_height="wrap_content"
+                android:text="@string/notConsiderRegenerate"
+                android:id="@+id/button9"
+                android:layout_weight="1"
+                android:layout_marginRight="@dimen/halfBlock"
+                android:layout_marginEnd="@dimen/halfBlock"
+                />
+
+            <Button
+                android:layout_width="@dimen/zero"
+                android:layout_height="wrap_content"
+                android:id="@+id/button10"
+                android:layout_weight="1"
+                android:layout_marginLeft="@dimen/halfBlock"
+                android:layout_marginStart="@dimen/halfBlock"
+                android:text="@string/considerRegenerate"
+                />
+
+        </LinearLayout>
 
     </LinearLayout>
 

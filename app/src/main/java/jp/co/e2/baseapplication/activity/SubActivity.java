@@ -11,8 +11,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import jp.co.e2.baseapplication.R;
-import jp.co.e2.baseapplication.common.GAUtils;
-import jp.co.e2.baseapplication.common.LogUtils;
 
 /**
  * サブアクテビティ
@@ -46,7 +44,7 @@ public class SubActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_common_no_navigation);
+        setContentView(R.layout.activity_common);
 
         //ツールバーセット
         setBackArrowToolbar();

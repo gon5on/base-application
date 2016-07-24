@@ -1,10 +1,10 @@
 package jp.co.e2.baseapplication.dialog;
 
 import android.app.Activity;
-import android.app.DialogFragment;
-import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 
 /**
  * ダイアログ基底クラス
@@ -30,6 +30,17 @@ public abstract class BaseDialog<Interface> extends DialogFragment {
         } else if (listenerType == BaseDialog.LISTENER_FRAGMENT) {
             mCallbackListener = (Interface) getTargetFragment();
         }
+
+    }
+
+    /**
+     * ${inheritDoc}
+     */
+    @Override
+    public void onDetach() {
+        super.onDetach();
+
+        mCallbackListener = null;
     }
 
     /**
@@ -53,6 +64,9 @@ public abstract class BaseDialog<Interface> extends DialogFragment {
         }
 
         Bundle bundle = getArguments();
+        if (bundle == null) {
+            bundle = new Bundle();
+        }
         bundle.putInt("listenerType", listenerType);
         setArguments(bundle);
     }

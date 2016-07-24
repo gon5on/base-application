@@ -3,6 +3,7 @@ package jp.co.e2.baseapplication.dialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 
 import jp.co.e2.baseapplication.R;
@@ -67,6 +68,7 @@ public class SampleDialog extends BaseDialog<CallbackListener> {
     /**
      * ${inheritDoc}
      */
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         //bundleから値を取り出す

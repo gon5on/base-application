@@ -10,9 +10,14 @@
             android:icon="@android:drawable/ic_menu_edit"
             />
         <item
-            android:id="@+id/menu_db"
-            android:title="@string/menu_db"
-            android:icon="@android:drawable/ic_menu_add"
+            android:id="@+id/menu_lifecycle"
+            android:title="@string/menu_lifecycle"
+            android:icon="@android:drawable/ic_menu_crop"
+            />
+        <item
+            android:id="@+id/menu_regenerate"
+            android:title="@string/menu_regenerate"
+            android:icon="@android:drawable/ic_menu_day"
             />
         <item
             android:id="@+id/menu_http"
@@ -20,24 +25,9 @@
             android:icon="@android:drawable/ic_menu_agenda"
             />
         <item
-            android:id="@+id/menu_camera_gallery"
-            android:title="@string/menu_camera_gallery"
-            android:icon="@android:drawable/ic_menu_camera"
-            />
-        <item
             android:id="@+id/menu_billing"
             android:title="@string/menu_billing"
             android:icon="@android:drawable/ic_menu_compass"
-            />
-        <item
-            android:id="@+id/menu_encrypt"
-            android:title="@string/menu_encrypt"
-            android:icon="@android:drawable/ic_menu_call"
-            />
-        <item
-            android:id="@+id/menu_regenerate"
-            android:title="@string/menu_regenerate"
-            android:icon="@android:drawable/ic_menu_day"
             />
     </group>
 
@@ -47,12 +37,19 @@
         >
 
         <item
-            android:id="@+id/menu_setting"
-            android:title="@string/menu_setting"
+            android:id="@+id/menu_db"
+            android:title="@string/menu_db"
+            android:icon="@android:drawable/ic_menu_add"
             />
         <item
-            android:id="@+id/menu_logout"
-            android:title="@string/menu_logout"
+            android:id="@+id/menu_camera_gallery"
+            android:title="@string/menu_camera_gallery"
+            android:icon="@android:drawable/ic_menu_camera"
+            />
+        <item
+            android:id="@+id/menu_encrypt"
+            android:title="@string/menu_encrypt"
+            android:icon="@android:drawable/ic_menu_call"
             />
     </group>
 </menu>
