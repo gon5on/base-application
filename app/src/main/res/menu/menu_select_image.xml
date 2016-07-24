@@ -2,11 +2,11 @@
 
     <item
         android:id="@+id/menu_camera"
-        android:title="カメラ"
+        android:title="@string/camera"
         />
     <item
         android:id="@+id/menu_gallery"
-        android:title="ギャラリー"
+        android:title="@string/gallery"
         />
 
 </menu>

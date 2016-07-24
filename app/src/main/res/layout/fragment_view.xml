@@ -20,8 +20,7 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/threeBlock"
-            >
+            android:layout_marginBottom="@dimen/oneBlock">
 
             <Button
                 android:layout_width="@dimen/zero"
@@ -42,6 +41,31 @@
                 android:layout_marginLeft="@dimen/halfBlock"
                 android:layout_marginStart="@dimen/halfBlock"
                 />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/threeBlock">
+
+            <Button
+                android:layout_width="@dimen/zero"
+                android:layout_height="wrap_content"
+                android:text="@string/openBottomSheet"
+                android:id="@+id/buttonBottomSheet"
+                android:layout_weight="1"
+                android:layout_marginRight="@dimen/halfBlock"
+                android:layout_marginEnd="@dimen/halfBlock"/>
+
+            <Button
+                android:layout_width="@dimen/zero"
+                android:layout_height="wrap_content"
+                android:text="@string/openPopupMenu"
+                android:id="@+id/buttonPopupMenu"
+                android:layout_weight="1"
+                android:layout_marginLeft="@dimen/halfBlock"
+                android:layout_marginStart="@dimen/halfBlock"/>
         </LinearLayout>
 
         <TextView

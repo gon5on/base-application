@@ -77,6 +77,13 @@
     <string name="notConsiderRegenerate">画面再生成非対応</string>
     <string name="considerRegenerate">画面再生成対応</string>
     <string name="viewLog">ログを見るべし！</string>
+    <string name="camera">カメラ</string>
+    <string name="gallery">ギャラリー</string>
+    <string name="popupMenu1">ポップアップメニュー1</string>
+    <string name="popupMenu2">ポップアップメニュー2</string>
+    <string name="popupMenu3">ポップアップメニュー3</string>
+    <string name="openBottomSheet">ボトムシートを開く</string>
+    <string name="openPopupMenu">ポップアップを開く</string>
 
     <string name="errorMsgPermissionDenied">許可してくれなかったから写真を選べないよ</string>
     <string name="errorMsgPermissionRequest">写真を選ぶにはパーミッション許可をしてね</string>

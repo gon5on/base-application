@@ -2,14 +2,15 @@ package jp.co.e2.baseapplication.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.PopupMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import jp.co.e2.baseapplication.R;
-import jp.co.e2.baseapplication.activity.MainActivity;
 import jp.co.e2.baseapplication.activity.SubActivity;
 import jp.co.e2.baseapplication.common.AndroidUtils;
+import jp.co.e2.baseapplication.dialog.BottomSheetDialog;
 import jp.co.e2.baseapplication.dialog.SampleDialog;
 
 /**
@@ -74,6 +75,26 @@ public class ViewFragment extends Fragment implements SampleDialog.CallbackListe
                 String btn = getString(R.string.ok);
                 SampleDialog sampleDialog = SampleDialog.getInstance(TAG_DIALOG, title, msg, btn);
                 sampleDialog.setCallbackListener(ViewFragment.this);
+                sampleDialog.show(getFragmentManager(), "dialog");
+            }
+        });
+
+        //ポップアップメニューを開く
+        mView.findViewById(R.id.buttonPopupMenu).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popup = new PopupMenu(getActivity(), v);
+                popup.getMenuInflater().inflate(R.menu.menu_popup_menu, popup.getMenu());
+                popup.show();
+
+            }
+        });
+
+        //ボトムシートを開く
+        mView.findViewById(R.id.buttonBottomSheet).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BottomSheetDialog sampleDialog = BottomSheetDialog.getInstance();
                 sampleDialog.show(getFragmentManager(), "dialog");
             }
         });
