@@ -306,7 +306,7 @@ public class RegenerateFragment extends Fragment
                 }
 
                 //メインスレッドに処理を戻す
-                EventBus.getDefault().post(getString(R.string.callBackEventBus));
+                EventBus.getDefault().post(true);
             }
         }).start();
     }
@@ -331,14 +331,14 @@ public class RegenerateFragment extends Fragment
      * イベントバスのコールバックメソッド
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(String result) {
-        AndroidUtils.showToastS(getContext(), result);
+    public void onEvent(Boolean result) {
+        AndroidUtils.showToastS(getContext(), getString(R.string.callBackEventBus));
     }
 
     /**
      * AsyncTaskを使用した非同期処理サンプル
      */
-    private class SampleAsyncTask extends AsyncTask<Void, Integer, String> {
+    private class SampleAsyncTask extends AsyncTask<Void, Integer, Boolean> {
         /**
          * {@inheritDoc}
          */
@@ -350,7 +350,7 @@ public class RegenerateFragment extends Fragment
          * {@inheritDoc}
          */
         @Override
-        protected String doInBackground(Void... value) {
+        protected Boolean doInBackground(Void... value) {
             //時間のかかる処理
             int i;
             int i2;
@@ -361,15 +361,15 @@ public class RegenerateFragment extends Fragment
                 }
             }
 
-            return getString(R.string.finishAsyncTask);
+            return true;
         }
 
         /**
          * {@inheritDoc}
          */
         @Override
-        protected void onPostExecute(String result) {
-            AndroidUtils.showToastS(getContext(), result);
+        protected void onPostExecute(Boolean result) {
+            AndroidUtils.showToastS(getContext(), getString(R.string.finishAsyncTask));
         }
     }
 }

@@ -114,7 +114,7 @@ public class MainActivity extends BaseActivity {
                             mDrawerLayout.closeDrawers();
                             break;
                         case R.id.menu_db:
-                            getFragmentManager().beginTransaction().replace(R.id.container, DbFragment.newInstance()).commit();
+                            getSupportFragmentManager().beginTransaction().replace(R.id.container, DbFragment.newInstance()).commit();
                             mDrawerLayout.closeDrawers();
                             break;
                         case R.id.menu_http:
