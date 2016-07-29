@@ -221,8 +221,9 @@ public class RegenerateFragment extends Fragment
         //
         // 【非同期処理サンプル】
         //
-        // AsyncTaskを使って非同期処理をすると、画面再生成によってonExecute()で
-        // activityがnullになるので、どうしても画面再生成に対応できない
+        // AsyncTaskを使って非同期処理をすると、画面再生成によってonPostExecute()で取得できる
+        // getActivity()やgetContext()がどうしてもnullになるので、
+        // getActivity()==nullチェックを入れないと落ちるし、入れると、その後の処理が行われなくて困る
         mView.findViewById(R.id.button9).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -230,12 +231,13 @@ public class RegenerateFragment extends Fragment
             }
         });
 
-        // EventBusを使ってメインスレッドに処理を戻せば、
-        // 画面再生成にonStartを通って、再度イベントバスがセットされるので、画面再生成にも対応できる
+        // AsyncTaskを使って非同期処理をしても、EventBusを使ってメインスレッドに処理を戻せば、
+        // 画面再生性が走ってもgetActivity()がnullにならないので、画面回転にも対応した非同期処理ができる
+        // じゃあAsyncTasc使う意味あるのかっていう議論が出てくる…
         mView.findViewById(R.id.button10).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                eventBusSample();
+                new EventBusSampleAsyncTask().execute();
             }
         });
 
@@ -287,28 +289,6 @@ public class RegenerateFragment extends Fragment
         if (((CheckBox) mView.findViewById(R.id.checkBoxEnable)).isChecked()) {
             mView.findViewById(R.id.button8).setEnabled(true);
         }
-    }
-
-    /**
-     * 非同期処理を行い、イベントバスで処理を戻すサンプル
-     */
-    private void eventBusSample() {
-        new Thread(new Runnable() {
-            public void run() {
-                //時間のかかる処理
-                int i;
-                int i2;
-                int i3 = 0;
-                for (i = 0; i <= 10; i++) {
-                    for (i2 = 0; i2 <= 100000000; i2++) {
-                        i3++;
-                    }
-                }
-
-                //メインスレッドに処理を戻す
-                EventBus.getDefault().post(true);
-            }
-        }).start();
     }
 
     /**
@@ -369,7 +349,48 @@ public class RegenerateFragment extends Fragment
          */
         @Override
         protected void onPostExecute(Boolean result) {
+            //画面再生性をすると、getContext()とかgetActivity()がnullになるので、例外が発生する
             AndroidUtils.showToastS(getContext(), getString(R.string.finishAsyncTask));
+        }
+    }
+
+    /**
+     * EventBus+AsyncTaskを使用した非同期処理サンプル
+     */
+    private class EventBusSampleAsyncTask extends AsyncTask<Void, Integer, Boolean> {
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        protected void onPreExecute() {
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        protected Boolean doInBackground(Void... value) {
+            //時間のかかる処理
+            int i;
+            int i2;
+            int i3 = 0;
+            for (i = 0; i <= 10; i++) {
+                for (i2 = 0; i2 <= 100000000; i2++) {
+                    i3++;
+                }
+            }
+
+            //メインスレッドに処理を戻す
+            EventBus.getDefault().post(true);
+
+            return true;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        protected void onPostExecute(Boolean result) {
         }
     }
 }

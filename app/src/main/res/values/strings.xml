@@ -48,8 +48,8 @@
     <string name="unUseDialogFragmentDialog">画面再生成でも保持されるダイアログ</string>
     <string name="noReSetCallbackListenerDialog">コールバックリスナー再設定しないダイアログ</string>
     <string name="reSetCallbackListenerDialog">コールバックリスナー再設定するダイアログ</string>
-    <string name="finishAsyncTask">AsyncTaskで非同期処理終了！</string>
-    <string name="callBackEventBus">EventBusで処理を戻す！</string>
+    <string name="finishAsyncTask">AsyncTaskで処理をメインスレッドに戻す！</string>
+    <string name="callBackEventBus">EventBusで処理をメインスレッドに戻す！</string>
     <string name="regenerateSample">画面再生成をちゃんと考慮した場合と考慮していない場合のサンプル</string>
     <string name="disappearValue">↓画面再生が走ると、別アクテビティから渡された値が消える</string>
     <string name="notDisappearValue">↓画面再生が走っても、別アクテビティから渡された値は消えない</string>
@@ -73,7 +73,7 @@
     <string name="keepMemberValue">↓画面再生成が走っても、メンバ変数の値が保持される</string>
     <string name="plusOne">+1</string>
     <string name="useAsyncTask">↓AsyncTaskで非同期処理中に画面再生成が走ると、例外が起こる</string>
-    <string name="useEventBus">↓EventBusを使えば、非同期処理中に画面再生成がは走っても対応できる</string>
+    <string name="useEventBus">↓AsyncTask＋EventBusを使えば、非同期処理中に画面再生成が走っても対応できる</string>
     <string name="notConsiderRegenerate">画面再生成非対応</string>
     <string name="considerRegenerate">画面再生成対応</string>
     <string name="viewLog">ログを見るべし！</string>
